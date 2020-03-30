@@ -1,0 +1,17 @@
+
+supportBtn = ({
+            controlType: "Fab",
+            properties: {
+              color: "#a15"
+            },
+            style: {
+              position: "fixed",
+              right: 16,
+              bottom: 16 + 56
+            },
+            children: [
+              {
+                controlType: "ContactSupportIcon"
+              }
+            ]
+          })

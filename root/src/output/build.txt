@@ -1,0 +1,49 @@
+[
+  {
+    "filePath": "main.elp",
+    "depsPath": [
+      "container_classes.elp",
+      "routes/home.elp"
+    ]
+  },
+  {
+    "filePath": "container_classes.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "routes/home.elp",
+    "depsPath": [
+      "components/appbar.elp",
+      "components/homeBody.elp",
+      "components/supportBtn.elp",
+      "components/bottombar.elp",
+      "subroutes/profile.elp"
+    ]
+  },
+  {
+    "filePath": "components/appbar.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "components/homeBody.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "components/supportBtn.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "components/bottombar.elp",
+    "depsPath": [
+      "subroutes/profile.elp"
+    ]
+  },
+  {
+    "filePath": "subroutes/profile.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "subroutes/profile.elp",
+    "depsPath": []
+  }
+]

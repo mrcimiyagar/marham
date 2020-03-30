@@ -1,0 +1,49 @@
+
+appbar = ({
+            controlType: "AppBar",
+            properties: {
+              color: "#09f",
+              onOpen: "test"
+            },
+            style: {
+              width: "100%",
+              height: 56, 
+              hideOnScroll: true
+            },
+            children: [
+              {
+                controlType: "div",
+                style: {
+                  width: 84,
+                  height: "auto",
+                  position: "absolute",
+                  left: "50%",
+                  transform: "translate(-50%, 20%)"
+                },
+                children: [
+                  {
+                    controlType: "Typography",
+                    style: {
+                      fontSize: 22,
+                      float: "left",
+                      height: 24
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "مرحم"
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "LocalHospitalIcon",
+                    style: {
+                      float: "right",
+                      height: 24,
+                      marginTop: 8
+                    }
+                  }
+                ]
+              }
+            ]
+          })

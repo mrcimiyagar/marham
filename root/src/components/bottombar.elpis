@@ -1,0 +1,63 @@
+
+use "subroutes/profile.elpis"
+
+@ClientSide
+define function setBottomBarValue with params newValue
+  setState(stateKey: "bottomBarValue", stateValue: newValue)
+  if newValue == "profile" then do
+    loadProfile()
+
+bottombar = ({
+              controlType: "BottomNavigation",
+              properties: {
+                value: "${bottomBarValue}",
+                onChange: "${(event, newValue) => page.setBottomBarValue({newValue: newValue})}"
+              },
+              style: {
+                width: "100%",
+                position: "fixed",
+                bottom: 0
+              },
+              children: [
+                {
+                  controlType: "BottomNavigationAction",
+                  properties: {
+                    label: "تاریخچه",
+                    value: "recents",
+                    icon: {
+                      controlType: "RestoreIcon"
+                    }
+                  }
+                },
+                {
+                  controlType: "BottomNavigationAction",
+                  properties: {
+                    label: "Favorites",
+                    value: "favorites",
+                    icon: {
+                      controlType: "FavoriteIcon"
+                    }
+                  }
+                },
+                {
+                  controlType: "BottomNavigationAction",
+                  properties: {
+                    label: "پروفایل",
+                    value: "profile",
+                    icon: {
+                      controlType: "AccountCircleIcon"
+                    }
+                  }
+                },
+                {
+                  controlType: "BottomNavigationAction",
+                  properties: {
+                    label: "Folder",
+                    value: "folder",
+                    icon: {
+                      controlType: "FolderIcon"
+                    }
+                  }
+                }
+              ]
+            })

@@ -1,0 +1,37 @@
+
+gridChildren = []
+counter = 0
+for 10 times by step 1 do
+  marginTop = 0
+  if counter < 2 then do
+    marginTop = 64
+  append(list: gridChildren, listItem: ({
+                controlType: "GridListTile",
+                properties: {
+                  cols: 1
+                },
+                style: {
+                  marginTop: marginTop
+                },
+                children: [
+                  {
+                    controlType: "Button",
+                    style: {
+                      width: "100%",
+                      height: "100%"
+                    },
+                    properties: {
+                      color: "#4b4",
+                      variant: "contained"
+                    }
+                  }
+                ]
+              }))
+  counter = counter + 1
+
+homeBody = ({
+            controlType: "div",
+            style: {
+              backgroundColor: "#07f"
+            }
+          })

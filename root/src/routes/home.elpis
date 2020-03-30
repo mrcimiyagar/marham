@@ -1,0 +1,44 @@
+
+use "components/appbar.elpis"
+use "components/homeBody.elpis"
+use "components/supportBtn.elpis"
+use "components/bottombar.elpis"
+use "subroutes/profile.elpis"
+
+currentPath = "profile"
+
+@ClientSide
+define function main
+  runJS(jsCode: "window.page = {...window.parent, ...window.parent.page};")
+  runJS(jsCode: "
+    page.app.setState({loadState: ''});")
+
+define function home
+  children = []
+  children = ([
+          homeBody,
+          bottombar,
+          profilePage
+        ])
+  
+  return (
+      {
+        controlType: "Box",
+        properties: {
+          fontPath: "/webapp/res/IranianSans.ttf",
+          fontName: "IranianSans",
+          initial: "window.setState({...page.state, profileAppBarAnim: 'fadeInDownBig', profileHistListAnim: 'fadeInUpBig'});"
+        },
+        style: {
+          marginLeft: -12,
+          marginRight: -12,
+          marginTop: -12,
+          width: "calc(100% + 24px)",
+          height: "calc(100vh + 12px)",
+          backgroundColor: "#eee"
+        },
+        children: children
+      }
+    )
+
+print(text: "home route loaded")
