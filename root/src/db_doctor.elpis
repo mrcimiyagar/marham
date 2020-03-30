@@ -1,0 +1,75 @@
+
+use "global_vars.elpis"
+
+define function checkDatabaseExistence
+  database = Pg.connect(username: dbUsername, password: dbPassword, dbName: "template1")
+  dbChecker = Pg.query(database: database, query: "select count(*) as result
+                                                       from pg_database where
+                                                            datname = '" + dbName + "';")
+  dbCount = Pg.read(iterator: dbChecker)
+  if dbCount.result != "0" then do
+    print(text: "Database already exists so skipping database creation process.")
+  else do
+    print(text: "creating database...")
+    dbCreator = Pg.query(database: database, query: "create database " + dbName + ";")
+    Pg.closeRead(iterator: dbCreator)
+  Pg.closeRead(iterator: dbChecker)
+  Pg.disconnect(database: database)
+  dbContext = instance of DbContext ()
+  tableCreation = dbContext.exec(query: "create table if not exists registrations (
+                                registrationId bigserial primary key,
+                                phone varchar(20),
+                                vCode varchar(8)
+                            );")
+  Pg.close(iterator: tableCreation)
+  tableCreation = dbContext.exec(query: "create table if not exists \"users\" (
+                                \"userId\" bigserial primary key,
+                                \"firstName\" varchar(50),
+                                \"lastName\" varchar(50),
+                                \"username\" varchar(50),
+                                \"password\" varchar(50),
+                                \"phone\" varchar(20),
+                                \"role\" varchar(20)
+                            );")
+  Pg.close(iterator: tableCreation)
+  tableCreation = dbContext.exec(query: "create table if not exists \"sessions\" (
+                                  \"sessionId\" bigserial primary key,
+                                  \"userId\" bigint,
+                                  \"token\" varchar(64)
+                              );")
+  Pg.close(iterator: tableCreation)
+  tableCreation = dbContext.exec(query: "create table if not exists \"centers\" (
+                                  \"centerId\" bigserial primary key,
+                                  \"ownerId\" bigint,
+                                  \"title\" varchar(50),
+                                  \"address\" varchar(256),
+                                  \"phone\" varchar(20),
+                                  \"longitude\" bigint,
+                                  \"latitude\" bigint,
+                                  \"avatarId\" bigint
+                              );")
+  Pg.close(iterator: tableCreation)
+
+define function prepareAdmin
+  dbContext = instance of DbContext ()
+  userCreator = dbContext.execPrepared(
+            query: "
+                select createUser($1, $2, $3, $4, $5, $6) as \"userId\";
+            ",
+            inputs: ["admin", "admin", "admin", "admin", "+980000000000", "admin"]
+  )
+  user = Pg.read(iterator: userCreator)
+  Pg.closeRead(iterator: userCreator)
+  if user.userId == "-1" then do
+    print(text: "admin token is : " + "admin")
+    dbContext.close()
+    return 0
+  token = makeRandomCode(length: 32)
+  sessionCreator = dbContext.execPrepared(
+        query: "insert into \"sessions\" (\"userId\", \"token\") values ($1, $2) returning \"sessionId\";",
+        inputs: [user.userId, "admin"]
+  )
+  session = Pg.read(iterator: sessionCreator)
+  Pg.closeRead(iterator: sessionCreator)
+  print(text: "admin token is : " + "admin")
+  dbContext.close()
