@@ -102,7 +102,12 @@ registerPage = (
               color: "#07d"
             },
             style: {
-              height: 164
+              height: 164,
+              position: "absolute",
+              left: 0,
+              marginLeft: 0,
+              right: 0,
+              marginRight: 0
             },
             children: [
               {
@@ -218,7 +223,12 @@ registerPage = (
             style: {
               width: "100%",
               height: "calc(100vh - 164px)",
-              backgroundColor: "#fff"
+              backgroundColor: "#fff",
+              position: "absolute",
+              left: 0,
+              marginLeft: 0,
+              right: 0,
+              marginRight: 0
             },
             children: [
               {

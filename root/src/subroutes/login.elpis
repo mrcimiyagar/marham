@@ -82,7 +82,12 @@ loginPage = (
               color: "#07d"
             },
             style: {
-              height: 278
+              height: 278,
+              position: "absolute",
+              left: 0,
+              marginLeft: 0,
+              right: 0,
+              marginRight: 0
             },
             children: [
               {
@@ -199,7 +204,12 @@ loginPage = (
             style: {
               width: "100%",
               height: "calc(100vh - 278px)",
-              backgroundColor: "#fff"
+              backgroundColor: "#fff",
+              position: "absolute",
+              left: 0,
+              marginLeft: 0,
+              right: 0,
+              marginRight: 0
             },
             children: [
               {
