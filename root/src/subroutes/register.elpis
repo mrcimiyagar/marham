@@ -140,7 +140,6 @@ registerPage = (
                     },
                     properties: {
                       variant: "h4",
-                      fontPath: "/webapp/res/IranianSans.ttf",
                       fontName: "IranianSans"
                     },
                     children: [
@@ -160,7 +159,6 @@ registerPage = (
                       top: 72
                     },
                     properties: {
-                      fontPath: "/webapp/res/IranianSans.ttf",
                       fontName: "IranianSans"
                     },
                     children: [

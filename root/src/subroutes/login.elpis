@@ -40,15 +40,6 @@ define function loadLoginEvents
     ")
 
 @ClientSide
-define function loadLogin
-  runJS(jsCode: "
-      let savedOverflow = page.document.getElementById('loginContainer').style.overflow;
-      page.document.getElementById('loginContainer').style.overflow = 'hidden';
-      page.setState({...page.state, loginAppBarAnim: 'fadeInDownBig', loginFormAnim: 'fadeInUpBig', loginAppBarAnimTime: '1s', loginFormAnimTime: '1s'});
-      page.document.getElementById('loginContainer').style.display = 'block';
-    ")
-
-@ClientSide
 define function hideLoginAndShowRegister
   runJS(jsCode: "
       let savedOverflow = page.document.getElementById('loginContainer').style.overflow;
@@ -133,7 +124,6 @@ loginPage = (
                     },
                     properties: {
                       variant: "h4",
-                      fontPath: "/webapp/res/IranianSans.ttf",
                       fontName: "IranianSans"
                     },
                     children: [
@@ -152,7 +142,6 @@ loginPage = (
                       marginTop: 8
                     },
                     properties: {
-                      fontPath: "/webapp/res/IranianSans.ttf",
                       fontName: "IranianSans"
                     },
                     children: [
