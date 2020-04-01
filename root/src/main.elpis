@@ -2,13 +2,9 @@
 use "container_classes.elpis"
 use "db_functions.elpis"
 use "routes/home.elpis"
-use "routes/auth.elpis"
 
 server = HttpServer.createServer(filesPath: "/webapp", root: "/webapp")
 
 HttpServer.registerRoute(server: server, path: "/api/main", pathAction: home)
-HttpServer.registerRoute(server: server, path: "/api/add_center", pathAction: addCenter)
-HttpServer.registerRoute(server: server, path: "/api/register", pathAction: signup)
-HttpServer.registerRoute(server: server, path: "/api/login", pathAction: signin)
 
 HttpServer.startServer(server: server, port: 8080)

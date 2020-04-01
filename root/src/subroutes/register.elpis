@@ -1,0 +1,278 @@
+
+@ClientSide
+define function updateState with params stateKey, stateValue
+  setState(stateKey: stateKey, stateValue: stateValue)
+
+define function TextField with params inputId, inputLabel
+  return ({
+                        controlType: "FormControl",
+                        style: {
+                          width: "calc(100% - 96px)",
+                          marginLeft: 48,
+                          marginRight: 48,
+                          marginTop: 16
+                        },
+                        children: [
+                          {
+                            controlType: "InputLabel",
+                            properties: {
+                              htmlFor: inputId
+                            },
+                            style: {
+                              position: "absolute",
+                              right: 0
+                            },
+                            children: [
+                              {
+                                controlType: "Text",
+                                text: inputLabel
+                              }
+                            ]
+                          },
+                          {
+                            controlType: "Input",
+                            properties: {
+                              id: inputId
+                            }
+                          }
+                        ]
+                      })
+
+@ClientSide
+define function loadRegister
+  runJS(jsCode: "
+      let savedOverflow = page.document.getElementById('registerContainer').style.overflow;
+      page.document.getElementById('registerContainer').style.overflow = 'hidden';
+      page.setState({...page.state, registerAppBarAnim: 'fadeInDownBig', registerFormAnim: 'fadeInUpBig', registerAppBarAnimTime: '1s', registerFormAnimTime: '1s'});
+      page.document.getElementById('registerAppBar-anim').addEventListener( 'animationend', function( event ) { 
+        setTimeout(() => {
+          page.setState({...page.state, registerAppBarAnim: '', registerFormAnim: ''});
+          page.document.getElementById('registerContainer').style.overflow = savedOverflow;
+        }, 1000);
+      });
+      page.document.getElementById('registerAppBar').addEventListener( 'webkitAnimationEnd', function( event ) { 
+        setTimeout(() => {
+          page.setState({...page.state, registerAppBarAnim: '', registerFormAnim: ''});
+          page.document.getElementById('registerContainer').style.overflow = savedOverflow;
+        }, 1000);
+      });
+      page.document.getElementById('registerContainer').style.display = 'block';
+    ")
+
+@ClientSide
+define function hideRegisterAndShowLogin
+  runJS(jsCode: "
+      let savedOverflow = page.document.getElementById('registerContainer').style.overflow;
+      page.document.getElementById('registerContainer').style.overflow = 'hidden';
+      page.document.getElementById('loginContainer').style.display = 'block';
+      page.setState({...page.state, loginAppBarAnim: 'fadeInDownBig', loginFormAnim: 'fadeInUpBig', loginAppBarAnimTime: '1s', loginFormAnimTime: '1s'
+          , registerAppBarAnim: 'fadeOutUpBig', registerFormAnim: 'fadeOutDownBig', registerAppBarAnimTime: '1s', registerFormAnimTime: '1s'});
+      setTimeout(() => {
+        page.setState({...page.state, loginAppBarAnim: '', loginFormAnim: '',
+           registerAppBarAnim: '', registerFormAnim: ''});
+        page.document.getElementById('registerContainer').style.overflow = savedOverflow;
+        page.document.getElementById('registerContainer').style.display = 'none';
+      }, 1100);
+    ")
+
+registerPage = (
+      {
+        controlType: "Box",
+        properties: {
+          id: "registerContainer",
+          fontPath: "/webapp/res/IranianSans.ttf",
+          fontName: "IranianSans"
+        },
+        style: {
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          left: 0,
+          top: 0,
+          display: "none"
+        },
+        children: [
+          {
+            controlType: "AppBar",
+            properties: {
+              id: "registerAppBar",
+              animation: "${registerAppBarAnim}",
+              animationTime: "${registerAppBarAnimTime}",
+              hideOnScroll: true,
+              color: "#07d"
+            },
+            style: {
+              height: 164
+            },
+            children: [
+              {
+                controlType: "Toolbar",
+                children: [
+              {
+                    controlType: "Avatar",
+                    properties: {
+                      elevation: 12,
+                      src: "/webapp/res/hospital.png"
+                    },
+                    style: {
+                      width: 84,
+                      height: 84,
+                      position: "absolute",
+                      right: 32,
+                      top: 32
+                    }
+                  },
+              {
+                controlType: "div",
+                children: [
+                  {
+                    controlType: "Typography",
+                    style: {
+                      width: "100%",
+                      textAlign: "right",
+                      color: "white",
+                      marginRight: 128,
+                      marginTop: 32
+                    },
+                    properties: {
+                      variant: "h4",
+                      fontPath: "/webapp/res/IranianSans.ttf",
+                      fontName: "IranianSans"
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "مرحم"
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "Typography",
+                    style: {
+                      width: "100%",
+                      textAlign: "right",
+                      color: "white",
+                      marginRight: 128,
+                      marginTop: 8
+                    },
+                    properties: {
+                      fontPath: "/webapp/res/IranianSans.ttf",
+                      fontName: "IranianSans"
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "متن دوم"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                controlType: "Fab",
+                properties: {
+                  color: "#a15",
+                  variant: "extended",
+                  onClick: "${() => {page.hideRegisterAndShowLogin();}}"
+                },
+                style: {
+                  position: "fixed",
+                  left: 32,
+                  top: 164 - 28
+                },                
+                children: [
+                  {
+                    controlType: "VpnKeyIcon",
+                    style: {
+                      marginLeft: 16
+                    }
+                  },
+                  {
+                    controlType: "Typography",
+                    properties: {
+                      marginLeft: 16
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "رفتن به ورود"
+                      }
+                    ]
+                  }
+                ]
+              }
+                ]
+              }
+            ]
+          },
+          {
+            controlType: "div",
+            style: {
+              height: 164
+            }
+          },
+          {
+            controlType: "div",
+            properties: {
+              animation: "${registerFormAnim}",
+              animationTime: "${registerFormAnimTime}"
+            },
+            style: {
+              width: "100%",
+              height: "calc(100vh - 164px)",
+              backgroundColor: "#fff"
+            },
+            children: [
+              {
+                controlType: "div",
+                style: {
+                  paddingTop: 16,
+                  marginLeft: 16,
+                  marginRight: 16
+                },
+                children: [
+                  {
+                    controlType: "Typography",
+                    properties: {
+                      variant: "h6",
+                      marginLeft: 16
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "ثبت نام در مرحم"
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "form",
+                    children: [
+                      TextField(inputId: "registerUsernameInput", inputLabel: "نام کاربری"),
+                      TextField(inputId: "registerPasswordInput", inputLabel: "رمز عبور"),
+                      TextField(inputId: "registerPhoneInput", inputLabel: "تلفن"),
+                      TextField(inputId: "registerEmailInput", inputLabel: "ایمیل"),
+                      {
+                        controlType: "Fab",
+                        properties: {
+                          color: "#a15"
+                        },
+                        style: {
+                          position: "fixed",
+                          left: 32,
+                          bottom: 32
+                        },
+                        children: [
+                          {
+                            controlType: "ListAltIcon"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+
+        ]
+      })

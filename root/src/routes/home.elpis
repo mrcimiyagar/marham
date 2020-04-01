@@ -4,12 +4,16 @@ use "components/homeBody.elpis"
 use "components/supportBtn.elpis"
 use "components/bottombar.elpis"
 use "subroutes/profile.elpis"
+use "subroutes/login.elpis"
+use "subroutes/register.elpis"
 
 currentPath = "profile"
 
 @ClientSide
 define function main
   runJS(jsCode: "window.page = {...window.parent, ...window.parent.page};")
+  loadLoginEvents()
+  loadLogin()
   runJS(jsCode: "
     page.app.setState({loadState: ''});")
 
@@ -18,7 +22,9 @@ define function home
   children = ([
           homeBody,
           bottombar,
-          profilePage
+          profilePage,
+          loginPage,
+          registerPage
         ])
   
   return (
@@ -26,8 +32,7 @@ define function home
         controlType: "Box",
         properties: {
           fontPath: "/webapp/res/IranianSans.ttf",
-          fontName: "IranianSans",
-          initial: "window.setState({...page.state, profileAppBarAnim: 'fadeInDownBig', profileHistListAnim: 'fadeInUpBig'});"
+          fontName: "IranianSans"
         },
         style: {
           marginLeft: -12,

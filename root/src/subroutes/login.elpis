@@ -1,0 +1,350 @@
+
+@ClientSide
+define function updateState with params stateKey, stateValue
+  setState(stateKey: stateKey, stateValue: stateValue)
+
+@ClientSide
+define function loadLoginEvents
+  runJS(jsCode: "
+    page.document.getElementById('loginAppBar-anim').addEventListener( 'animationend', function( event ) { 
+        alert('helllo');
+        if (page.state.loginAppBarAnim === 'fadeInDownBig') {
+          setTimeout(() => {
+            page.setState({...page.state, loginAppBarAnim: '', loginFormAnim: ''});
+            page.document.getElementById('loginContainer').style.overflow = savedOverflow;
+            page.document.getElementById('loginAppBar-anim').removeEventListener( 'webkitAnimationEnd');
+          }, 1000);
+        }
+        else {
+          setTimeout(() => {
+            page.setState({...page.state, loginAppBarAnim: '', loginFormAnim: ''});
+            page.document.getElementById('loginContainer').style.overflow = savedOverflow;
+            page.document.getElementById('loginContainer').style.display = 'none';
+            page.loadRegister();
+          }, 1000);
+        }
+      });
+      page.document.getElementById('loginAppBar-anim').addEventListener( 'webkitAnimationEnd', function( event ) { 
+        alert('helllo');
+        if (page.state.loginAppBarAnim === 'fadeInDownBig') {
+          setTimeout(() => {
+            page.setState({...page.state, loginAppBarAnim: '', loginFormAnim: ''});
+            page.document.getElementById('loginContainer').style.overflow = savedOverflow;
+            page.document.getElementById('loginAppBar-anim').removeEventListener( 'webkitAnimationEnd');
+          }, 1000);
+        }
+        else {
+          
+        }
+      });
+    ")
+
+@ClientSide
+define function loadLogin
+  runJS(jsCode: "
+      let savedOverflow = page.document.getElementById('loginContainer').style.overflow;
+      page.document.getElementById('loginContainer').style.overflow = 'hidden';
+      page.setState({...page.state, loginAppBarAnim: 'fadeInDownBig', loginFormAnim: 'fadeInUpBig', loginAppBarAnimTime: '1s', loginFormAnimTime: '1s'});
+      page.document.getElementById('loginContainer').style.display = 'block';
+    ")
+
+@ClientSide
+define function hideLoginAndShowRegister
+  runJS(jsCode: "
+      let savedOverflow = page.document.getElementById('loginContainer').style.overflow;
+      page.document.getElementById('loginContainer').style.overflow = 'hidden';
+      page.document.getElementById('registerContainer').style.display = 'block';
+      page.setState({...page.state, loginAppBarAnim: 'fadeOutUpBig', loginFormAnim: 'fadeOutDownBig', loginAppBarAnimTime: '1s', loginFormAnimTime: '1s'
+          , registerAppBarAnim: 'fadeInDownBig', registerFormAnim: 'fadeInUpBig', registerAppBarAnimTime: '1s', registerFormAnimTime: '1s'});
+      setTimeout(() => {
+        page.setState({...page.state, loginAppBarAnim: '', loginFormAnim: '',
+           registerAppBarAnim: '', registerFormAnim: ''});
+        page.document.getElementById('loginContainer').style.overflow = savedOverflow;
+        page.document.getElementById('loginContainer').style.display = 'none';
+      }, 1100);
+    ")
+
+loginPage = (
+      {
+        controlType: "Box",
+        properties: {
+          id: "loginContainer",
+          fontPath: "/webapp/res/IranianSans.ttf",
+          fontName: "IranianSans"
+        },
+        style: {
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          left: 0,
+          top: 0,
+          display: "none"
+        },
+        children: [
+          {
+            controlType: "AppBar",
+            properties: {
+              id: "loginAppBar",
+              animation: "${loginAppBarAnim}",
+              animationTime: "${loginAppBarAnimTime}",
+              hideOnScroll: true,
+              color: "#07d"
+            },
+            style: {
+              height: 256
+            },
+            children: [
+              {
+                controlType: "div",
+                style: {
+                  width: "100%",
+                  height: 100,
+                  marginTop: 48
+                },
+                children: [
+                  {
+                    controlType: "Avatar",
+                    properties: {
+                      elevation: 12,
+                      src: "/webapp/res/hospital.png"
+                    },
+                    style: {
+                      width: 84,
+                      height: 84,
+                      position: "absolute",
+                      left: "50%",
+                      transform: "translate(-50%, 0)"
+                    }
+                  }
+                ]
+              },
+              {
+                controlType: "div",
+                style: {
+                  width: "100%"
+                },
+                children: [
+                  {
+                    controlType: "Typography",
+                    style: {
+                      width: "100%",
+                      textAlign: "center",
+                      color: "white"
+                    },
+                    properties: {
+                      variant: "h4",
+                      fontPath: "/webapp/res/IranianSans.ttf",
+                      fontName: "IranianSans"
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "مرحم"
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "Typography",
+                    style: {
+                      width: "100%",
+                      textAlign: "center",
+                      color: "white",
+                      marginTop: 8
+                    },
+                    properties: {
+                      fontPath: "/webapp/res/IranianSans.ttf",
+                      fontName: "IranianSans"
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "متن دوم"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                controlType: "Fab",
+                properties: {
+                  color: "#a15",
+                  variant: "extended",
+                  onClick: "${() => {page.hideLoginAndShowRegister();}}"
+                },
+                style: {
+                  position: "fixed",
+                  left: 32,
+                  top: 256 - 28
+                },
+                children: [
+                  {
+                    controlType: "ListAltIcon",
+                    style: {
+                      marginLeft: 16
+                    }
+                  },
+                  {
+                    controlType: "Typography",
+                    properties: {
+                      marginLeft: 16
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "رفتن به ثیت نام"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            controlType: "div",
+            style: {
+              height: 256
+            }
+          },
+          {
+            controlType: "div",
+            properties: {
+              animation: "${loginFormAnim}",
+              animationTime: "${loginFormAnimTime}"
+            },
+            style: {
+              width: "100%",
+              height: "calc(100vh - 256px)",
+              backgroundColor: "#fff"
+            },
+            children: [
+              {
+                controlType: "div",
+                style: {
+                  paddingTop: 16,
+                  marginLeft: 16,
+                  marginRight: 16
+                },
+                children: [
+                  {
+                    controlType: "Typography",
+                    properties: {
+                      variant: "h6",
+                      marginLeft: 16
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "ورود به مرحم"
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "form",
+                    children: [
+                      {
+                        controlType: "FormControl",
+                        style: {
+                          width: "calc(100% - 96px)",
+                          marginLeft: 48,
+                          marginRight: 48,
+                          marginTop: 16
+                        },
+                        children: [
+                          {
+                            controlType: "InputLabel",
+                            properties: {
+                              htmlFor: "loginUsernameInput"
+                            },
+                            style: {
+                              position: "absolute",
+                              right: 0
+                            },
+                            children: [
+                              {
+                                controlType: "Text",
+                                text: "نام کاربری"
+                              }
+                            ]
+                          },
+                          {
+                            controlType: "Input",
+                            properties: {
+                              id:"loginUsernameInput"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        controlType: "FormControl",
+                        style: {
+                          width: "calc(100% - 96px)",
+                          marginLeft: 48,
+                          marginRight: 48,
+                          marginTop: 16
+                        },
+                        children: [
+                          {
+                            controlType: "InputLabel",
+                            properties: {
+                              htmlFor: "loginPasswordInput"
+                            },
+                            style: {
+                              position: "absolute",
+                              right: 0
+                            },
+                            children: [
+                              {
+                                controlType: "Text",
+                                text: "رمز عبور"
+                              }
+                            ]
+                          },
+                          {
+                            controlType: "Input",
+                            properties: {
+                              id:"loginPasswordInput"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        controlType: "FormControlLabel",
+                        properties: {
+                          control: {
+                            controlType: "Checkbox",
+                            name: "saveInfoCheckbox"
+                          },
+                          label: "اطلاعات را ذخیره کن."
+                        },
+                        style: {
+                          width: "calc(100% - 96px)",
+                          marginLeft: 48,
+                          marginRight: 48,
+                          marginTop: 16
+                        }
+                      },
+                      {
+                        controlType: "Fab",
+                        properties: {
+                          color: "#a15"
+                        },
+                        style: {
+                          position: "fixed",
+                          left: 32,
+                          bottom: 32
+                        },
+                        children: [
+                          {
+                            controlType: "VpnKeyIcon"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+
+        ]
+      })

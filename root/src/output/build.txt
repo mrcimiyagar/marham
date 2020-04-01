@@ -4,8 +4,7 @@
     "depsPath": [
       "container_classes.elp",
       "db_functions.elp",
-      "routes/home.elp",
-      "routes/auth.elp"
+      "routes/home.elp"
     ]
   },
   {
@@ -27,15 +26,9 @@
       "components/homeBody.elp",
       "components/supportBtn.elp",
       "components/bottombar.elp",
-      "subroutes/profile.elp"
-    ]
-  },
-  {
-    "filePath": "routes/auth.elp",
-    "depsPath": [
-      "db_context.elp",
-      "utils.elp",
-      "db_doctor.elp"
+      "subroutes/profile.elp",
+      "subroutes/login.elp",
+      "subroutes/register.elp"
     ]
   },
   {
@@ -73,22 +66,12 @@
     "depsPath": []
   },
   {
-    "filePath": "db_context.elp",
-    "depsPath": [
-      "global_vars.elp"
-    ]
+    "filePath": "subroutes/login.elp",
+    "depsPath": []
   },
   {
-    "filePath": "utils.elp",
-    "depsPath": [
-      "global_vars.elp"
-    ]
-  },
-  {
-    "filePath": "db_doctor.elp",
-    "depsPath": [
-      "global_vars.elp"
-    ]
+    "filePath": "subroutes/register.elp",
+    "depsPath": []
   },
   {
     "filePath": "global_vars.elp",
@@ -100,18 +83,6 @@
   },
   {
     "filePath": "subroutes/profile.elp",
-    "depsPath": []
-  },
-  {
-    "filePath": "global_vars.elp",
-    "depsPath": []
-  },
-  {
-    "filePath": "global_vars.elp",
-    "depsPath": []
-  },
-  {
-    "filePath": "global_vars.elp",
     "depsPath": []
   }
 ]

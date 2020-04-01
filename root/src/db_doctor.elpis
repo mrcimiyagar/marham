@@ -21,7 +21,7 @@ define function checkDatabaseExistence
                                 phone varchar(20),
                                 vCode varchar(8)
                             );")
-  Pg.close(iterator: tableCreation)
+  Pg.closeRead(iterator: tableCreation)
   tableCreation = dbContext.exec(query: "create table if not exists \"users\" (
                                 \"userId\" bigserial primary key,
                                 \"firstName\" varchar(50),
@@ -31,13 +31,13 @@ define function checkDatabaseExistence
                                 \"phone\" varchar(20),
                                 \"role\" varchar(20)
                             );")
-  Pg.close(iterator: tableCreation)
+  Pg.closeRead(iterator: tableCreation)
   tableCreation = dbContext.exec(query: "create table if not exists \"sessions\" (
                                   \"sessionId\" bigserial primary key,
                                   \"userId\" bigint,
                                   \"token\" varchar(64)
                               );")
-  Pg.close(iterator: tableCreation)
+  Pg.closeRead(iterator: tableCreation)
   tableCreation = dbContext.exec(query: "create table if not exists \"centers\" (
                                   \"centerId\" bigserial primary key,
                                   \"ownerId\" bigint,
@@ -48,7 +48,8 @@ define function checkDatabaseExistence
                                   \"latitude\" bigint,
                                   \"avatarId\" bigint
                               );")
-  Pg.close(iterator: tableCreation)
+  Pg.closeRead(iterator: tableCreation)
+  dbContext.close()
 
 define function prepareAdmin
   dbContext = instance of DbContext ()

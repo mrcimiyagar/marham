@@ -46,6 +46,7 @@ define function signup with params request
         )
     session = Pg.read(iterator: sessionCreator)
     Pg.closeRead(iterator: sessionCreator)
+    dbContext.close()
     return {status: "success", session: {sessionId: session.sessionId, token: token, userId: user.userId}, user: {userId: user.userId, firstName: fName, lastName: lName, username: username, phone: phone}}
   else do
     return {status: "error", errorCode: "e-101", message: "few arguments."}
@@ -68,8 +69,10 @@ define function signin with params request
     result = Pg.read(iterator: userSelector)
     Pg.closeRead(iterator: userSelector)
     if result == EMPTY then do
+      dbContext.close()
       return {status: "error", errorCode: "e-104", message: "username does not exist"}
     if result.password != password then do
+      dbContext.close()
       return {status: "error", errorCode: "e-105", message: "password is wrong"}
     else do
       sessionSelector = dbContext.execPrepared(
@@ -78,6 +81,7 @@ define function signin with params request
         )
       session = Pg.read(iterator: sessionSelector)
       Pg.closeRead(iterator: sessionSelector)
+      dbContext.close()
       return {status: "success", session: session}
   else do
     return {status: "error", errorCode: "e-101", message: "few arguments."}
@@ -118,7 +122,8 @@ define function addCenter with params request
   centerCreator = dbContext.execPrepared(query: "select createCenter($1, $2, $3, $4, $5, $6, $7) as \"centerId\";",
                  inputs: [ownerId, title, address, phone, longitude, latitude, avatarId])
   center =  Pg.read(iterator: centerCreator)
-  Pg.close(iterator: centerCreator)
+  Pg.closeRead(iterator: centerCreator)
+  dbContext.close()
   if center.centerId == "-1" then do
     return {status: "error", errorCode: "e-105", message: "user already has a center"}
   else if center.centerId == "-2" then do
