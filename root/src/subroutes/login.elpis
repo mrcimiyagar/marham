@@ -123,8 +123,7 @@ loginPage = (
                       color: "white"
                     },
                     properties: {
-                      variant: "h4",
-                      fontName: "IranianSans"
+                      variant: "h4"
                     },
                     children: [
                       {
@@ -140,9 +139,6 @@ loginPage = (
                       textAlign: "center",
                       color: "white",
                       marginTop: 8
-                    },
-                    properties: {
-                      fontName: "IranianSans"
                     },
                     children: [
                       {

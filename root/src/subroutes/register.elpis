@@ -139,8 +139,7 @@ registerPage = (
                       top: 32
                     },
                     properties: {
-                      variant: "h4",
-                      fontName: "IranianSans"
+                      variant: "h4"
                     },
                     children: [
                       {
@@ -157,9 +156,6 @@ registerPage = (
                       color: "white",
                       position: "absolute",
                       top: 72
-                    },
-                    properties: {
-                      fontName: "IranianSans"
                     },
                     children: [
                       {
