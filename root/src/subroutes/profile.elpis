@@ -246,8 +246,7 @@ profilePage = (
             },
             style: {
               width: "100%",
-              backgroundColor: "#fff",
-              zIndex: 500
+              backgroundColor: "#fff"
             },
             children: [
               {

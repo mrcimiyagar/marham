@@ -39,36 +39,17 @@ define function TextField with params inputId, inputLabel
                       })
 
 @ClientSide
-define function loadRegister
-  runJS(jsCode: "
-      let savedOverflow = page.document.getElementById('registerContainer').style.overflow;
-      page.document.getElementById('registerContainer').style.overflow = 'hidden';
-      page.setState({...page.state, registerAppBarAnim: 'fadeInDownBig', registerFormAnim: 'fadeInUpBig', registerAppBarAnimTime: '1s', registerFormAnimTime: '1s'});
-      page.document.getElementById('registerAppBar-anim').addEventListener( 'animationend', function( event ) { 
-        setTimeout(() => {
-          page.setState({...page.state, registerAppBarAnim: '', registerFormAnim: ''});
-          page.document.getElementById('registerContainer').style.overflow = savedOverflow;
-        }, 1000);
-      });
-      page.document.getElementById('registerAppBar').addEventListener( 'webkitAnimationEnd', function( event ) { 
-        setTimeout(() => {
-          page.setState({...page.state, registerAppBarAnim: '', registerFormAnim: ''});
-          page.document.getElementById('registerContainer').style.overflow = savedOverflow;
-        }, 1000);
-      });
-      page.document.getElementById('registerContainer').style.display = 'block';
-    ")
-
-@ClientSide
 define function hideRegisterAndShowLogin
   runJS(jsCode: "
       //let savedOverflow = page.document.getElementById('registerContainer').style.overflow;
       page.document.getElementById('loginContainer').style.display = 'block';
       page.setState({...page.state, loginAppBarAnim: 'fadeInDownBig', loginFormAnim: 'fadeInUpBig', loginAppBarAnimTime: '1s', loginFormAnimTime: '1s'
-          , registerAppBarAnim: 'fadeOutUpBig', registerFormAnim: 'fadeOutDownBig', registerAppBarAnimTime: '1s', registerFormAnimTime: '1s'});
+          , registerAppBarAnim: 'fadeOutUpBig', registerFormAnim: 'fadeOutDownBig', registerAppBarAnimTime: '1s', registerFormAnimTime: '1s'
+          , registerFabAnim: 'fadeOut', loginFabAnim: 'fadeIn', registerFabAnimTime: '1s', loginFabAnimTime: '1s'});
       setTimeout(() => {
         page.setState({...page.state, loginAppBarAnim: '', loginFormAnim: '',
-           registerAppBarAnim: '', registerFormAnim: ''});
+           registerAppBarAnim: '', registerFormAnim: ''
+          , registerFabAnim: '', loginFabAnim: ''});
         //page.document.getElementById('registerContainer').style.overflow = savedOverflow;
         page.document.getElementById('registerContainer').style.display = 'none';
       }, 1100);
@@ -93,6 +74,57 @@ registerPage = (
         },
         children: [
           {
+            controlType: "div",
+            properties: {
+              animation: "${registerFormAnim}",
+              animationTime: "${registerFormAnimTime}"
+            },
+            style: {
+              width: "100%",
+              height: "calc(100vh - 164px)",
+              backgroundColor: "#fff",
+              marginLeft: 0,
+              marginRight: 0,
+              position: "absolute",
+              top: 164,
+              left: 0
+            },
+            children: [
+              {
+                controlType: "div",
+                style: {
+                  paddingTop: 16,
+                  marginLeft: 16,
+                  marginRight: 16
+                },
+                children: [
+                  {
+                    controlType: "Typography",
+                    properties: {
+                      variant: "h6",
+                      marginLeft: 16
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "ثبت نام در مرحم"
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "form",
+                    children: [
+                      TextField(inputId: "registerUsernameInput", inputLabel: "نام کاربری"),
+                      TextField(inputId: "registerPasswordInput", inputLabel: "رمز عبور"),
+                      TextField(inputId: "registerPhoneInput", inputLabel: "تلفن"),
+                      TextField(inputId: "registerEmailInput", inputLabel: "ایمیل")
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
             controlType: "AppBar",
             properties: {
               id: "registerAppBar",
@@ -102,9 +134,13 @@ registerPage = (
               color: "#07d"
             },
             style: {
+              width: "100%",
               height: 164,
               marginLeft: 0,
-              marginRight: 0
+              marginRight: 0,
+              position: "absolute",
+              top: 0,
+              left: 0
             },
             children: [
               {
@@ -205,58 +241,12 @@ registerPage = (
               }
             ]
           },
-          {
-            controlType: "div",
-            style: {
-              height: 164
-            }
-          },
-          {
-            controlType: "div",
-            properties: {
-              animation: "${registerFormAnim}",
-              animationTime: "${registerFormAnimTime}"
-            },
-            style: {
-              width: "100%",
-              height: "calc(100vh - 164px)",
-              backgroundColor: "#fff",
-              marginLeft: 0,
-              marginRight: 0
-            },
-            children: [
-              {
-                controlType: "div",
-                style: {
-                  paddingTop: 16,
-                  marginLeft: 16,
-                  marginRight: 16
-                },
-                children: [
-                  {
-                    controlType: "Typography",
-                    properties: {
-                      variant: "h6",
-                      marginLeft: 16
-                    },
-                    children: [
-                      {
-                        controlType: "Text",
-                        text: "ثبت نام در مرحم"
-                      }
-                    ]
-                  },
-                  {
-                    controlType: "form",
-                    children: [
-                      TextField(inputId: "registerUsernameInput", inputLabel: "نام کاربری"),
-                      TextField(inputId: "registerPasswordInput", inputLabel: "رمز عبور"),
-                      TextField(inputId: "registerPhoneInput", inputLabel: "تلفن"),
-                      TextField(inputId: "registerEmailInput", inputLabel: "ایمیل"),
                       {
                         controlType: "Fab",
                         properties: {
-                          color: "#a15"
+                          color: "#a15",
+                          animation: "${registerFabAnim}",
+                          animationTime: "${registerFabAnimTime}"
                         },
                         style: {
                           position: "fixed",
@@ -269,12 +259,5 @@ registerPage = (
                           }
                         ]
                       }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-
         ]
       })
