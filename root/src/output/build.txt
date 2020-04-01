@@ -3,21 +3,12 @@
     "filePath": "main.elp",
     "depsPath": [
       "container_classes.elp",
-      "db_functions.elp",
       "routes/home.elp"
     ]
   },
   {
     "filePath": "container_classes.elp",
     "depsPath": []
-  },
-  {
-    "filePath": "db_functions.elp",
-    "depsPath": [
-      "container_classes.elp",
-      "db_context.elp",
-      "db_doctor.elp"
-    ]
   },
   {
     "filePath": "routes/home.elp",
@@ -29,18 +20,6 @@
       "subroutes/profile.elp",
       "subroutes/login.elp",
       "subroutes/register.elp"
-    ]
-  },
-  {
-    "filePath": "db_context.elp",
-    "depsPath": [
-      "global_vars.elp"
-    ]
-  },
-  {
-    "filePath": "db_doctor.elp",
-    "depsPath": [
-      "global_vars.elp"
     ]
   },
   {
@@ -71,14 +50,6 @@
   },
   {
     "filePath": "subroutes/register.elp",
-    "depsPath": []
-  },
-  {
-    "filePath": "global_vars.elp",
-    "depsPath": []
-  },
-  {
-    "filePath": "global_vars.elp",
     "depsPath": []
   },
   {
