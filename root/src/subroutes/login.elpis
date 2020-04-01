@@ -91,7 +91,7 @@ loginPage = (
               color: "#07d"
             },
             style: {
-              height: 256
+              height: 278
             },
             children: [
               {
@@ -174,7 +174,7 @@ loginPage = (
                 style: {
                   position: "fixed",
                   left: 32,
-                  top: 256 - 28
+                  top: 278 - 28
                 },
                 children: [
                   {
@@ -202,7 +202,7 @@ loginPage = (
           {
             controlType: "div",
             style: {
-              height: 256
+              height: 278
             }
           },
           {
@@ -213,7 +213,7 @@ loginPage = (
             },
             style: {
               width: "100%",
-              height: "calc(100vh - 256px)",
+              height: "calc(100vh - 278px)",
               backgroundColor: "#fff"
             },
             children: [
@@ -335,7 +335,7 @@ loginPage = (
                         },
                         children: [
                           {
-                            controlType: "VpnKeyIcon"
+                            controlType: "DoneIcon"
                           }
                         ]
                       }

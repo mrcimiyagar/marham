@@ -11,9 +11,12 @@ currentPath = "profile"
 
 @ClientSide
 define function main
-  runJS(jsCode: "window.page = {...window.parent, ...window.parent.page};")
-  loadLoginEvents()
-  loadLogin()
+  runJS(jsCode: "
+    window.page = {...window.parent, ...window.parent.page};
+    page.documentElementOverflow = page.document.documentElement.style.overflow;
+    page.document.documentElement.style.overflow = 'hidden';  
+  ")
+  hideRegisterAndShowLogin()
   runJS(jsCode: "
     page.app.setState({loadState: ''});")
 

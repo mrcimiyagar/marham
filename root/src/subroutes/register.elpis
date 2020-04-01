@@ -124,6 +124,10 @@ registerPage = (
                   },
               {
                 controlType: "div",
+                style: {
+                  position: "relative",
+                  marginRight: 128
+                },
                 children: [
                   {
                     controlType: "Typography",
@@ -131,8 +135,8 @@ registerPage = (
                       width: "100%",
                       textAlign: "right",
                       color: "white",
-                      marginRight: 128,
-                      marginTop: 32
+                      position: "absolute",
+                      top: 32
                     },
                     properties: {
                       variant: "h4",
@@ -152,8 +156,8 @@ registerPage = (
                       width: "100%",
                       textAlign: "right",
                       color: "white",
-                      marginRight: 128,
-                      marginTop: 8
+                      position: "absolute",
+                      top: 72
                     },
                     properties: {
                       fontPath: "/webapp/res/IranianSans.ttf",
@@ -263,7 +267,7 @@ registerPage = (
                         },
                         children: [
                           {
-                            controlType: "ListAltIcon"
+                            controlType: "DoneIcon"
                           }
                         ]
                       }
