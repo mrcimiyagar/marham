@@ -62,15 +62,14 @@ define function loadRegister
 @ClientSide
 define function hideRegisterAndShowLogin
   runJS(jsCode: "
-      let savedOverflow = page.document.getElementById('registerContainer').style.overflow;
-      page.document.getElementById('registerContainer').style.overflow = 'hidden';
+      //let savedOverflow = page.document.getElementById('registerContainer').style.overflow;
       page.document.getElementById('loginContainer').style.display = 'block';
       page.setState({...page.state, loginAppBarAnim: 'fadeInDownBig', loginFormAnim: 'fadeInUpBig', loginAppBarAnimTime: '1s', loginFormAnimTime: '1s'
           , registerAppBarAnim: 'fadeOutUpBig', registerFormAnim: 'fadeOutDownBig', registerAppBarAnimTime: '1s', registerFormAnimTime: '1s'});
       setTimeout(() => {
         page.setState({...page.state, loginAppBarAnim: '', loginFormAnim: '',
            registerAppBarAnim: '', registerFormAnim: ''});
-        page.document.getElementById('registerContainer').style.overflow = savedOverflow;
+        //page.document.getElementById('registerContainer').style.overflow = savedOverflow;
         page.document.getElementById('registerContainer').style.display = 'none';
       }, 1100);
     ")
@@ -89,7 +88,8 @@ registerPage = (
           position: "absolute",
           left: 0,
           top: 0,
-          display: "none"
+          display: "none",
+          overflow: "hidden"
         },
         children: [
           {

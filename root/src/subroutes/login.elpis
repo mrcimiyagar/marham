@@ -42,15 +42,14 @@ define function loadLoginEvents
 @ClientSide
 define function hideLoginAndShowRegister
   runJS(jsCode: "
-      let savedOverflow = page.document.getElementById('loginContainer').style.overflow;
-      page.document.getElementById('loginContainer').style.overflow = 'hidden';
+      //let savedOverflow = page.document.getElementById('loginContainer').style.overflow;
       page.document.getElementById('registerContainer').style.display = 'block';
       page.setState({...page.state, loginAppBarAnim: 'fadeOutUpBig', loginFormAnim: 'fadeOutDownBig', loginAppBarAnimTime: '1s', loginFormAnimTime: '1s'
           , registerAppBarAnim: 'fadeInDownBig', registerFormAnim: 'fadeInUpBig', registerAppBarAnimTime: '1s', registerFormAnimTime: '1s'});
       setTimeout(() => {
         page.setState({...page.state, loginAppBarAnim: '', loginFormAnim: '',
            registerAppBarAnim: '', registerFormAnim: ''});
-        page.document.getElementById('loginContainer').style.overflow = savedOverflow;
+        //page.document.getElementById('loginContainer').style.overflow = savedOverflow;
         page.document.getElementById('loginContainer').style.display = 'none';
       }, 1100);
     ")
@@ -69,7 +68,8 @@ loginPage = (
           position: "absolute",
           left: 0,
           top: 0,
-          display: "none"
+          display: "none",
+          overflow: "hidden"
         },
         children: [
           {
