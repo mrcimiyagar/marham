@@ -32,6 +32,7 @@ define function hideMessenger
         page.setState({...page.state, messengerAppBarAnim: '', messengerListAnim: ''});
         page.document.getElementById('messengerContainer').style.overflow = savedOverflow;
         page.document.getElementById('messengerContainer').style.display = 'none';
+        page.document.documentElement.style.overflow = page.documentElementOverflow;
       }, 1000);
     ")
 
@@ -236,6 +237,22 @@ messengerPage = (
                 ]
               }
             ]
-          }
+          },
+                      {
+                        controlType: "Fab",
+                        properties: {
+                          color: "#a15"
+                        },
+                        style: {
+                          position: "fixed",
+                          left: 32,
+                          bottom: 32
+                        },
+                        children: [
+                          {
+                            controlType: "EditIcon"
+                          }
+                        ]
+                      }
         ]
       })
