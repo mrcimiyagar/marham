@@ -1,22 +1,28 @@
 
 use "subroutes/profile.elpis"
+use "subroutes/messenger.elpis"
 
 @ClientSide
 define function setBottomBarValue with params newValue
   setState(stateKey: "bottomBarValue", stateValue: newValue)
   if newValue == "profile" then do
     loadProfile()
+  else if newValue == "chat" then do
+    loadMessenger()
 
 bottombar = ({
               controlType: "BottomNavigation",
               properties: {
                 value: "${bottomBarValue}",
-                onChange: "${(event, newValue) => page.setBottomBarValue({newValue: newValue})}"
+                onChange: "${(event, newValue) => page.setBottomBarValue({newValue: newValue})}",
+                id: "homeBottomBar",
+                animation: "${homeBottomBarAnim}",
+                animationTime: "${homeBottomBarAnimTime}"
               },
               style: {
                 width: "100%",
-                position: "fixed",
-                bottom: 0
+                position: "absolute",
+                top: "calc(100vh - 56px)"
               },
               children: [
                 {
@@ -32,10 +38,10 @@ bottombar = ({
                 {
                   controlType: "BottomNavigationAction",
                   properties: {
-                    label: "Favorites",
-                    value: "favorites",
+                    label: "پیام ها",
+                    value: "chat",
                     icon: {
-                      controlType: "FavoriteIcon"
+                      controlType: "ChatIcon"
                     }
                   }
                 },

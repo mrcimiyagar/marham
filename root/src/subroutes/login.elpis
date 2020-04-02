@@ -10,13 +10,32 @@ define function hideLoginAndShowRegister
       page.document.getElementById('registerContainer').style.display = 'block';
       page.setState({...page.state, loginAppBarAnim: 'fadeOutUpBig', loginFormAnim: 'fadeOutDownBig', loginAppBarAnimTime: '1s', loginFormAnimTime: '1s'
           , registerAppBarAnim: 'fadeInDownBig', registerFormAnim: 'fadeInUpBig', registerAppBarAnimTime: '1s', registerFormAnimTime: '1s'
-          , registerFabAnim: 'fadeIn', loginFabAnim: 'fadeOut', registerFabAnimTime: '1s', loginFabAnimTime: '1s'});
+          , registerFabAnim: 'zoomIn', loginFabAnim: 'zoomOut', registerFabAnimTime: '1s', loginFabAnimTime: '1s'});
       setTimeout(() => {
         page.setState({...page.state, loginAppBarAnim: '', loginFormAnim: '',
            registerAppBarAnim: '', registerFormAnim: ''
           , registerFabAnim: '', loginFabAnim: ''});
         //page.document.getElementById('loginContainer').style.overflow = savedOverflow;
         page.document.getElementById('loginContainer').style.display = 'none';
+      }, 1100);
+    ")
+
+@ClientSide
+define function hideLoginAndShowHome
+  runJS(jsCode: "
+      //let savedOverflow = page.document.getElementById('loginContainer').style.overflow;
+      page.document.getElementById('homeContainer').style.display = 'block';
+      page.setState({...page.state, loginAppBarAnim: 'fadeOutUpBig', loginFormAnim: 'fadeOutDownBig'
+          , loginAppBarAnimTime: '1s', loginFormAnimTime: '1s'
+          , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
+          , homeAppBarAnimTime: '1s', homeFormAnimTime: '1s'
+          , loginFabAnim: 'zoomOut', loginFabAnimTime: '1s'});
+      setTimeout(() => {
+        page.setState({...page.state, loginAppBarAnim: '', loginFormAnim: ''
+          , loginFabAnim: ''});
+        //page.document.getElementById('loginContainer').style.overflow = savedOverflow;
+        page.document.getElementById('loginContainer').style.display = 'none';
+        page.document.documentElement.style.overflow = page.documentElementOverflow;
       }, 1100);
     ")
 
@@ -174,7 +193,8 @@ loginPage = (
               animation: "${loginAppBarAnim}",
               animationTime: "${loginAppBarAnimTime}",
               hideOnScroll: true,
-              color: "#07d"
+              color: "#07d",
+              elevation: 64
             },
             style: {
               height: 278,
@@ -182,7 +202,8 @@ loginPage = (
               marginRight: 0,
               position: "absolute",
               top: 0,
-              left: 0
+              left: 0,
+              zIndex: 1000
             },
             children: [
               {
@@ -289,7 +310,8 @@ loginPage = (
                         properties: {
                           color: "#a15",
                           animation: "${loginFabAnim}",
-                          animationTime: "${loginFabAnimTime}"
+                          animationTime: "${loginFabAnimTime}",
+                          onClick: "${() => {page.hideLoginAndShowHome();}}"
                         },
                         style: {
                           position: "fixed",

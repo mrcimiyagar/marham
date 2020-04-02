@@ -1,9 +1,9 @@
 
 use "container_classes.elpis"
-use "routes/home.elpis"
+use "routes/main.elpis"
 
 server = HttpServer.createServer(filesPath: "/webapp", root: "/webapp")
 
-HttpServer.registerRoute(server: server, path: "/api/main", pathAction: home)
+HttpServer.registerRoute(server: server, path: "/api/main", pathAction: mainPage)
 
 HttpServer.startServer(server: server, port: 8080)

@@ -1,11 +1,9 @@
 
-use "components/appbar.elpis"
-use "components/homeBody.elpis"
-use "components/supportBtn.elpis"
-use "components/bottombar.elpis"
+use "subroutes/home.elpis"
 use "subroutes/profile.elpis"
 use "subroutes/login.elpis"
 use "subroutes/register.elpis"
+use "subroutes/messenger.elpis"
 
 currentPath = "profile"
 
@@ -20,14 +18,14 @@ define function main
   runJS(jsCode: "
     page.app.setState({loadState: ''});")
 
-define function home
+define function mainPage
   children = []
   children = ([
-          homeBody,
-          bottombar,
+          Home(),
           profilePage,
           loginPage,
-          registerPage
+          registerPage,
+          messengerPage
         ])
   
   return (

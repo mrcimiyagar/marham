@@ -1,0 +1,38 @@
+
+use "components/appbar.elpis"
+use "components/homeBody.elpis"
+use "components/supportBtn.elpis"
+use "components/bottombar.elpis"
+
+define function Home
+  children = []
+  children = ([
+          appbar,
+          homeBody,
+          bottombar,
+          supportBtn
+        ])
+  
+  return (
+      {
+        controlType: "Box",
+        properties: {
+          id: "homeContainer"
+        },
+        style: {
+          marginLeft: 0,
+          marginRight: 0,
+          position: "absolute",
+          left: 0,
+          top: 0,
+          right: 0,
+          width: "calc(100%)",
+          height: "calc(100vh + 12px)",
+          backgroundColor: "#eee",
+          display: "none"
+        },
+        children: children
+      }
+    )
+
+print(text: "home route loaded")

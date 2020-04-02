@@ -2,12 +2,17 @@
 appbar = ({
             controlType: "AppBar",
             properties: {
-              color: "#09f",
-              onOpen: "test"
+              color: "#07d",
+              onOpen: "test",
+              elevation: 16,
+              id: "homeAppBar",
+              animation: "${homeAppBarAnim}",
+              animationTime: "${homeAppBarAnimTime}"
             },
             style: {
               width: "100%",
               height: 56, 
+              zIndex: 10,
               hideOnScroll: true
             },
             children: [

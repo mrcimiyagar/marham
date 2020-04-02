@@ -45,13 +45,32 @@ define function hideRegisterAndShowLogin
       page.document.getElementById('loginContainer').style.display = 'block';
       page.setState({...page.state, loginAppBarAnim: 'fadeInDownBig', loginFormAnim: 'fadeInUpBig', loginAppBarAnimTime: '1s', loginFormAnimTime: '1s'
           , registerAppBarAnim: 'fadeOutUpBig', registerFormAnim: 'fadeOutDownBig', registerAppBarAnimTime: '1s', registerFormAnimTime: '1s'
-          , registerFabAnim: 'fadeOut', loginFabAnim: 'fadeIn', registerFabAnimTime: '1s', loginFabAnimTime: '1s'});
+          , registerFabAnim: 'zoomOut', loginFabAnim: 'zoomIn', registerFabAnimTime: '1s', loginFabAnimTime: '1s'});
       setTimeout(() => {
         page.setState({...page.state, loginAppBarAnim: '', loginFormAnim: '',
            registerAppBarAnim: '', registerFormAnim: ''
           , registerFabAnim: '', loginFabAnim: ''});
         //page.document.getElementById('registerContainer').style.overflow = savedOverflow;
         page.document.getElementById('registerContainer').style.display = 'none';
+      }, 1100);
+    ")
+
+@ClientSide
+define function hideRegisterAndShowHome
+  runJS(jsCode: "
+      //let savedOverflow = page.document.getElementById('registerContainer').style.overflow;
+      page.document.getElementById('homeContainer').style.display = 'block';
+      page.setState({...page.state, registerAppBarAnim: 'fadeOutUpBig', registerFormAnim: 'fadeOutDownBig'
+          , registerAppBarAnimTime: '1s', registerFormAnimTime: '1s'
+          , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
+          , homeAppBarAnimTime: '1s', homeFormAnimTime: '1s'
+          , registerFabAnim: 'zoomOut', registerFabAnimTime: '1s'});
+      setTimeout(() => {
+        page.setState({...page.state, registerAppBarAnim: '', registerFormAnim: ''
+          , registerFabAnim: ''});
+        //page.document.getElementById('registerContainer').style.overflow = savedOverflow;
+        page.document.getElementById('registerContainer').style.display = 'none';
+        page.document.documentElement.style.overflow = page.documentElementOverflow;
       }, 1100);
     ")
 
@@ -246,7 +265,8 @@ registerPage = (
                         properties: {
                           color: "#a15",
                           animation: "${registerFabAnim}",
-                          animationTime: "${registerFabAnimTime}"
+                          animationTime: "${registerFabAnimTime}",
+                          onClick: "${() => {page.hideRegisterAndShowHome();}}"
                         },
                         style: {
                           position: "fixed",

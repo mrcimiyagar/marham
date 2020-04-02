@@ -8,7 +8,11 @@ define function loadProfile
   runJS(jsCode: "
       let savedOverflow = page.document.getElementById('profileContainer').style.overflow;
       page.document.getElementById('profileContainer').style.overflow = 'hidden';
-      page.setState({...page.state, profileAppBarAnim: 'fadeInDownBig', profileHistListAnim: 'fadeInUpBig', profileAppBarAnimTime: '1s', profileHistListAnimTime: '1s'});
+      page.setState({...page.state, profileAppBarAnim: 'fadeInDownBig', profileHistListAnim: 'fadeInUpBig'
+        , profileAppBarAnimTime: '1s', profileHistListAnimTime: '1s'
+        , homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig'
+        , homeAppBarAnimTime: '1s', homeFormAnimTime: '1s'
+      });
       setTimeout(() => {
         page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: ''});
         page.document.getElementById('profileContainer').style.overflow = savedOverflow;
@@ -20,7 +24,11 @@ define function loadProfile
 define function hideProfile
   runJS(jsCode: "
       let savedOverflow = page.document.getElementById('profileContainer').style.overflow;
-      page.setState({...page.state, profileAppBarAnim: 'fadeOutUpBig', profileHistListAnim: 'fadeOutDownBig', profileAppBarAnimTime: '2s', profileHistListAnimTime: '2s'});
+      page.setState({...page.state, profileAppBarAnim: 'fadeOutUpBig', profileHistListAnim: 'fadeOutDownBig'
+        , profileAppBarAnimTime: '2s', profileHistListAnimTime: '2s'
+        , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
+        , homeAppBarAnimTime: '1s', homeFormAnimTime: '1s'
+      });
       page.document.getElementById('profileContainer').style.overflow = 'hidden';
       setTimeout(() => {
         page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: ''});
@@ -199,10 +207,6 @@ profilePage = (
                       textAlign: "center",
                       color: "white"
                     },
-                    properties: {
-                      fontPath: "/webapp/res/IranianSans.ttf",
-                      fontName: "IranianSans"
-                    },
                     children: [
                       {
                         controlType: "Text",
@@ -217,14 +221,24 @@ profilePage = (
                       textAlign: "center",
                       color: "white"
                     },
-                    properties: {
-                      fontPath: "/webapp/res/IranianSans.ttf",
-                      fontName: "IranianSans"
-                    },
                     children: [
                       {
                         controlType: "Text",
                         text: "22 ساله"
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "Typography",
+                    style: {
+                      width: "100%",
+                      textAlign: "center",
+                      color: "white"
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "مشتری"
                       }
                     ]
                   }
