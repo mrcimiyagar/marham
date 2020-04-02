@@ -11,10 +11,11 @@ define function loadProfile
       page.setState({...page.state, profileAppBarAnim: 'fadeInDownBig', profileHistListAnim: 'fadeInUpBig'
         , profileAppBarAnimTime: '1s', profileHistListAnimTime: '1s'
         , homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig'
-        , homeAppBarAnimTime: '1s', homeFormAnimTime: '1s'
+        , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
       setTimeout(() => {
-        page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: ''});
+        page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: ''
+          , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('profileContainer').style.overflow = savedOverflow;
       }, 1000);
       page.document.getElementById('profileContainer').style.display = 'block';
@@ -27,11 +28,12 @@ define function hideProfile
       page.setState({...page.state, profileAppBarAnim: 'fadeOutUpBig', profileHistListAnim: 'fadeOutDownBig'
         , profileAppBarAnimTime: '2s', profileHistListAnimTime: '2s'
         , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
-        , homeAppBarAnimTime: '1s', homeFormAnimTime: '1s'
+        , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
       page.document.getElementById('profileContainer').style.overflow = 'hidden';
       setTimeout(() => {
-        page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: ''});
+        page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: ''
+          , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('profileContainer').style.overflow = savedOverflow;
         page.document.getElementById('profileContainer').style.display = 'none';
       }, 1000);

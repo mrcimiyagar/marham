@@ -1,0 +1,249 @@
+
+@ClientSide
+define function hideChatAndShowMessenger
+  runJS(jsCode: "
+      let savedOverflow = page.document.getElementById('chatContainer').style.overflow;
+      page.setState({...page.state, chatAppBarAnim: 'fadeOutUpBig', chatListAnim: 'fadeOutDownBig'
+        , chatAppBarAnimTime: '2s', chatListAnimTime: '2s'
+        , messengerFabAnim: 'zoomOut', messengerFabAnimTime: '1s'
+        , messengerAppBarAnim: 'fadeInDownBig', messengerListAnim: 'fadeInUpBig'
+        , messengerAppBarAnimTime: '1s', messengerListAnimTime: '1s'
+      });
+      page.document.getElementById('chatContainer').style.overflow = 'hidden';
+      page.document.getElementById('messengerContainer').style.display = 'block';
+      setTimeout(() => {
+        page.setState({...page.state, chatAppBarAnim: '', chatListAnim: '', chatFabAnim: ''
+          , messengerAppBarAnim: '', messengerListAnim: '', messengerFabAnim: ''});
+        page.document.getElementById('chatContainer').style.overflow = savedOverflow;
+        page.document.getElementById('chatContainer').style.display = 'none';
+      }, 1000);
+    ")
+
+msgItem = ({
+              controlType: "ListItem",
+              children: [
+                {
+                  controlType: "ListItemAvatar",
+                  children: [
+                    {
+                      controlType: "Avatar",
+                      style: {
+                        width: 32,
+                        height: 32
+                      },
+                      properties: {
+                        src: "/webapp/res/user-avatar.jpg"
+                      }
+                    }
+                  ]
+                },
+                {
+                  controlType: "ListItemText",
+                  properties: {
+                    primary: "کیهان محمدی",
+                    secondary: {
+                      controlType: "React.Fragment",
+                      children: [
+                        {
+                          controlType: "Typography",
+                          properties: {
+                            component: "span"
+                          },
+                          style: {
+                            color: "#fff",
+                            fontSize: 13
+                          },
+                          children: [
+                            {
+                              controlType: "Text",
+                              text: "سلام چطورین ؟ اوضاع خوبه ؟"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  style: {
+                    width: 200,
+                    textAlign: "right",
+                    marginRight: 16,
+                    marginLeft: 16,
+                    backgroundColor: "#07d",
+                    borderRadius: 16,
+                    padding: 12,
+                    color: "#fe5",
+                    fontSize: 16
+                  }
+                },
+                {
+                  controlType: "Typography",
+                  style: {
+                    fontSize: 12
+                  },
+                  children: [
+                    {
+                      controlType: "Text",
+                      text: "14/01/1399 14:12 PM"
+                    }
+                  ]
+                }
+              ]
+            })
+
+chatPage = (
+      {
+        controlType: "Box",
+        properties: {
+          id: "chatContainer",
+          fontPath: "/webapp/res/IranianSans.ttf",
+          fontName: "IranianSans"
+        },
+        style: {
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          left: 0,
+          top: 0,
+          display: "none",
+          overflow: "hidden"
+        },
+        children: [
+          {
+            controlType: "div",
+            properties: {
+              animation: "${chatListAnim}",
+              animationTime: "${chatListAnimTime}"
+            },
+            style: {
+              width: "100%",
+              height: "calc(100vh - 64px)",
+              backgroundColor: "#fff",
+              marginLeft: 0,
+              marginRight: 0,
+              position: "absolute",
+              top: 64,
+              left: 0,
+              overflow: "auto"
+            },
+            children: [
+              {
+                controlType: "div",
+                style: {
+                  paddingTop: 16,
+                  marginLeft: 16,
+                  marginRight: 16
+                },
+                children: [
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem,
+                  msgItem
+                ]
+              }
+            ]
+          },
+          {
+            controlType: "AppBar",
+            properties: {
+              id: "messengerAppBar",
+              animation: "${chatAppBarAnim}",
+              animationTime: "${chatAppBarAnimTime}",
+              hideOnScroll: true,
+              color: "#07d"
+            },
+            style: {
+              width: "100%",
+              height: 64,
+              marginLeft: 0,
+              marginRight: 0,
+              position: "absolute",
+              top: 0,
+              left: 0
+            },
+            children: [
+              {
+                controlType: "Toolbar",
+                children: [
+                  {
+                    controlType: "Avatar",
+                    properties: {
+                      src: "/webapp/res/user-avatar.jpg"
+                    },
+                    style: {
+                      marginTop: 8,
+                      marginRight: 24,
+                      width: 48,
+                      height: 48
+                    }
+                  },
+              {
+                controlType: "div",
+                style: {
+                  position: "relative",
+                  marginRight: 84
+                },
+                children: [
+                  {
+                    controlType: "Typography",
+                    style: {
+                      width: "100%",
+                      textAlign: "right",
+                      color: "white",
+                      marginTop: -40
+                    },
+                    properties: {
+                      variant: "h6"
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "کیهان محمدی"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                    controlType: "IconButton",
+                    properties: {
+                      onClick: "${() => {page.hideChatAndShowMessenger();}}"
+                    },
+                    style: {
+                      position: "absolute",
+                      left: 8,
+                      top: 8
+                    },
+                    children: [
+                      {
+                        controlType: "CloseIcon",
+                        style: {
+                          fill: "#fff"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      })

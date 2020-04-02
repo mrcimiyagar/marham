@@ -8,14 +8,37 @@ define function loadMessenger
       page.document.getElementById('messengerContainer').style.overflow = 'hidden';
       page.setState({...page.state, messengerAppBarAnim: 'fadeInDownBig', messengerListAnim: 'fadeInUpBig'
         , messengerAppBarAnimTime: '1s', messengerListAnimTime: '1s'
+        , messengerFabAnim: 'zoomIn', messengerFabAnimTime: '1s'
         , homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig'
-        , homeAppBarAnimTime: '1s', homeFormAnimTime: '1s'
+        , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
       setTimeout(() => {
-        page.setState({...page.state, messengerAppBarAnim: '', messengerListAnim: ''});
+        page.document.getElementById('homeContainer').style.display = 'none';
+        page.setState({...page.state, messengerAppBarAnim: '', messengerListAnim: '', messengerFabAnim: ''
+          , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('messengerContainer').style.overflow = savedOverflow;
       }, 1000);
       page.document.getElementById('messengerContainer').style.display = 'block';
+    ")
+
+@ClientSide
+define function hideMessengerAndShowChat
+  runJS(jsCode: "
+      let savedOverflow = page.document.getElementById('messengerContainer').style.overflow;
+      page.setState({...page.state, messengerAppBarAnim: 'fadeOutUpBig', messengerListAnim: 'fadeOutDownBig'
+        , messengerAppBarAnimTime: '2s', messengerListAnimTime: '2s'
+        , messengerFabAnim: 'zoomOut', messengerFabAnimTime: '2s'
+        , chatAppBarAnim: 'fadeInDownBig', chatListAnim: 'fadeInUpBig'
+        , chatAppBarAnimTime: '1s', chatListAnimTime: '1s'
+      });
+      page.document.getElementById('messengerContainer').style.overflow = 'hidden';
+      page.document.getElementById('chatContainer').style.display = 'block';
+      setTimeout(() => {
+        page.setState({...page.state, messengerAppBarAnim: '', messengerListAnim: '', messengerFabAnim: ''
+          , chatAppBarAnim: '', chatListAnim: ''});
+        page.document.getElementById('messengerContainer').style.overflow = savedOverflow;
+        page.document.getElementById('messengerContainer').style.display = 'none';
+      }, 1000);
     ")
 
 @ClientSide
@@ -24,12 +47,15 @@ define function hideMessenger
       let savedOverflow = page.document.getElementById('messengerContainer').style.overflow;
       page.setState({...page.state, messengerAppBarAnim: 'fadeOutUpBig', messengerListAnim: 'fadeOutDownBig'
         , messengerAppBarAnimTime: '2s', messengerListAnimTime: '2s'
+        , messengerFabAnim: 'zoomOut', messengerFabAnimTime: '2s'
         , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
-        , homeAppBarAnimTime: '1s', homeFormAnimTime: '1s'
+        , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
       page.document.getElementById('messengerContainer').style.overflow = 'hidden';
+      page.document.getElementById('homeContainer').style.display = 'block';
       setTimeout(() => {
-        page.setState({...page.state, messengerAppBarAnim: '', messengerListAnim: ''});
+        page.setState({...page.state, messengerAppBarAnim: '', messengerListAnim: '', messengerFabAnim: ''
+          , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('messengerContainer').style.overflow = savedOverflow;
         page.document.getElementById('messengerContainer').style.display = 'none';
         page.document.documentElement.style.overflow = page.documentElementOverflow;
@@ -41,6 +67,11 @@ chatItem = ({
               children: [
             {
               controlType: "ListItem",
+              properties: {
+                button: true,
+                component: "a",
+                onClick: "${() => {page.hideMessengerAndShowChat();}}"
+              },
               children: [
                 {
                   controlType: "ListItemAvatar",
@@ -241,7 +272,9 @@ messengerPage = (
                       {
                         controlType: "Fab",
                         properties: {
-                          color: "#a15"
+                          color: "#a15",
+                          animation: "${messengerFabAnim}",
+                          animationTime: "${messengerFabAnimTime}"
                         },
                         style: {
                           position: "fixed",

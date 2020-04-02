@@ -4,6 +4,7 @@ use "subroutes/profile.elpis"
 use "subroutes/login.elpis"
 use "subroutes/register.elpis"
 use "subroutes/messenger.elpis"
+use "subroutes/chat.elpis"
 
 currentPath = "profile"
 
@@ -25,7 +26,8 @@ define function mainPage
           profilePage,
           loginPage,
           registerPage,
-          messengerPage
+          messengerPage,
+          chatPage
         ])
   
   return (

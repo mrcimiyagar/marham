@@ -28,11 +28,12 @@ define function hideLoginAndShowHome
       page.setState({...page.state, loginAppBarAnim: 'fadeOutUpBig', loginFormAnim: 'fadeOutDownBig'
           , loginAppBarAnimTime: '1s', loginFormAnimTime: '1s'
           , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
-          , homeAppBarAnimTime: '1s', homeFormAnimTime: '1s'
+          , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
           , loginFabAnim: 'zoomOut', loginFabAnimTime: '1s'});
       setTimeout(() => {
         page.setState({...page.state, loginAppBarAnim: '', loginFormAnim: ''
-          , loginFabAnim: ''});
+          , loginFabAnim: ''
+          , homeAppBarAnim: '', homeBottomBarAnim: ''});
         //page.document.getElementById('loginContainer').style.overflow = savedOverflow;
         page.document.getElementById('loginContainer').style.display = 'none';
         page.document.documentElement.style.overflow = page.documentElementOverflow;

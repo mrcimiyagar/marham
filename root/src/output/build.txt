@@ -17,7 +17,8 @@
       "subroutes/profile.elp",
       "subroutes/login.elp",
       "subroutes/register.elp",
-      "subroutes/messenger.elp"
+      "subroutes/messenger.elp",
+      "subroutes/chat.elp"
     ]
   },
   {
@@ -43,6 +44,10 @@
   },
   {
     "filePath": "subroutes/messenger.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "subroutes/chat.elp",
     "depsPath": []
   },
   {
