@@ -1,0 +1,69 @@
+
+define function TextField with params inputId, inputLabel
+  return ({
+                        controlType: "FormControl",
+                        style: {
+                          width: "calc(100% - 96px)",
+                          marginLeft: 48,
+                          marginRight: 48,
+                          marginTop: 16
+                        },
+                        children: [
+                          {
+                            controlType: "InputLabel",
+                            properties: {
+                              htmlFor: inputId
+                            },
+                            style: {
+                              position: "absolute",
+                              right: 0
+                            },
+                            children: [
+                              {
+                                controlType: "Text",
+                                text: inputLabel
+                              }
+                            ]
+                          },
+                          {
+                            controlType: "Input",
+                            properties: {
+                              id: inputId
+                            }
+                          }
+                        ]
+                      })
+
+define function ChatMsgBox with params inputId, inputLabel
+  return ({
+                        controlType: "FormControl",
+                        style: {
+                          width: "calc(100% - 48px)",
+                          marginLeft: 24,
+                          marginRight: 24
+                        },
+                        children: [
+                          {
+                            controlType: "InputLabel",
+                            properties: {
+                              htmlFor: inputId
+                            },
+                            style: {
+                              position: "absolute",
+                              right: 0
+                            },
+                            children: [
+                              {
+                                controlType: "Text",
+                                text: inputLabel
+                              }
+                            ]
+                          },
+                          {
+                            controlType: "InputBase",
+                            properties: {
+                              id: inputId
+                            }
+                          }
+                        ]
+                      })

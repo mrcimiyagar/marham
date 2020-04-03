@@ -1,4 +1,6 @@
 
+use "components/textfield.elpis"
+
 @ClientSide
 define function hideChatAndShowMessenger
   runJS(jsCode: "
@@ -116,7 +118,7 @@ chatPage = (
             },
             style: {
               width: "100%",
-              height: "calc(100vh - 64px)",
+              height: "calc(100vh - 64px - 72px)",
               backgroundColor: "#fff",
               marginLeft: 0,
               marginRight: 0,
@@ -244,6 +246,23 @@ chatPage = (
                 ]
               }
             ]
+          },
+          {
+                controlType: "TextField",
+                properties: {
+                  placeholder: "پیام جدید",
+                  multiline: true,
+                  rowsMax: "4",
+                  variant: "filled"
+                },
+                style: {
+                  width: "100%",
+                  height: 72,
+                  position: "absolute",
+                  marginLeft: 0,
+                  marginRight: 0,
+                  bottom: 0
+                }
           }
         ]
       })

@@ -1,42 +1,9 @@
 
+use "components/textfield.elpis"
+
 @ClientSide
 define function updateState with params stateKey, stateValue
   setState(stateKey: stateKey, stateValue: stateValue)
-
-define function TextField with params inputId, inputLabel
-  return ({
-                        controlType: "FormControl",
-                        style: {
-                          width: "calc(100% - 96px)",
-                          marginLeft: 48,
-                          marginRight: 48,
-                          marginTop: 16
-                        },
-                        children: [
-                          {
-                            controlType: "InputLabel",
-                            properties: {
-                              htmlFor: inputId
-                            },
-                            style: {
-                              position: "absolute",
-                              right: 0
-                            },
-                            children: [
-                              {
-                                controlType: "Text",
-                                text: inputLabel
-                              }
-                            ]
-                          },
-                          {
-                            controlType: "Input",
-                            properties: {
-                              id: inputId
-                            }
-                          }
-                        ]
-                      })
 
 @ClientSide
 define function hideRegisterAndShowLogin

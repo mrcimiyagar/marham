@@ -40,7 +40,9 @@
   },
   {
     "filePath": "subroutes/register.elp",
-    "depsPath": []
+    "depsPath": [
+      "components/textfield.elp"
+    ]
   },
   {
     "filePath": "subroutes/messenger.elp",
@@ -48,7 +50,9 @@
   },
   {
     "filePath": "subroutes/chat.elp",
-    "depsPath": []
+    "depsPath": [
+      "components/textfield.elp"
+    ]
   },
   {
     "filePath": "components/appbar.elp",
@@ -68,5 +72,13 @@
       "subroutes/profile.elp",
       "subroutes/messenger.elp"
     ]
+  },
+  {
+    "filePath": "components/textfield.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "components/textfield.elp",
+    "depsPath": []
   }
 ]
