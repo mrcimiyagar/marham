@@ -2,22 +2,44 @@
 use "components/textfield.elpis"
 
 @ClientSide
-define function hideChatAndShowMessenger
+define function loadFeed
   runJS(jsCode: "
-      let savedOverflow = page.document.getElementById('chatContainer').style.overflow;
-      page.setState({...page.state, chatAppBarAnim: 'fadeOutUpBig', chatListAnim: 'fadeOutDownBig'
-        , chatAppBarAnimTime: '2s', chatListAnimTime: '2s'
-        , messengerFabAnim: 'zoomOut', messengerFabAnimTime: '1s'
-        , messengerAppBarAnim: 'fadeInDownBig', messengerListAnim: 'fadeInUpBig'
-        , messengerAppBarAnimTime: '1s', messengerListAnimTime: '1s'
+      page.documentElementOverflow = page.document.documentElement.style.overflow;
+      page.document.documentElement.style.overflow = 'hidden';  
+      let savedOverflow = page.document.getElementById('feedContainer').style.overflow;
+      page.document.getElementById('feedContainer').style.overflow = 'hidden';
+      page.setState({...page.state, feedAppBarAnim: 'fadeInDownBig', feedListAnim: 'fadeInUpBig'
+        , feedAppBarAnimTime: '1s', feedListAnimTime: '1s'
+        , feedFabAnim: 'zoomIn', feedFabAnimTime: '1s'
+        , homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig'
+        , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
-      page.document.getElementById('chatContainer').style.overflow = 'hidden';
-      page.document.getElementById('messengerContainer').style.display = 'block';
       setTimeout(() => {
-        page.setState({...page.state, chatAppBarAnim: '', chatListAnim: '', chatFabAnim: ''
-          , messengerAppBarAnim: '', messengerListAnim: '', messengerFabAnim: ''});
-        page.document.getElementById('chatContainer').style.overflow = savedOverflow;
-        page.document.getElementById('chatContainer').style.display = 'none';
+        page.document.getElementById('homeContainer').style.display = 'none';
+        page.setState({...page.state, feedAppBarAnim: '', feedListAnim: '', feedFabAnim: ''
+          , homeAppBarAnim: '', homeBottomBarAnim: ''});
+        page.document.getElementById('feedContainer').style.overflow = savedOverflow;
+      }, 1000);
+      page.document.getElementById('feedContainer').style.display = 'block';
+    ")
+
+@ClientSide
+define function hideFeedAndShowHome
+  runJS(jsCode: "
+      let savedOverflow = page.document.getElementById('feedContainer').style.overflow;
+      page.setState({...page.state, feedAppBarAnim: 'fadeOutUpBig', feedListAnim: 'fadeOutDownBig'
+        , feedAppBarAnimTime: '2s', feedListAnimTime: '2s'
+        , homeFabAnim: 'zoomOut', homeFabAnimTime: '1s'
+        , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
+        , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
+      });
+      page.document.getElementById('feedContainer').style.overflow = 'hidden';
+      page.document.getElementById('homeContainer').style.display = 'block';
+      setTimeout(() => {
+        page.setState({...page.state, feedAppBarAnim: '', feedListAnim: '', feedFabAnim: ''
+          , homeAppBarAnim: '', homeBottomBarAnim: '', homeFabAnim: ''});
+        page.document.getElementById('feedContainer').style.overflow = savedOverflow;
+        page.document.getElementById('feedContainer').style.display = 'none';
       }, 1000);
     ")
 
@@ -171,11 +193,11 @@ rightMsgItem = ({
               ]
             })
 
-chatPage = (
+feedPage = (
       {
         controlType: "Box",
         properties: {
-          id: "chatContainer",
+          id: "feedContainer",
           fontPath: "/webapp/res/IranianSans.ttf",
           fontName: "IranianSans"
         },
@@ -192,13 +214,13 @@ chatPage = (
           {
             controlType: "div",
             properties: {
-              animation: "${chatListAnim}",
-              animationTime: "${chatListAnimTime}"
+              animation: "${feedListAnim}",
+              animationTime: "${feedListAnimTime}"
             },
             style: {
               width: "100%",
-              height: "calc(100vh - 64px - 48px)",
-              backgroundImage: "url(/webapp/res/chat-background.jpg)",
+              height: "calc(100vh - 64px)",
+              backgroundImage: "url(/webapp/res/feed-background.jpg)",
               backgroundSize: "cover",
               marginLeft: 0,
               marginRight: 0,
@@ -273,9 +295,9 @@ chatPage = (
           {
             controlType: "AppBar",
             properties: {
-              id: "messengerAppBar",
-              animation: "${chatAppBarAnim}",
-              animationTime: "${chatAppBarAnimTime}",
+              id: "homeAppBar",
+              animation: "${feedAppBarAnim}",
+              animationTime: "${feedAppBarAnimTime}",
               hideOnScroll: true,
               color: "#07d"
             },
@@ -334,7 +356,7 @@ chatPage = (
               {
                     controlType: "IconButton",
                     properties: {
-                      onClick: "${() => {page.hideChatAndShowMessenger();}}"
+                      onClick: "${() => {page.hideFeedAndShowHome();}}"
                     },
                     style: {
                       position: "absolute",
@@ -351,39 +373,6 @@ chatPage = (
                     ]
                   }
                 ]
-              }
-            ]
-          },
-          {
-            controlType: "Paper",
-            properties: {
-              elevation: 16
-            },
-            style: {
-                width: "100%",
-                height: "auto",
-                position: "absolute",
-                marginLeft: 0,
-                marginRight: 0,
-                bottom: 0,
-                borderRadius: 0
-            },
-            children: [
-              {
-                controlType: "TextField",
-                properties: {
-                  placeholder: "پیام جدید",
-                  multiline: true,
-                  rowsMax: "4",
-                  underline: false
-                },
-                style: {
-                  width: "calc(100% - 32px)",
-                  marginLeft: 16,
-                  marginRight: 16,
-                  minHeight: 40,
-                  paddingTop: 8
-                }
               }
             ]
           }

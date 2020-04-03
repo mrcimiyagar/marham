@@ -18,7 +18,8 @@
       "subroutes/login.elp",
       "subroutes/register.elp",
       "subroutes/messenger.elp",
-      "subroutes/chat.elp"
+      "subroutes/chat.elp",
+      "subroutes/feed.elp"
     ]
   },
   {
@@ -55,6 +56,12 @@
     ]
   },
   {
+    "filePath": "subroutes/feed.elp",
+    "depsPath": [
+      "components/textfield.elp"
+    ]
+  },
+  {
     "filePath": "components/appbar.elp",
     "depsPath": []
   },
@@ -70,8 +77,13 @@
     "filePath": "components/bottombar.elp",
     "depsPath": [
       "subroutes/profile.elp",
-      "subroutes/messenger.elp"
+      "subroutes/messenger.elp",
+      "subroutes/feed.elp"
     ]
+  },
+  {
+    "filePath": "components/textfield.elp",
+    "depsPath": []
   },
   {
     "filePath": "components/textfield.elp",
