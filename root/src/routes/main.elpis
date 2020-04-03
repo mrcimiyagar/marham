@@ -40,7 +40,8 @@ define function mainPage
         style: {
           width: "calc(100%)",
           height: "calc(100vh + 12px)",
-          backgroundColor: "#eee"
+          backgroundColor: "#eee",
+          direction: "rtl"
         },
         children: children
       }
