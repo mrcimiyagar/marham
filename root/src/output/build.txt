@@ -2,57 +2,20 @@
   {
     "filePath": "main.elp",
     "depsPath": [
-      "container_classes.elp",
-      "routes/main.elp"
+      "routes/main.elp",
+      "container_classes.elp"
     ]
-  },
-  {
-    "filePath": "container_classes.elp",
-    "depsPath": []
   },
   {
     "filePath": "routes/main.elp",
     "depsPath": [
-      "subroutes/home.elp",
-      "subroutes/profile.elp",
-      "subroutes/login.elp",
-      "subroutes/register.elp",
-      "subroutes/messenger.elp",
+      "subroutes/feed.elp",
       "subroutes/chat.elp",
-      "subroutes/feed.elp"
-    ]
-  },
-  {
-    "filePath": "subroutes/home.elp",
-    "depsPath": [
-      "components/appbar.elp",
-      "components/homeBody.elp",
-      "components/supportBtn.elp",
-      "components/bottombar.elp"
-    ]
-  },
-  {
-    "filePath": "subroutes/profile.elp",
-    "depsPath": []
-  },
-  {
-    "filePath": "subroutes/login.elp",
-    "depsPath": []
-  },
-  {
-    "filePath": "subroutes/register.elp",
-    "depsPath": [
-      "components/textfield.elp"
-    ]
-  },
-  {
-    "filePath": "subroutes/messenger.elp",
-    "depsPath": []
-  },
-  {
-    "filePath": "subroutes/chat.elp",
-    "depsPath": [
-      "components/textfield.elp"
+      "subroutes/messenger.elp",
+      "subroutes/register.elp",
+      "subroutes/login.elp",
+      "subroutes/profile.elp",
+      "subroutes/home.elp"
     ]
   },
   {
@@ -62,23 +25,13 @@
     ]
   },
   {
-    "filePath": "components/appbar.elp",
+    "filePath": "components/textfield.elp",
     "depsPath": []
   },
   {
-    "filePath": "components/homeBody.elp",
-    "depsPath": []
-  },
-  {
-    "filePath": "components/supportBtn.elp",
-    "depsPath": []
-  },
-  {
-    "filePath": "components/bottombar.elp",
+    "filePath": "subroutes/chat.elp",
     "depsPath": [
-      "subroutes/profile.elp",
-      "subroutes/messenger.elp",
-      "subroutes/feed.elp"
+      "components/textfield.elp"
     ]
   },
   {
@@ -86,11 +39,76 @@
     "depsPath": []
   },
   {
+    "filePath": "subroutes/messenger.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "subroutes/register.elp",
+    "depsPath": [
+      "components/textfield.elp"
+    ]
+  },
+  {
     "filePath": "components/textfield.elp",
     "depsPath": []
   },
   {
+    "filePath": "subroutes/login.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "subroutes/profile.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "subroutes/home.elp",
+    "depsPath": [
+      "components/bottombar.elp",
+      "components/supportBtn.elp",
+      "components/homeBody.elp",
+      "components/appbar.elp"
+    ]
+  },
+  {
+    "filePath": "components/bottombar.elp",
+    "depsPath": [
+      "subroutes/feed.elp",
+      "subroutes/messenger.elp",
+      "subroutes/profile.elp"
+    ]
+  },
+  {
+    "filePath": "subroutes/feed.elp",
+    "depsPath": [
+      "components/textfield.elp"
+    ]
+  },
+  {
     "filePath": "components/textfield.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "subroutes/messenger.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "subroutes/profile.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "components/supportBtn.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "components/homeBody.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "components/appbar.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "container_classes.elp",
     "depsPath": []
   }
 ]

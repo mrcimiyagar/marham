@@ -16,10 +16,12 @@ define function loadFeed
       });
       setTimeout(() => {
         page.document.getElementById('homeContainer').style.display = 'none';
-        page.setState({...page.state, feedAppBarAnim: '', feedListAnim: '', feedFabAnim: ''
+        page.setState({...page.state, feedAppBarAnim: '', feedListAnim: '', feedFabAnim: '' 
+          , feedItemAnim: 'zoomIn'
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('feedContainer').style.overflow = savedOverflow;
-      }, 1000);
+        page.document.getElementById('feedGrid').style.display = '';
+      }, 1100);
       page.document.getElementById('feedContainer').style.display = 'block';
     ")
 
@@ -28,165 +30,91 @@ define function hideFeedAndShowHome
   runJS(jsCode: "
       let savedOverflow = page.document.getElementById('feedContainer').style.overflow;
       page.setState({...page.state, feedAppBarAnim: 'fadeOutUpBig', feedListAnim: 'fadeOutDownBig'
-        , feedAppBarAnimTime: '2s', feedListAnimTime: '2s'
-        , homeFabAnim: 'zoomOut', homeFabAnimTime: '1s'
-        , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
-        , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
+          , feedAppBarAnimTime: '2s', feedListAnimTime: '2s'
+          , homeFabAnim: 'zoomOut', homeFabAnimTime: '1s'
+          , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
+          , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
       page.document.getElementById('feedContainer').style.overflow = 'hidden';
       page.document.getElementById('homeContainer').style.display = 'block';
       setTimeout(() => {
-        page.setState({...page.state, feedAppBarAnim: '', feedListAnim: '', feedFabAnim: ''
-          , homeAppBarAnim: '', homeBottomBarAnim: '', homeFabAnim: ''});
-        page.document.getElementById('feedContainer').style.overflow = savedOverflow;
-        page.document.getElementById('feedContainer').style.display = 'none';
-      }, 1000);
+          page.setState({...page.state, feedAppBarAnim: '', feedListAnim: '', feedFabAnim: ''
+            , homeAppBarAnim: '', homeBottomBarAnim: '', homeFabAnim: ''});
+          page.document.getElementById('feedContainer').style.overflow = savedOverflow;
+          page.document.getElementById('feedContainer').style.display = 'none';
+      page.document.documentElement.style.overflow = page.documentElementOverflow;  
+      }, 1100);
     ")
 
-leftMsgItem = ({
-              controlType: "ListItem",
+define function FeedItem with params xs, id
+  return ({
+              controlType: "Grid",
               style: {
-                direction: "rtl"
+                height: 130
+              },
+              properties: {
+                item: true,
+                xs: xs
               },
               children: [
                 {
-                  controlType: "ListItemAvatar",
+                  controlType: "Paper",
+                  style: {
+                    borderRadius: 1,
+                    width: "100%",
+                    height: 120,
+                    position: "relative"
+                  },
+                  properties: {
+                    animation: "${feedItemAnim}",
+                    animationTime: "1s"
+                  },
                   children: [
                     {
-                      controlType: "Avatar",
+                      controlType: "img",
                       style: {
-                        width: 32,
-                        height: 32
+                        width: "100%",
+                        height: "100%"
                       },
                       properties: {
-                        src: "/webapp/res/user-avatar.jpg"
+                        src: "/webapp/res/feed-item.jpg"
                       }
-                    }
-                  ]
-                },
-                {
-                  controlType: "ListItemText",
-                  properties: {
-                    primary: "کیهان محمدی",
-                    secondary: {
-                      controlType: "React.Fragment",
+                    },
+                    {
+                      controlType: "div",
+                      style: {
+                        position: "absolute",
+                        left: 0,
+                        top: 0,
+                        background: "rgba(0, 0, 0, 0.45)",
+                        width: "100%",
+                        height: "100%",
+                        textAlign: "center",
+                        verticalAlign: "middle",
+                        color: "#fff"
+                      },
                       children: [
                         {
-                          controlType: "Typography",
-                          properties: {
-                            component: "span"
-                          },
+                          controlType: "div",
                           style: {
-                            color: "#fff",
-                            fontSize: 13
+                            position: "absolute",
+                            left: "50%",
+                            top: "50%",
+                            transform: "translate(-50%, -50%)"
                           },
                           children: [
                             {
-                              controlType: "Text",
-                              text: "سلام چطورین ؟ اوضاع خوبه ؟"
+                              controlType: "b",
+                              children: [
+                                {
+                                  controlType: "Text",
+                                  text: "پست 1"
+                                }
+                              ]
                             }
                           ]
                         }
                       ]
-                    }
-                  },
-                  style: {
-                    width: "auto",
-                    maxWidth: 250,
-                    textAlign: "center",
-                    marginRight: 16,
-                    marginLeft: 16,
-                    backgroundColor: "#07d",
-                    borderRadius: 16,
-                    padding: 12,
-                    color: "#fe5",
-                    fontSize: 16
-                  }
-                },
-                {
-                  controlType: "Typography",
-                  style: {
-                    fontSize: 12
-                  },
-                  children: [
-                    {
-                      controlType: "Text",
-                      text: "14/01/1399 14:12 PM"
-                    }
-                  ]
-                }
-              ]
-            })
-
-rightMsgItem = ({
-              controlType: "ListItem",
-              style: {
-                direction: "ltr"
-              },
-              children: [
-                {
-                  controlType: "ListItemAvatar",
-                  children: [
-                    {
-                      controlType: "Avatar",
-                      style: {
-                        width: 32,
-                        height: 32
-                      },
-                      properties: {
-                        src: "/webapp/res/user-avatar.jpg"
-                      }
-                    }
-                  ]
-                },
-                {
-                  controlType: "ListItemText",
-                  properties: {
-                    primary: "کیهان محمدی",
-                    secondary: {
-                      controlType: "React.Fragment",
-                      children: [
-                        {
-                          controlType: "Typography",
-                          properties: {
-                            component: "span"
-                          },
-                          style: {
-                            color: "#fff",
-                            fontSize: 13
-                          },
-                          children: [
-                            {
-                              controlType: "Text",
-                              text: "سلام چطورین ؟ اوضاع خوبه ؟"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  },
-                  style: {
-                    width: "auto",
-                    maxWidth: 250,
-                    textAlign: "center",
-                    marginRight: 16,
-                    marginLeft: 16,
-                    backgroundColor: "#07d",
-                    borderRadius: 16,
-                    padding: 12,
-                    color: "#fe5",
-                    fontSize: 16
-                  }
-                },
-                {
-                  controlType: "Typography",
-                  style: {
-                    fontSize: 12
-                  },
-                  children: [
-                    {
-                      controlType: "Text",
-                      text: "14/01/1399 14:12 PM"
                     }
                   ]
                 }
@@ -231,63 +159,40 @@ feedPage = (
             },
             children: [
               {
-                controlType: "div",
+                controlType: "Grid",
                 style: {
-                  paddingTop: 16,
-                  marginLeft: 16,
-                  marginRight: 16
+                  display: "none"
+                },
+                properties: {
+                  id: "feedGrid",
+                  container: true,
+                  spacing: 1
                 },
                 children: [
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem,
-                  rightMsgItem,
-                  leftMsgItem
+                  FeedItem(xs: 4, id: 0),
+                  FeedItem(xs: 8, id: 1),
+                  FeedItem(xs: 4, id: 2),
+                  FeedItem(xs: 4, id: 3),
+                  FeedItem(xs: 4, id: 4),
+                  FeedItem(xs: 8, id: 5),
+                  FeedItem(xs: 4, id: 6),
+                  FeedItem(xs: 4, id: 7),
+                  FeedItem(xs: 8, id: 8),
+                  FeedItem(xs: 4, id: 9),
+                  FeedItem(xs: 4, id: 10),
+                  FeedItem(xs: 4, id: 11),
+                  FeedItem(xs: 4, id: 12),
+                  FeedItem(xs: 8, id: 13),
+                  FeedItem(xs: 4, id: 14),
+                  FeedItem(xs: 4, id: 15),
+                  FeedItem(xs: 4, id: 16),
+                  FeedItem(xs: 8, id: 17),
+                  FeedItem(xs: 4, id: 18),
+                  FeedItem(xs: 4, id: 19),
+                  FeedItem(xs: 8, id: 20),
+                  FeedItem(xs: 4, id: 21),
+                  FeedItem(xs: 4, id: 22),
+                  FeedItem(xs: 4, id: 23)
                 ]
               }
             ]
@@ -315,22 +220,17 @@ feedPage = (
                 controlType: "Toolbar",
                 children: [
                   {
-                    controlType: "Avatar",
-                    properties: {
-                      src: "/webapp/res/user-avatar.jpg"
-                    },
+                    controlType: "RssFeedIcon",
                     style: {
-                      marginTop: 8,
-                      marginRight: 24,
-                      width: 48,
-                      height: 48
+                      marginTop: 20,
+                      marginRight: 24
                     }
                   },
               {
                 controlType: "div",
                 style: {
                   position: "relative",
-                  marginRight: 84
+                  marginRight: 64
                 },
                 children: [
                   {
@@ -339,7 +239,7 @@ feedPage = (
                       width: "100%",
                       textAlign: "right",
                       color: "white",
-                      marginTop: -40
+                      marginTop: -36
                     },
                     properties: {
                       variant: "h6"
@@ -347,7 +247,7 @@ feedPage = (
                     children: [
                       {
                         controlType: "Text",
-                        text: "کیهان محمدی"
+                        text: "وبلاگ مرحم"
                       }
                     ]
                   }
