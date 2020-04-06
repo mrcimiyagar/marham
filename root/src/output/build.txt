@@ -9,6 +9,7 @@
   {
     "filePath": "routes/main.elp",
     "depsPath": [
+      "subroutes/post.elp",
       "subroutes/feed.elp",
       "subroutes/chat.elp",
       "subroutes/messenger.elp",
@@ -19,10 +20,31 @@
     ]
   },
   {
-    "filePath": "subroutes/feed.elp",
+    "filePath": "subroutes/post.elp",
     "depsPath": [
       "components/textfield.elp"
     ]
+  },
+  {
+    "filePath": "components/textfield.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "subroutes/feed.elp",
+    "depsPath": [
+      "subroutes/post.elp",
+      "components/textfield.elp"
+    ]
+  },
+  {
+    "filePath": "subroutes/post.elp",
+    "depsPath": [
+      "components/textfield.elp"
+    ]
+  },
+  {
+    "filePath": "components/textfield.elp",
+    "depsPath": []
   },
   {
     "filePath": "components/textfield.elp",
@@ -80,8 +102,19 @@
   {
     "filePath": "subroutes/feed.elp",
     "depsPath": [
+      "subroutes/post.elp",
       "components/textfield.elp"
     ]
+  },
+  {
+    "filePath": "subroutes/post.elp",
+    "depsPath": [
+      "components/textfield.elp"
+    ]
+  },
+  {
+    "filePath": "components/textfield.elp",
+    "depsPath": []
   },
   {
     "filePath": "components/textfield.elp",

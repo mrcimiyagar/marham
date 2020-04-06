@@ -1,64 +1,62 @@
 
 use "components/textfield.elpis"
-use "subroutes/post.elpis"
 
 @ClientSide
-define function loadFeed
+define function loadPost
   runJS(jsCode: "
       page.documentElementOverflow = page.document.documentElement.style.overflow;
       page.document.documentElement.style.overflow = 'hidden';  
-      let savedOverflow = page.document.getElementById('feedContainer').style.overflow;
-      page.document.getElementById('feedContainer').style.overflow = 'hidden';
-      page.setState({...page.state, feedAppBarAnim: 'fadeInDownBig', feedListAnim: 'fadeInUpBig'
+      let savedOverflow = page.document.getElementById('postContainer').style.overflow;
+      page.document.getElementById('postContainer').style.overflow = 'hidden';
+      page.setState({...page.state, postAppBarAnim: 'fadeInDownBig', postBodyAnim: 'fadeInUpBig'
+        , postAppBarAnimTime: '1s', postBodyAnimTime: '1s'
+        , postFabAnim: 'zoomIn', postFabAnimTime: '1s'
+        , feedAppBarAnim: 'fadeOutUpBig', feedListAnim: 'fadeOutDownBig'
         , feedAppBarAnimTime: '1s', feedListAnimTime: '1s'
-        , feedFabAnim: 'zoomIn', feedFabAnimTime: '1s'
-        , homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig'
-        , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
       setTimeout(() => {
-        page.document.getElementById('homeContainer').style.display = 'none';
-        page.setState({...page.state, feedAppBarAnim: '', feedListAnim: '', feedFabAnim: '' 
-          , feedItemAnim: 'zoomIn'
-          , homeAppBarAnim: '', homeBottomBarAnim: ''});
-        page.document.getElementById('feedContainer').style.overflow = savedOverflow;
-        page.setStyle('feedGrid', 'display', '');
+        page.document.getElementById('feedContainer').style.display = 'none';
+        page.setState({...page.state, postAppBarAnim: '', postBodyAnim: '', postFabAnim: '' 
+          , postItemAnim: 'zoomIn'
+          , feedAppBarAnim: '', feedListAnim: ''});
+        page.document.getElementById('postContainer').style.overflow = savedOverflow;
+        page.setStyle('postGrid', 'display', '');
         setTimeout(() => {
-          page.setState({...page.state, feedItemAnim: ''});
+          page.setState({...page.state, postItemAnim: ''});
         }, 1100);
       }, 1100);
-      page.document.getElementById('feedContainer').style.display = 'block';
+      page.document.getElementById('postContainer').style.display = 'block';
     ")
 
 @ClientSide
-define function hideFeedAndShowHome
+define function hidePostAndShowFeed
   runJS(jsCode: "
-      let savedOverflow = page.document.getElementById('feedContainer').style.overflow;
-      page.setState({...page.state, feedAppBarAnim: 'fadeOutUpBig', feedListAnim: 'fadeOutDownBig'
-          , feedAppBarAnimTime: '2s', feedListAnimTime: '2s'
-          , homeFabAnim: 'zoomIn', homeFabAnimTime: '1s'
-          , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
-          , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
+      let savedOverflow = page.document.getElementById('postContainer').style.overflow;
+      page.setState({...page.state, postAppBarAnim: 'fadeOutUpBig', postBodyAnim: 'fadeOutDownBig'
+          , postAppBarAnimTime: '2s', postBodyAnimTime: '2s'
+          , feedFabAnim: 'zoomIn', feedFabAnimTime: '1s'
+          , feedAppBarAnim: 'fadeInDownBig', feedListAnim: 'fadeInUpBig'
+          , feedAppBarAnimTime: '1s', feedListAnimTime: '1s'
       });
-      page.document.getElementById('feedContainer').style.overflow = 'hidden';
-      page.document.getElementById('homeContainer').style.display = 'block';
+      page.document.getElementById('postContainer').style.overflow = 'hidden';
+      page.document.getElementById('feedContainer').style.display = 'block';
       setTimeout(() => {
-          page.setState({...page.state, feedAppBarAnim: '', feedListAnim: '', feedFabAnim: ''
-            , homeAppBarAnim: '', homeBottomBarAnim: '', homeFabAnim: ''});
-          page.document.getElementById('feedContainer').style.overflow = savedOverflow;
-          page.document.getElementById('feedContainer').style.display = 'none';
-          page.setStyle('feedGrid', 'display', 'none');
+          page.setState({...page.state, postAppBarAnim: '', postBodyAnim: '', postFabAnim: ''
+            , feedAppBarAnim: '', feedListAnim: '', feedFabAnim: ''});
+          page.document.getElementById('postContainer').style.overflow = savedOverflow;
+          page.document.getElementById('postContainer').style.display = 'none';
+          page.setStyle('postGrid', 'display', 'none');
           page.document.documentElement.style.overflow = page.documentElementOverflow;  
       }, 1100);
     ")
 
-define function FeedItem with params xs, id
+define function postItem with params xs, id
   return ({
               controlType: "Grid",
               style: {
                 height: 130
               },
               properties: {
-                onClick: "${() => {page.loadPost();}}",
                 item: true,
                 xs: xs
               },
@@ -72,7 +70,7 @@ define function FeedItem with params xs, id
                     position: "relative"
                   },
                   properties: {
-                    animation: "${feedItemAnim}",
+                    animation: "${postItemAnim}",
                     animationTime: "1s"
                   },
                   children: [
@@ -83,7 +81,7 @@ define function FeedItem with params xs, id
                         height: "100%"
                       },
                       properties: {
-                        src: "/webapp/res/feed-item.jpg"
+                        src: "/webapp/res/post-item.jpg"
                       }
                     },
                     {
@@ -127,11 +125,11 @@ define function FeedItem with params xs, id
               ]
             })
 
-feedPage = (
+postPage = (
       {
         controlType: "Box",
         properties: {
-          id: "feedContainer",
+          id: "postContainer",
           fontPath: "/webapp/res/IranianSans.ttf",
           fontName: "IranianSans"
         },
@@ -148,8 +146,8 @@ feedPage = (
           {
             controlType: "div",
             properties: {
-              animation: "${feedListAnim}",
-              animationTime: "${feedListAnimTime}"
+              animation: "${postBodyAnim}",
+              animationTime: "${postBodyAnimTime}"
             },
             style: {
               width: "100%",
@@ -170,35 +168,35 @@ feedPage = (
                   display: "none"
                 },
                 properties: {
-                  id: "feedGrid",
+                  id: "postGrid",
                   container: true,
                   spacing: 1
                 },
                 children: [
-                  FeedItem(xs: 4, id: 0),
-                  FeedItem(xs: 8, id: 1),
-                  FeedItem(xs: 4, id: 2),
-                  FeedItem(xs: 4, id: 3),
-                  FeedItem(xs: 4, id: 4),
-                  FeedItem(xs: 8, id: 5),
-                  FeedItem(xs: 4, id: 6),
-                  FeedItem(xs: 4, id: 7),
-                  FeedItem(xs: 8, id: 8),
-                  FeedItem(xs: 4, id: 9),
-                  FeedItem(xs: 4, id: 10),
-                  FeedItem(xs: 4, id: 11),
-                  FeedItem(xs: 4, id: 12),
-                  FeedItem(xs: 8, id: 13),
-                  FeedItem(xs: 4, id: 14),
-                  FeedItem(xs: 4, id: 15),
-                  FeedItem(xs: 4, id: 16),
-                  FeedItem(xs: 8, id: 17),
-                  FeedItem(xs: 4, id: 18),
-                  FeedItem(xs: 4, id: 19),
-                  FeedItem(xs: 8, id: 20),
-                  FeedItem(xs: 4, id: 21),
-                  FeedItem(xs: 4, id: 22),
-                  FeedItem(xs: 4, id: 23)
+                  postItem(xs: 4, id: 0),
+                  postItem(xs: 8, id: 1),
+                  postItem(xs: 4, id: 2),
+                  postItem(xs: 4, id: 3),
+                  postItem(xs: 4, id: 4),
+                  postItem(xs: 8, id: 5),
+                  postItem(xs: 4, id: 6),
+                  postItem(xs: 4, id: 7),
+                  postItem(xs: 8, id: 8),
+                  postItem(xs: 4, id: 9),
+                  postItem(xs: 4, id: 10),
+                  postItem(xs: 4, id: 11),
+                  postItem(xs: 4, id: 12),
+                  postItem(xs: 8, id: 13),
+                  postItem(xs: 4, id: 14),
+                  postItem(xs: 4, id: 15),
+                  postItem(xs: 4, id: 16),
+                  postItem(xs: 8, id: 17),
+                  postItem(xs: 4, id: 18),
+                  postItem(xs: 4, id: 19),
+                  postItem(xs: 8, id: 20),
+                  postItem(xs: 4, id: 21),
+                  postItem(xs: 4, id: 22),
+                  postItem(xs: 4, id: 23)
                 ]
               }
             ]
@@ -206,9 +204,9 @@ feedPage = (
           {
             controlType: "AppBar",
             properties: {
-              id: "homeAppBar",
-              animation: "${feedAppBarAnim}",
-              animationTime: "${feedAppBarAnimTime}",
+              id: "feedAppBar",
+              animation: "${postAppBarAnim}",
+              animationTime: "${postAppBarAnimTime}",
               hideOnScroll: true,
               color: "#07d"
             },
@@ -226,7 +224,7 @@ feedPage = (
                 controlType: "Toolbar",
                 children: [
                   {
-                    controlType: "RssFeedIcon",
+                    controlType: "RsspostIcon",
                     style: {
                       marginTop: 20,
                       marginRight: 24
@@ -262,7 +260,7 @@ feedPage = (
               {
                     controlType: "IconButton",
                     properties: {
-                      onClick: "${() => {page.hideFeedAndShowHome();}}"
+                      onClick: "${() => {page.hidePostAndShowFeed();}}"
                     },
                     style: {
                       position: "absolute",

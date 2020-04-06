@@ -6,6 +6,7 @@ use "subroutes/register.elpis"
 use "subroutes/messenger.elpis"
 use "subroutes/chat.elpis"
 use "subroutes/feed.elpis"
+use "subroutes/post.elpis"
 
 currentPath = "profile"
 
@@ -14,7 +15,8 @@ define function main
   runJS(jsCode: "
     window.page = {...window.parent, ...window.parent.page};
     page.documentElementOverflow = page.document.documentElement.style.overflow;
-    page.document.documentElement.style.overflow = 'hidden';  
+    page.document.documentElement.style.overflow = 'hidden'; 
+    page.document.getElementById('feedGrid').style.display = 'none !important'; 
   ")
   hideRegisterAndShowLogin()
   runJS(jsCode: "
@@ -29,7 +31,8 @@ define function mainPage
           registerPage,
           messengerPage,
           chatPage,
-          feedPage
+          feedPage,
+          postPage
         ])
   
   return (
