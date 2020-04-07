@@ -1,0 +1,318 @@
+
+use "components/textfield.elpis"
+
+@ClientSide
+define function loadAssignRole
+  runJS(jsCode: "
+      //let savedOverflow = page.document.getElementById('homeContainer').style.overflow;
+      page.document.getElementById('assignRoleContainer').style.display = 'block';
+      page.setState({...page.state, homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig', homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
+          , assignRoleAppBarAnim: 'fadeInDownBig', assignRoleFormAnim: 'fadeInUpBig', assignRoleAppBarAnimTime: '1s', assignRoleFormAnimTime: '1s'
+          , assignRoleFabAnim: 'zoomIn', homeFabAnim: 'zoomOut', assignRoleFabAnimTime: '1s', homeFabAnimTime: '1s'});
+      setTimeout(() => {
+        page.setState({...page.state, homeAppBarAnim: '', homeBottomBarAnim: '',
+           assignRoleAppBarAnim: '', assignRoleFormAnim: ''
+          , assignRoleFabAnim: '', homeFabAnim: ''});
+        //page.document.getElementById('homeContainer').style.overflow = savedOverflow;
+        page.document.getElementById('homeContainer').style.display = 'none';
+      }, 1100);
+    ")
+
+@ClientSide
+define function hideAssignRoleAndShowHome
+  runJS(jsCode: "
+      //let savedOverflow = page.document.getElementById('assignRoleContainer').style.overflow;
+      page.document.getElementById('homeContainer').style.display = 'block';
+      page.setState({...page.state, assignRoleAppBarAnim: 'fadeOutUpBig', assignRoleFormAnim: 'fadeOutDownBig'
+          , assignRoleAppBarAnimTime: '1s', assignRoleFormAnimTime: '1s'
+          , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
+          , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
+          , assignRoleFabAnim: 'zoomOut', assignRoleFabAnimTime: '1s'});
+      setTimeout(() => {
+        page.setState({...page.state, assignRoleAppBarAnim: '', assignRoleFormAnim: ''
+          , assignRoleFabAnim: ''
+          , homeAppBarAnim: '', homeBottomBarAnim: ''});
+        //page.document.getElementById('assignRoleContainer').style.overflow = savedOverflow;
+        page.document.getElementById('assignRoleContainer').style.display = 'none';
+        page.document.documentElement.style.overflow = page.documentElementOverflow;
+      }, 1100);
+    ")
+
+@ClientSide
+define function handleRoleAssignment with params newValue
+  setState(stateKey: "assignmentRole", stateValue: newValue)
+
+assignRolePage = (
+      {
+        controlType: "Box",
+        properties: {
+          id: "assignRoleContainer",
+          fontPath: "/webapp/res/IranianSans.ttf",
+          fontName: "IranianSans"
+        },
+        style: {
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          left: 0,
+          top: 0,
+          display: "none",
+          overflow: "hidden"
+        },
+        children: [
+          {
+            controlType: "div",
+            properties: {
+              animation: "${assignRoleFormAnim}",
+              animationTime: "${assignRoleFormAnimTime}"
+            },
+            style: {
+              width: "100%",
+              height: "calc(100vh - 164px)",
+              backgroundColor: "#fff",
+              marginLeft: 0,
+              marginRight: 0,
+              position: "absolute",
+              top: 164,
+              left: 0
+            },
+            children: [
+              {
+                controlType: "div",
+                style: {
+                  paddingTop: 16,
+                  marginLeft: 16,
+                  marginRight: 16
+                },
+                children: [
+                  {
+                    controlType: "Typography",
+                    properties: {
+                      variant: "h6",
+                      marginLeft: 16
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "انتساب نقش"
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "form",
+                    children: [
+                      TextField(inputId: "assignRoleUsernameInput", inputLabel: "نام کاربری"),
+                      {
+                        controlType: "FormControl",
+                        style: {
+                          width: "calc(100% - 96px)",
+                          marginLeft: 48,
+                          marginRight: 48,
+                          marginTop: 16
+                        },
+                        children: [
+                          {
+                            controlType: "InputLabel",
+                            properties: {
+                              id: "demo-simple-select-label"
+                            },
+                            children: [
+                              {
+                                controlType: "Text",
+                                text: "نقش"
+                              }
+                            ]
+                          },
+                          {
+                            controlType: "Select",
+                            properties: {
+                              labelId: "demo-simple-select-label",
+                              id: "demo-simple-select",
+                              value: "${assignmentRole}",
+                              onChange: "${(event) => page.handleRoleAssignment({newValue: event.target.value})}"
+                            },
+                            children: [
+                              {
+                                controlType: "MenuItem",
+                                properties: {
+                                  value: "10"
+                                },
+                                children: [
+                                  {
+                                    controlType: "Text",
+                                    text : "مشتری"
+                                  }
+                                ]
+                              },
+                              {
+                                controlType: "MenuItem",
+                                properties: {
+                                  value: "20"
+                                },
+                                children: [
+                                  {
+                                    controlType: "Text",
+                                    text : "ادمین"
+                                  }
+                                ]
+                              },
+                              {
+                                controlType: "MenuItem",
+                                properties: {
+                                  value: "30"
+                                },
+                                children: [
+                                  {
+                                    controlType: "Text",
+                                    text : "پرستار"
+                                  }
+                                ]
+                              },
+                              {
+                                controlType: "MenuItem",
+                                properties: {
+                                  value: "40"
+                                },
+                                children: [
+                                  {
+                                    controlType: "Text",
+                                    text : "سوپروایزر"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            controlType: "AppBar",
+            properties: {
+              id: "assignRoleAppBar",
+              animation: "${assignRoleAppBarAnim}",
+              animationTime: "${assignRoleAppBarAnimTime}",
+              hideOnScroll: true,
+              color: "#07d"
+            },
+            style: {
+              width: "100%",
+              height: 164,
+              marginLeft: 0,
+              marginRight: 0,
+              position: "absolute",
+              top: 0,
+              left: 0
+            },
+            children: [
+              {
+                controlType: "Toolbar",
+                children: [
+                  {
+                    controlType: "Avatar",
+                    properties: {
+                      elevation: 12,
+                      src: "/webapp/res/hospital.png"
+                    },
+                    style: {
+                      width: 84,
+                      height: 84,
+                      position: "absolute",
+                      right: 32,
+                      top: 32
+                    }
+                  },
+                  {
+                    controlType: "div",
+                    style: {
+                      position: "relative",
+                      marginRight: 128
+                    },
+                    children: [
+                      {
+                        controlType: "Typography",
+                        style: {
+                          width: "100%",
+                          textAlign: "right",
+                          color: "white",
+                          position: "absolute",
+                          top: 32
+                        },
+                        properties: {
+                          variant: "h4"
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "مرحم"
+                          }
+                        ]
+                      },
+                      {
+                        controlType: "Typography",
+                        style: {
+                          width: "100%",
+                          textAlign: "right",
+                          color: "white",
+                          position: "absolute",
+                          top: 72
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "متن دوم"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "IconButton",
+                    properties: {
+                      onClick: "${() => page.hideAssignRoleAndShowHome()}"
+                    },
+                    style: {
+                      marginLeft: 16,
+                      marginTop: 16,
+                      marginRight: 16,
+                      position: "absolute",
+                      left: 0
+                    },
+                    children: [
+                      {
+                        controlType: "CloseIcon",
+                        style: {
+                          fill: "#fff"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+                      {
+                        controlType: "Fab",
+                        properties: {
+                          color: "#a15",
+                          animation: "${assignRoleFabAnim}",
+                          animationTime: "${assignRoleFabAnimTime}",
+                          onClick: "${() => {page.hideAssignRoleAndShowHome();}}"
+                        },
+                        style: {
+                          position: "fixed",
+                          left: 32,
+                          bottom: 32
+                        },
+                        children: [
+                          {
+                            controlType: "DoneIcon"
+                          }
+                        ]
+                      }
+        ]
+      })

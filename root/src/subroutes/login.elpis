@@ -36,7 +36,6 @@ define function hideLoginAndShowHome
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         //page.document.getElementById('loginContainer').style.overflow = savedOverflow;
         page.document.getElementById('loginContainer').style.display = 'none';
-        page.document.documentElement.style.overflow = page.documentElementOverflow;
       }, 1100);
     ")
 

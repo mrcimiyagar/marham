@@ -17,6 +17,7 @@ define function loadProfile
         page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: ''
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('profileContainer').style.overflow = savedOverflow;
+        page.document.documentElement.style.overflow = page.documentElementOverflow;
       }, 1000);
       page.document.getElementById('profileContainer').style.display = 'block';
     ")
@@ -31,6 +32,7 @@ define function hideProfile
         , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
       page.document.getElementById('profileContainer').style.overflow = 'hidden';
+      page.document.documentElement.style.overflow = 'hidden';
       setTimeout(() => {
         page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: ''
           , homeAppBarAnim: '', homeBottomBarAnim: ''});

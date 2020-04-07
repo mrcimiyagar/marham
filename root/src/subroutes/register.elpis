@@ -8,7 +8,6 @@ define function updateState with params stateKey, stateValue
 @ClientSide
 define function hideRegisterAndShowLogin
   runJS(jsCode: "
-      //let savedOverflow = page.document.getElementById('registerContainer').style.overflow;
       page.document.getElementById('loginContainer').style.display = 'block';
       page.setState({...page.state, loginAppBarAnim: 'fadeInDownBig', loginFormAnim: 'fadeInUpBig', loginAppBarAnimTime: '1s', loginFormAnimTime: '1s'
           , registerAppBarAnim: 'fadeOutUpBig', registerFormAnim: 'fadeOutDownBig', registerAppBarAnimTime: '1s', registerFormAnimTime: '1s'
@@ -17,7 +16,6 @@ define function hideRegisterAndShowLogin
         page.setState({...page.state, loginAppBarAnim: '', loginFormAnim: '',
            registerAppBarAnim: '', registerFormAnim: ''
           , registerFabAnim: '', loginFabAnim: ''});
-        //page.document.getElementById('registerContainer').style.overflow = savedOverflow;
         page.document.getElementById('registerContainer').style.display = 'none';
       }, 1100);
     ")
@@ -25,7 +23,6 @@ define function hideRegisterAndShowLogin
 @ClientSide
 define function hideRegisterAndShowHome
   runJS(jsCode: "
-      //let savedOverflow = page.document.getElementById('registerContainer').style.overflow;
       page.document.getElementById('homeContainer').style.display = 'block';
       page.setState({...page.state, registerAppBarAnim: 'fadeOutUpBig', registerFormAnim: 'fadeOutDownBig'
           , registerAppBarAnimTime: '1s', registerFormAnimTime: '1s'
@@ -36,9 +33,7 @@ define function hideRegisterAndShowHome
         page.setState({...page.state, registerAppBarAnim: '', registerFormAnim: ''
           , registerFabAnim: ''
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
-        //page.document.getElementById('registerContainer').style.overflow = savedOverflow;
         page.document.getElementById('registerContainer').style.display = 'none';
-        page.document.documentElement.style.overflow = page.documentElementOverflow;
       }, 1100);
     ")
 

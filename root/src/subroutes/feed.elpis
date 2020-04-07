@@ -5,7 +5,6 @@ use "subroutes/post.elpis"
 @ClientSide
 define function loadFeed
   runJS(jsCode: "
-      page.documentElementOverflow = page.document.documentElement.style.overflow;
       page.document.documentElement.style.overflow = 'hidden';  
       let savedOverflow = page.document.getElementById('feedContainer').style.overflow;
       page.document.getElementById('feedContainer').style.overflow = 'hidden';
@@ -47,7 +46,6 @@ define function hideFeedAndShowHome
           page.document.getElementById('feedContainer').style.overflow = savedOverflow;
           page.document.getElementById('feedContainer').style.display = 'none';
           page.setStyle('feedGrid', 'display', 'none');
-          page.document.documentElement.style.overflow = page.documentElementOverflow;  
       }, 1100);
     ")
 

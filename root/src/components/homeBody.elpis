@@ -1,37 +1,143 @@
 
-gridChildren = []
-counter = 0
-for 10 times by step 1 do
-  marginTop = 0
-  if counter < 2 then do
-    marginTop = 64
-  append(list: gridChildren, listItem: ({
-                controlType: "GridListTile",
-                properties: {
-                  cols: 1
-                },
+define function HomeItem with params xs, id, title
+  return ({
+              controlType: "Grid",
+              style: {
+                height: 130
+              },
+              properties: {
+                onClick: "${() => {page.loadAssignRole();}}",
+                item: true,
+                xs: xs
+              },
+              children: [
+                {
+                  controlType: "Paper",
+                  style: {
+                    borderRadius: 1,
+                    width: "100%",
+                    height: 120,
+                    position: "relative",
+                    backgroundColor: "#990"
+                  },
+                  properties: {
+                    animation: "${homeItemAnim}",
+                    animationTime: "1s"
+                  },
+                  children: [
+                    {
+                      controlType: "div",
+                      style: {
+                        position: "absolute",
+                        left: 0,
+                        top: 0,
+                        width: "100%",
+                        height: "100%",
+                        textAlign: "center",
+                        verticalAlign: "middle",
+                        color: "#fff"
+                      },
+                      children: [
+                        {
+                          controlType: "div",
+                          style: {
+                            position: "absolute",
+                            left: "50%",
+                            top: "50%",
+                            transform: "translate(-50%, -50%)"
+                          },
+                          children: [
+                            {
+                              controlType: "b",
+                              children: [
+                                {
+                                  controlType: "Text",
+                                  text: title
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            })
+
+homeBody = (
+      {
+        controlType: "Box",
+        properties: {
+          id: "homeContainer",
+          fontPath: "/webapp/res/IranianSans.ttf",
+          fontName: "IranianSans"
+        },
+        style: {
+          width: "100%",
+          height: "calc(100vh - 56px)",
+          position: "absolute",
+          left: 0,
+          top: 0,
+          overflow: "hidden"
+        },
+        children: [
+          {
+            controlType: "div",
+            properties: {
+              animation: "${homeListAnim}",
+              animationTime: "${homeListAnimTime}"
+            },
+            style: {
+              width: "100%",
+              height: "100%",
+              backgroundColor: "#fff",
+              marginLeft: 0,
+              marginRight: 0,
+              position: "absolute",
+              top: 56,
+              left: 0,
+              overflow: "auto"
+            },
+            children: [
+              {
+                controlType: "Grid",
                 style: {
-                  marginTop: marginTop
+                  padding: 16
+                },
+                properties: {
+                  id: "homeGrid",
+                  container: true,
+                  spacing: 1
                 },
                 children: [
-                  {
-                    controlType: "Button",
-                    style: {
-                      width: "100%",
-                      height: "100%"
-                    },
-                    properties: {
-                      color: "#4b4",
-                      variant: "contained"
-                    }
-                  }
+                  HomeItem(xs: 4, id: 0, title: "انتساب نقش"),
+                  HomeItem(xs: 8, id: 1, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 2, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 3, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 4, title: "انتساب نقش"),
+                  HomeItem(xs: 8, id: 5, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 6, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 7, title: "انتساب نقش"),
+                  HomeItem(xs: 8, id: 8, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 9, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 10, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 11, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 12, title: "انتساب نقش"),
+                  HomeItem(xs: 8, id: 13, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 14, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 15, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 16, title: "انتساب نقش"),
+                  HomeItem(xs: 8, id: 17, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 18, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 19, title: "انتساب نقش"),
+                  HomeItem(xs: 8, id: 20, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 21, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 22, title: "انتساب نقش"),
+                  HomeItem(xs: 4, id: 23, title: "انتساب نقش")
                 ]
-              }))
-  counter = counter + 1
-
-homeBody = ({
-            controlType: "div",
-            style: {
-              backgroundColor: "#07f"
-            }
-          })
+              }
+            ]
+          }
+        ]
+      })

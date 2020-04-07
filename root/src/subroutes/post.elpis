@@ -4,26 +4,19 @@ use "components/textfield.elpis"
 @ClientSide
 define function loadPost
   runJS(jsCode: "
-      page.documentElementOverflow = page.document.documentElement.style.overflow;
       page.document.documentElement.style.overflow = 'hidden';  
       let savedOverflow = page.document.getElementById('postContainer').style.overflow;
       page.document.getElementById('postContainer').style.overflow = 'hidden';
-      page.setState({...page.state, postAppBarAnim: 'fadeInDownBig', postBodyAnim: 'fadeInUpBig'
-        , postAppBarAnimTime: '1s', postBodyAnimTime: '1s'
-        , postFabAnim: 'zoomIn', postFabAnimTime: '1s'
+      page.setState({...page.state
+        , postBodyAnim: 'fadeInUpBig', postBodyAnimTime: '1s'
         , feedAppBarAnim: 'fadeOutUpBig', feedListAnim: 'fadeOutDownBig'
         , feedAppBarAnimTime: '1s', feedListAnimTime: '1s'
       });
       setTimeout(() => {
         page.document.getElementById('feedContainer').style.display = 'none';
-        page.setState({...page.state, postAppBarAnim: '', postBodyAnim: '', postFabAnim: '' 
-          , postItemAnim: 'zoomIn'
+        page.setState({...page.state, postBodyAnim: ''
           , feedAppBarAnim: '', feedListAnim: ''});
         page.document.getElementById('postContainer').style.overflow = savedOverflow;
-        page.setStyle('postGrid', 'display', '');
-        setTimeout(() => {
-          page.setState({...page.state, postItemAnim: ''});
-        }, 1100);
       }, 1100);
       page.document.getElementById('postContainer').style.display = 'block';
     ")
@@ -32,8 +25,8 @@ define function loadPost
 define function hidePostAndShowFeed
   runJS(jsCode: "
       let savedOverflow = page.document.getElementById('postContainer').style.overflow;
-      page.setState({...page.state, postAppBarAnim: 'fadeOutUpBig', postBodyAnim: 'fadeOutDownBig'
-          , postAppBarAnimTime: '2s', postBodyAnimTime: '2s'
+      page.setState({...page.state, postBodyAnim: 'fadeOutDownBig'
+          , postBodyAnimTime: '2s'
           , feedFabAnim: 'zoomIn', feedFabAnimTime: '1s'
           , feedAppBarAnim: 'fadeInDownBig', feedListAnim: 'fadeInUpBig'
           , feedAppBarAnimTime: '1s', feedListAnimTime: '1s'
@@ -41,86 +34,41 @@ define function hidePostAndShowFeed
       page.document.getElementById('postContainer').style.overflow = 'hidden';
       page.document.getElementById('feedContainer').style.display = 'block';
       setTimeout(() => {
-          page.setState({...page.state, postAppBarAnim: '', postBodyAnim: '', postFabAnim: ''
+          page.setState({...page.state, postBodyAnim: ''
             , feedAppBarAnim: '', feedListAnim: '', feedFabAnim: ''});
           page.document.getElementById('postContainer').style.overflow = savedOverflow;
-          page.document.getElementById('postContainer').style.display = 'none';
-          page.setStyle('postGrid', 'display', 'none');
-          page.document.documentElement.style.overflow = page.documentElementOverflow;  
+          page.document.getElementById('postContainer').style.display = 'none';  
       }, 1100);
     ")
 
-define function postItem with params xs, id
+define function PostTextItem
+  text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse non pretium arcu, ut ullamcorper neque. In lobortis sagittis velit, in vestibulum turpis lacinia ac. Cras scelerisque rhoncus viverra. Aenean massa erat, lacinia commodo pellentesque a, luctus ut massa. Donec felis velit, aliquet eu ligula ac, blandit finibus massa. Aliquam at mi dui. Morbi risus magna, placerat vitae vehicula at, volutpat ac ligula. Maecenas id nibh in mi commodo tristique id non nibh. Proin pretium lectus id eros pulvinar sollicitudin. Ut euismod dolor metus, sed dapibus magna rhoncus quis.\nQuisque pellentesque, dolor a luctus pharetra, justo velit dignissim purus, sit amet tincidunt ex urna quis dui. Vivamus ut sapien eros. Donec facilisis aliquam mauris vitae lacinia. Donec sit amet turpis ac metus vehicula lobortis ut blandit nunc. Nunc semper vel nunc eu fringilla. Vivamus nunc leo, porta vel faucibus vitae, molestie eu mauris. Quisque commodo odio quis lectus viverra, sed venenatis augue euismod.\nMauris consectetur ante a nisi pellentesque ornare. Sed vel metus metus. Integer luctus bibendum neque a porta. Ut ut mi tincidunt, elementum orci quis, lacinia dolor. Nam pulvinar, lacus sed viverra suscipit, metus tellus consectetur velit, ac scelerisque ligula lectus vel augue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec gravida id magna sed pretium. Praesent sit amet aliquam urna, eget finibus odio. Etiam risus elit, laoreet nec rhoncus ut, sagittis a mauris. Quisque sed placerat enim, sit amet auctor ligula. Praesent vitae fermentum mauris.\nSed eget eros justo. Morbi id eros at felis tincidunt malesuada nec vel sapien. Pellentesque interdum egestas dolor, vel porta lorem bibendum sed. Duis mollis ac leo eu fringilla. Donec condimentum mattis felis vitae porta. In ex dolor, mattis id nisi ut, rhoncus sollicitudin ligula. Nullam in rhoncus sem, a tincidunt sapien. Aliquam eget facilisis lorem. Sed non porttitor magna. In vehicula condimentum diam at laoreet. Ut molestie, nisl tincidunt suscipit tincidunt, nunc quam sagittis turpis, vel imperdiet erat dolor nec urna. Morbi pharetra velit at sem pellentesque mollis. Mauris hendrerit turpis et ultrices porta. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus facilisis tincidunt nisl. Mauris a dui vitae tellus commodo ornare.\nCras hendrerit ex vitae dui pharetra bibendum. Quisque sodales consequat interdum. Sed ullamcorper tortor id orci laoreet, a dapibus dui sagittis. Donec turpis est, bibendum ut neque nec, fermentum congue tortor. Quisque quis lectus id ipsum tempor congue. Donec nibh dui, egestas sit amet est eget, tristique mattis est. Vivamus pretium ac elit et pellentesque. Morbi at ornare felis. Phasellus porttitor odio enim, eget mollis purus gravida quis. Ut gravida sagittis elit non euismod."
   return ({
-              controlType: "Grid",
+              controlType: "div",
               style: {
-                height: 130
-              },
-              properties: {
-                item: true,
-                xs: xs
+                padding: 16
               },
               children: [
                 {
-                  controlType: "Paper",
+                  controlType: "Text",
+                  text: text
+                }
+              ]
+            })
+
+define function PostImageItem
+  return ({
+              controlType: "div",
+              children: [
+                {
+                  controlType: "img",
                   style: {
-                    borderRadius: 1,
                     width: "100%",
-                    height: 120,
-                    position: "relative"
+                    height: "${4 * window.innerWidth / 5 + 'px'}"
                   },
                   properties: {
-                    animation: "${postItemAnim}",
-                    animationTime: "1s"
-                  },
-                  children: [
-                    {
-                      controlType: "img",
-                      style: {
-                        width: "100%",
-                        height: "100%"
-                      },
-                      properties: {
-                        src: "/webapp/res/post-item.jpg"
-                      }
-                    },
-                    {
-                      controlType: "div",
-                      style: {
-                        position: "absolute",
-                        left: 0,
-                        top: 0,
-                        background: "rgba(0, 0, 0, 0.45)",
-                        width: "100%",
-                        height: "100%",
-                        textAlign: "center",
-                        verticalAlign: "middle",
-                        color: "#fff"
-                      },
-                      children: [
-                        {
-                          controlType: "div",
-                          style: {
-                            position: "absolute",
-                            left: "50%",
-                            top: "50%",
-                            transform: "translate(-50%, -50%)"
-                          },
-                          children: [
-                            {
-                              controlType: "b",
-                              children: [
-                                {
-                                  controlType: "Text",
-                                  text: "پست 1"
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                    src: "/webapp/res/post-content.jpg"
+                  }
                 }
               ]
             })
@@ -151,131 +99,75 @@ postPage = (
             },
             style: {
               width: "100%",
-              height: "calc(100vh - 64px)",
+              height: "100vh",
               backgroundColor: "#fff",
               marginLeft: 0,
               marginRight: 0,
               position: "absolute",
-              top: 64,
               left: 0,
               overflow: "auto"
             },
             children: [
               {
                 controlType: "Grid",
-                style: {
-                  padding: 16,
-                  display: "none"
-                },
                 properties: {
-                  id: "postGrid",
                   container: true,
                   spacing: 1
                 },
                 children: [
-                  postItem(xs: 4, id: 0),
-                  postItem(xs: 8, id: 1),
-                  postItem(xs: 4, id: 2),
-                  postItem(xs: 4, id: 3),
-                  postItem(xs: 4, id: 4),
-                  postItem(xs: 8, id: 5),
-                  postItem(xs: 4, id: 6),
-                  postItem(xs: 4, id: 7),
-                  postItem(xs: 8, id: 8),
-                  postItem(xs: 4, id: 9),
-                  postItem(xs: 4, id: 10),
-                  postItem(xs: 4, id: 11),
-                  postItem(xs: 4, id: 12),
-                  postItem(xs: 8, id: 13),
-                  postItem(xs: 4, id: 14),
-                  postItem(xs: 4, id: 15),
-                  postItem(xs: 4, id: 16),
-                  postItem(xs: 8, id: 17),
-                  postItem(xs: 4, id: 18),
-                  postItem(xs: 4, id: 19),
-                  postItem(xs: 8, id: 20),
-                  postItem(xs: 4, id: 21),
-                  postItem(xs: 4, id: 22),
-                  postItem(xs: 4, id: 23)
-                ]
-              }
-            ]
-          },
-          {
-            controlType: "AppBar",
-            properties: {
-              id: "feedAppBar",
-              animation: "${postAppBarAnim}",
-              animationTime: "${postAppBarAnimTime}",
-              hideOnScroll: true,
-              color: "#07d"
-            },
-            style: {
-              width: "100%",
-              height: 64,
-              marginLeft: 0,
-              marginRight: 0,
-              position: "absolute",
-              top: 0,
-              left: 0
-            },
-            children: [
-              {
-                controlType: "Toolbar",
-                children: [
                   {
-                    controlType: "RsspostIcon",
-                    style: {
-                      marginTop: 20,
-                      marginRight: 24
-                    }
-                  },
-              {
-                controlType: "div",
-                style: {
-                  position: "relative",
-                  marginRight: 64
-                },
-                children: [
-                  {
-                    controlType: "Typography",
-                    style: {
-                      width: "100%",
-                      textAlign: "right",
-                      color: "white",
-                      marginTop: -36
-                    },
-                    properties: {
-                      variant: "h6"
-                    },
+                    controlType: "div",
                     children: [
                       {
-                        controlType: "Text",
-                        text: "وبلاگ مرحم"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                    controlType: "IconButton",
-                    properties: {
-                      onClick: "${() => {page.hidePostAndShowFeed();}}"
-                    },
-                    style: {
-                      position: "absolute",
-                      left: 8,
-                      top: 8
-                    },
-                    children: [
-                      {
-                        controlType: "CloseIcon",
+                        controlType: "img",
                         style: {
-                          fill: "#fff"
+                          width: "100%",
+                          height: "${4 * window.innerWidth / 5 + 'px'}"
+                        },
+                        properties: {
+                          src: "/webapp/res/feed-item.jpg"
                         }
+                      },
+                      {
+                        controlType: "IconButton",
+                        properties: {
+                          onClick: "${() => {page.hidePostAndShowFeed();}}"
+                        },
+                        style: {
+                          position: "absolute",
+                          left: 8,
+                          top: 8
+                        },
+                        children: [
+                          {
+                            controlType: "CloseIcon",
+                            style: {
+                              fill: "#fff"
+                            }
+                          }
+                        ]
                       }
                     ]
-                  }
+                  },
+                  PostTextItem(),
+                  PostImageItem(),
+                  PostTextItem(),
+                  PostImageItem(),
+                  PostTextItem(),
+                  PostImageItem(),
+                  PostTextItem(),
+                  PostImageItem(),
+                  PostTextItem(),
+                  PostImageItem(),
+                  PostTextItem(),
+                  PostImageItem(),
+                  PostTextItem(),
+                  PostImageItem(),
+                  PostTextItem(),
+                  PostImageItem(),
+                  PostTextItem(),
+                  PostImageItem(),
+                  PostTextItem()
                 ]
               }
             ]
