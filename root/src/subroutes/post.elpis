@@ -77,9 +77,7 @@ postPage = (
       {
         controlType: "Box",
         properties: {
-          id: "postContainer",
-          fontPath: "/webapp/res/IranianSans.ttf",
-          fontName: "IranianSans"
+          id: "postContainer"
         },
         style: {
           width: "100%",

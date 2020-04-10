@@ -8,11 +8,13 @@ define function loadMessenger
         , messengerAppBarAnimTime: '1s', messengerListAnimTime: '1s'
         , messengerFabAnim: 'zoomIn', messengerFabAnimTime: '1s'
         , homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig'
+        , homeFabAnim: 'zoomOut', homeFabAnimTime: '1s'
         , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
       setTimeout(() => {
         page.document.getElementById('homeContainer').style.display = 'none';
         page.setState({...page.state, messengerAppBarAnim: '', messengerListAnim: '', messengerFabAnim: ''
+          , homeFabAnim: 'zoomOut'
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('messengerContainer').style.overflow = savedOverflow;
       }, 1000);
@@ -46,6 +48,7 @@ define function hideMessenger
       page.setState({...page.state, messengerAppBarAnim: 'fadeOutUpBig', messengerListAnim: 'fadeOutDownBig'
         , messengerAppBarAnimTime: '2s', messengerListAnimTime: '2s'
         , messengerFabAnim: 'zoomOut', messengerFabAnimTime: '2s'
+        , homeFabAnim: 'zoomIn', homeFabAnimTime: '1s'
         , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
         , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
@@ -53,6 +56,7 @@ define function hideMessenger
       page.document.getElementById('homeContainer').style.display = 'block';
       setTimeout(() => {
         page.setState({...page.state, messengerAppBarAnim: '', messengerListAnim: '', messengerFabAnim: ''
+          , homeFabAnim: ''
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('messengerContainer').style.overflow = savedOverflow;
         page.document.getElementById('messengerContainer').style.display = 'none';
@@ -118,9 +122,7 @@ messengerPage = (
       {
         controlType: "Box",
         properties: {
-          id: "messengerContainer",
-          fontPath: "/webapp/res/IranianSans.ttf",
-          fontName: "IranianSans"
+          id: "messengerContainer"
         },
         style: {
           width: "100%",

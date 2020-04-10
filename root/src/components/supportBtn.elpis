@@ -2,7 +2,9 @@
 supportBtn = ({
             controlType: "Fab",
             properties: {
-              color: "#a15"
+              color: "#a15",
+              animation: "${homeFabAnim}",
+              animationTime: "${homeFabAnimTime}"
             },
             style: {
               position: "fixed",

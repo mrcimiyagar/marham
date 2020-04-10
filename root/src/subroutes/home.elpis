@@ -8,8 +8,18 @@ define function Home
   children = []
   children = ([
           appbar,
-          homeBody,
-          bottombar,
+          {
+            controlType: "div",
+            properties: {
+              id: "homeBottomBar",
+              animation: "${homeBottomBarAnim}",
+              animationTime: "${homeBottomBarAnimTime}"
+            },
+            children: [
+              homeBody,
+              bottombar
+            ]
+          },
           supportBtn
         ])
   

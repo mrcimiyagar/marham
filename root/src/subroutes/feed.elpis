@@ -13,11 +13,13 @@ define function loadFeed
         , feedFabAnim: 'zoomIn', feedFabAnimTime: '1s'
         , homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig'
         , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
+        , homeFabAnim: 'zoomOut', homeFabAnimTime: '1s'
       });
       setTimeout(() => {
         page.document.getElementById('homeContainer').style.display = 'none';
         page.setState({...page.state, feedAppBarAnim: '', feedListAnim: '', feedFabAnim: '' 
           , feedItemAnim: 'zoomIn'
+          , homeFabAnim: 'zoomOut'
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('feedContainer').style.overflow = savedOverflow;
         page.setStyle('feedGrid', 'display', '');
@@ -129,9 +131,7 @@ feedPage = (
       {
         controlType: "Box",
         properties: {
-          id: "feedContainer",
-          fontPath: "/webapp/res/IranianSans.ttf",
-          fontName: "IranianSans"
+          id: "feedContainer"
         },
         style: {
           width: "100%",

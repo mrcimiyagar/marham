@@ -17,10 +17,7 @@ bottombar = ({
               controlType: "BottomNavigation",
               properties: {
                 value: "${bottomBarValue}",
-                onChange: "${(event, newValue) => {page.setBottomBarValue({newValue: newValue});}}",
-                id: "homeBottomBar",
-                animation: "${homeBottomBarAnim}",
-                animationTime: "${homeBottomBarAnimTime}"
+                onChange: "${(event, newValue) => {page.setBottomBarValue({newValue: newValue});}}"
               },
               style: {
                 width: "100%",

@@ -175,9 +175,7 @@ chatPage = (
       {
         controlType: "Box",
         properties: {
-          id: "chatContainer",
-          fontPath: "/webapp/res/IranianSans.ttf",
-          fontName: "IranianSans"
+          id: "chatContainer"
         },
         style: {
           width: "100%",

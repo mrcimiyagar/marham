@@ -43,9 +43,7 @@ loginPage = (
       {
         controlType: "Box",
         properties: {
-          id: "loginContainer",
-          fontPath: "/webapp/res/IranianSans.ttf",
-          fontName: "IranianSans"
+          id: "loginContainer"
         },
         style: {
           width: "100%",

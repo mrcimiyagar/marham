@@ -10,11 +10,13 @@ define function loadProfile
       page.document.getElementById('profileContainer').style.overflow = 'hidden';
       page.setState({...page.state, profileAppBarAnim: 'fadeInDownBig', profileHistListAnim: 'fadeInUpBig'
         , profileAppBarAnimTime: '1s', profileHistListAnimTime: '1s'
+        , homeFabAnim: 'zoomOut', homeFabAnimTime: '1s'
         , homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig'
         , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
       setTimeout(() => {
         page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: ''
+          , homeFabAnim: ''
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('profileContainer').style.overflow = savedOverflow;
         page.document.documentElement.style.overflow = page.documentElementOverflow;
@@ -28,6 +30,7 @@ define function hideProfile
       let savedOverflow = page.document.getElementById('profileContainer').style.overflow;
       page.setState({...page.state, profileAppBarAnim: 'fadeOutUpBig', profileHistListAnim: 'fadeOutDownBig'
         , profileAppBarAnimTime: '2s', profileHistListAnimTime: '2s'
+        , homeFabAnim: 'zoomIn', homeFabAnimTime: '1s'
         , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
         , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
@@ -35,6 +38,7 @@ define function hideProfile
       page.document.documentElement.style.overflow = 'hidden';
       setTimeout(() => {
         page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: ''
+          , homeFabAnim: ''
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('profileContainer').style.overflow = savedOverflow;
         page.document.getElementById('profileContainer').style.display = 'none';
@@ -100,9 +104,7 @@ profilePage = (
       {
         controlType: "Box",
         properties: {
-          id: "profileContainer",
-          fontPath: "/webapp/res/IranianSans.ttf",
-          fontName: "IranianSans"
+          id: "profileContainer"
         },
         style: {
           width: "100%",

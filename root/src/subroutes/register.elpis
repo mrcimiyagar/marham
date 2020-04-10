@@ -41,9 +41,7 @@ registerPage = (
       {
         controlType: "Box",
         properties: {
-          id: "registerContainer",
-          fontPath: "/webapp/res/IranianSans.ttf",
-          fontName: "IranianSans"
+          id: "registerContainer"
         },
         style: {
           width: "100%",

@@ -27,10 +27,12 @@ define function hideAssignRoleAndShowHome
           , assignRoleAppBarAnimTime: '1s', assignRoleFormAnimTime: '1s'
           , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
           , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
+          , homeFabAnim: 'zoomIn', homeFabAnimTime: '1s'
           , assignRoleFabAnim: 'zoomOut', assignRoleFabAnimTime: '1s'});
       setTimeout(() => {
         page.setState({...page.state, assignRoleAppBarAnim: '', assignRoleFormAnim: ''
           , assignRoleFabAnim: ''
+          , homeFabAnim: ''
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         //page.document.getElementById('assignRoleContainer').style.overflow = savedOverflow;
         page.document.getElementById('assignRoleContainer').style.display = 'none';
@@ -46,9 +48,7 @@ assignRolePage = (
       {
         controlType: "Box",
         properties: {
-          id: "assignRoleContainer",
-          fontPath: "/webapp/res/IranianSans.ttf",
-          fontName: "IranianSans"
+          id: "assignRoleContainer"
         },
         style: {
           width: "100%",
