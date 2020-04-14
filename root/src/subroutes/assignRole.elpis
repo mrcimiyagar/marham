@@ -33,10 +33,13 @@ define function hideAssignRoleAndShowHome
         page.setState({...page.state, assignRoleAppBarAnim: '', assignRoleFormAnim: ''
           , assignRoleFabAnim: ''
           , homeFabAnim: ''
+          , homeItemAnim: 'zoomIn'
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         //page.document.getElementById('assignRoleContainer').style.overflow = savedOverflow;
-        page.document.getElementById('assignRoleContainer').style.display = 'none';
-        page.document.documentElement.style.overflow = page.documentElementOverflow;
+        page.setStyle('assignRoleContainer', 'display', 'none');
+        setTimeout(() => {
+          page.setState({...page.state, homeItemAnim: ''});
+        }, 1100);
       }, 1100);
     ")
 

@@ -1,0 +1,143 @@
+
+define function UserInfoTable
+  return (
+    {
+      controlType: "TableContainer",
+      children: [
+        {
+          controlType: "Table",
+          children: [
+            {
+              controlType: "TableBody",
+              children: [
+                {
+                  controlType: "TableRow",
+                  children: [
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "right" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "نام"
+                        }
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "right" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "-"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  controlType: "TableRow",
+                  children: [
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "right" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "نام خانوادگی"
+                        }
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "right" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "-"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  controlType: "TableRow",
+                  children: [
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "right" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "کد ملی"
+                        }
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "right" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "-"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  controlType: "TableRow",
+                  children: [
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "right" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "قد"
+                        }
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "right" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "-"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  controlType: "TableRow",
+                  children: [
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "right" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "وزن"
+                        }
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "right" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "-"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    })

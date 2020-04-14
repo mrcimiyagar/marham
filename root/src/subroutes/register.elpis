@@ -32,8 +32,12 @@ define function hideRegisterAndShowHome
       setTimeout(() => {
         page.setState({...page.state, registerAppBarAnim: '', registerFormAnim: ''
           , registerFabAnim: ''
+          , homeItemAnim: 'zoomIn'
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
-        page.document.getElementById('registerContainer').style.display = 'none';
+        page.setStyle('registerContainer', 'display', 'none');
+        setTimeout(() => {
+          page.setState({...page.state, homeItemAnim: ''});
+        }, 1100);
       }, 1100);
     ")
 

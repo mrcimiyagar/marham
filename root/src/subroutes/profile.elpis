@@ -6,44 +6,84 @@ define function updateState with params stateKey, stateValue
 @ClientSide
 define function loadProfile
   runJS(jsCode: "
+    if (page.canTransit) {
+      page.canTransit = false;
       let savedOverflow = page.document.getElementById('profileContainer').style.overflow;
       page.document.getElementById('profileContainer').style.overflow = 'hidden';
       page.setState({...page.state, profileAppBarAnim: 'fadeInDownBig', profileHistListAnim: 'fadeInUpBig'
         , profileAppBarAnimTime: '1s', profileHistListAnimTime: '1s'
-        , homeFabAnim: 'zoomOut', homeFabAnimTime: '1s'
+        , profileFabAnim: 'zoomIn', profileFabAnimTime: '1s'
         , homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig'
+        , homeFabAnim: 'zoomOut', homeFabAnimTime: '1s'
         , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
       setTimeout(() => {
-        page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: ''
-          , homeFabAnim: ''
+        page.setStyle('homeContainer', 'display', 'none');
+        page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: '', profileFabAnim: ''
+          , homeFabAnim: 'zoomOut'
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('profileContainer').style.overflow = savedOverflow;
         page.document.documentElement.style.overflow = page.documentElementOverflow;
-      }, 1000);
+        setTimeout(() => {page.canTransit = true;}, 250);
+      }, 1100);
       page.document.getElementById('profileContainer').style.display = 'block';
-    ")
+    }
+  ")
+
+@ClientSide
+define function hideProfileAndShowUserInfo
+  runJS(jsCode: "
+    if (page.canTransit) {
+      page.canTransit = false;
+      let savedOverflow = page.document.getElementById('profileContainer').style.overflow;
+      page.setState({...page.state, profileAppBarAnim: 'fadeOutUpBig', profileHistListAnim: 'fadeOutDownBig'
+        , profileAppBarAnimTime: '2s', profileHistListAnimTime: '2s'
+        , profileFabAnim: 'zoomOut', profileFabAnimTime: '2s'
+        , userInfoAppBarAnim: 'fadeInDownBig', userInfoFormAnim: 'fadeInUpBig'
+        , userInfoAppBarAnimTime: '1s', userInfoFormAnimTime: '1s'
+      });
+      page.document.getElementById('profileContainer').style.overflow = 'hidden';
+      page.document.getElementById('userInfoContainer').style.display = 'block';
+      setTimeout(() => {
+        page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: '', profileFabAnim: ''
+          , userInfoAppBarAnim: '', userInfoFormAnim: ''});
+        page.document.getElementById('profileContainer').style.overflow = savedOverflow;
+        page.setStyle('profileContainer', 'display', 'none');
+        setTimeout(() => {page.canTransit = true;}, 250);
+      }, 1100);
+    }
+  ")
 
 @ClientSide
 define function hideProfile
   runJS(jsCode: "
+    if (page.canTransit) {
+      page.canTransit = false;
       let savedOverflow = page.document.getElementById('profileContainer').style.overflow;
       page.setState({...page.state, profileAppBarAnim: 'fadeOutUpBig', profileHistListAnim: 'fadeOutDownBig'
         , profileAppBarAnimTime: '2s', profileHistListAnimTime: '2s'
+        , profileFabAnim: 'zoomOut', profileFabAnimTime: '2s'
         , homeFabAnim: 'zoomIn', homeFabAnimTime: '1s'
         , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
         , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
-      page.document.getElementById('profileContainer').style.overflow = 'hidden';
       page.document.documentElement.style.overflow = 'hidden';
+      page.document.getElementById('profileContainer').style.overflow = 'hidden';
+      page.setStyle('homeContainer', 'display', 'block');
       setTimeout(() => {
-        page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: ''
+        page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: '', profileFabAnim: ''
           , homeFabAnim: ''
+          , homeItemAnim: 'zoomIn'
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('profileContainer').style.overflow = savedOverflow;
-        page.document.getElementById('profileContainer').style.display = 'none';
-      }, 1000);
-    ")
+        page.setStyle('profileContainer', 'display', 'none');
+        setTimeout(() => {
+          page.setState({...page.state, homeItemAnim: ''});
+          setTimeout(() => {page.canTransit = true;}, 250);
+        }, 1100);
+      }, 1100);
+    }
+  ")
 
 histItem = ({
               controlType: "div",
@@ -137,6 +177,9 @@ profilePage = (
                 children: [
                   {
                     controlType: "IconButton",
+                    properties: {
+                      onClick: "${() => page.hideProfileAndShowUserInfo()}"
+                    },
                     style: {
                       marginLeft: 16,
                       marginTop: 16,
@@ -146,7 +189,7 @@ profilePage = (
                     },
                     children: [
                       {
-                        controlType: "EditIcon",
+                        controlType: "InfoOutlinedIcon",
                         style: {
                           fill: "#fff"
                         }

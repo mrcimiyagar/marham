@@ -8,6 +8,7 @@ use "subroutes/chat.elpis"
 use "subroutes/feed.elpis"
 use "subroutes/post.elpis"
 use "subroutes/assignRole.elpis"
+use "subroutes/userInfo.elpis"
 
 currentPath = "profile"
 
@@ -17,7 +18,8 @@ define function main
     window.page = {...window.parent, ...window.parent.page};
     page.documentElementOverflow = page.document.documentElement.style.overflow;
     page.document.documentElement.style.overflow = 'hidden'; 
-    page.document.getElementById('feedGrid').style.display = 'none !important'; 
+    page.document.getElementById('feedGrid').style.display = 'none !important';
+    page.canTransit = true;
   ")
   hideRegisterAndShowLogin()
   runJS(jsCode: "
@@ -26,6 +28,18 @@ define function main
 define function mainPage
   children = []
   children = ([
+          {
+            controlType: "img",
+            properties: {
+              src: "/webapp/res/feed-background.jpg"
+            },
+            style: {
+              marginTop: -16,
+              position: "fixed",
+              width: "100%",
+              height: "calc(100% + 56px)"
+            }
+          },
           Home(),
           profilePage,
           loginPage,
@@ -34,7 +48,8 @@ define function mainPage
           chatPage,
           feedPage,
           postPage,
-          assignRolePage
+          assignRolePage,
+          userInfoPage
         ])
   
   return (
@@ -45,10 +60,10 @@ define function mainPage
           fontName: "IranianSans"
         },
         style: {
-          width: "calc(100%)",
-          height: "calc(100vh + 12px)",
-          backgroundColor: "#eee",
-          direction: "rtl"
+          width: "calc(100% + 16px)",
+          height: "calc(100% - 20px)",
+          direction: "rtl",
+          marginLeft: "-8px"
         },
         children: children
       }

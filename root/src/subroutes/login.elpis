@@ -32,10 +32,14 @@ define function hideLoginAndShowHome
           , loginFabAnim: 'zoomOut', loginFabAnimTime: '1s'});
       setTimeout(() => {
         page.setState({...page.state, loginAppBarAnim: '', loginFormAnim: ''
+          , homeItemAnim: 'zoomIn'
           , loginFabAnim: ''
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         //page.document.getElementById('loginContainer').style.overflow = savedOverflow;
-        page.document.getElementById('loginContainer').style.display = 'none';
+        page.setStyle('loginContainer', 'display', 'none');
+        setTimeout(() => {
+          page.setState({...page.state, homeItemAnim: ''});
+        }, 1100);
       }, 1100);
     ")
 

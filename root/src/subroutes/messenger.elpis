@@ -12,12 +12,12 @@ define function loadMessenger
         , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
       setTimeout(() => {
-        page.document.getElementById('homeContainer').style.display = 'none';
+        page.setStyle('homeContainer', 'display', 'none');
         page.setState({...page.state, messengerAppBarAnim: '', messengerListAnim: '', messengerFabAnim: ''
           , homeFabAnim: 'zoomOut'
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('messengerContainer').style.overflow = savedOverflow;
-      }, 1000);
+      }, 1100);
       page.document.getElementById('messengerContainer').style.display = 'block';
     ")
 
@@ -37,8 +37,8 @@ define function hideMessengerAndShowChat
         page.setState({...page.state, messengerAppBarAnim: '', messengerListAnim: '', messengerFabAnim: ''
           , chatAppBarAnim: '', chatListAnim: ''});
         page.document.getElementById('messengerContainer').style.overflow = savedOverflow;
-        page.document.getElementById('messengerContainer').style.display = 'none';
-      }, 1000);
+        page.setStyle('messengerContainer', 'display', 'none');
+      }, 1100);
     ")
 
 @ClientSide
@@ -53,14 +53,18 @@ define function hideMessenger
         , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
       page.document.getElementById('messengerContainer').style.overflow = 'hidden';
-      page.document.getElementById('homeContainer').style.display = 'block';
+      page.setStyle('homeContainer', 'display', 'block');
       setTimeout(() => {
         page.setState({...page.state, messengerAppBarAnim: '', messengerListAnim: '', messengerFabAnim: ''
           , homeFabAnim: ''
+          , homeItemAnim: 'zoomIn'
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('messengerContainer').style.overflow = savedOverflow;
-        page.document.getElementById('messengerContainer').style.display = 'none';
-      }, 1000);
+        page.setStyle('messengerContainer', 'display', 'none');
+        setTimeout(() => {
+          page.setState({...page.state, homeItemAnim: ''});
+        }, 1100);
+      }, 1100);
     ")
 
 chatItem = ({

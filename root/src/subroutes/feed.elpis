@@ -41,13 +41,16 @@ define function hideFeedAndShowHome
           , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
       page.document.getElementById('feedContainer').style.overflow = 'hidden';
-      page.document.getElementById('homeContainer').style.display = 'block';
+        page.setStyle('homeContainer', 'display', 'block');
       setTimeout(() => {
           page.setState({...page.state, feedAppBarAnim: '', feedListAnim: '', feedFabAnim: ''
-            , homeAppBarAnim: '', homeBottomBarAnim: '', homeFabAnim: ''});
+            , homeAppBarAnim: '', homeBottomBarAnim: '', homeFabAnim: '', homeItemAnim: 'zoomIn'});
           page.document.getElementById('feedContainer').style.overflow = savedOverflow;
-          page.document.getElementById('feedContainer').style.display = 'none';
           page.setStyle('feedGrid', 'display', 'none');
+          page.setStyle('feedContainer', 'display', 'none');
+          setTimeout(() => {
+            page.setState({...page.state, homeItemAnim: ''});
+          }, 1100);
       }, 1100);
     ")
 
