@@ -17,7 +17,6 @@ define function main
   runJS(jsCode: "
     window.page = {...window.parent, ...window.parent.page};
     page.documentElementOverflow = page.document.documentElement.style.overflow;
-    page.document.documentElement.style.overflow = 'hidden'; 
     page.document.getElementById('feedGrid').style.display = 'none !important';
     page.canTransit = true;
   ")
@@ -28,18 +27,6 @@ define function main
 define function mainPage
   children = []
   children = ([
-          {
-            controlType: "img",
-            properties: {
-              src: "/webapp/res/feed-background.jpg"
-            },
-            style: {
-              marginTop: -16,
-              position: "fixed",
-              width: "100%",
-              height: "calc(100% + 56px)"
-            }
-          },
           Home(),
           profilePage,
           loginPage,
@@ -63,6 +50,7 @@ define function mainPage
           width: "calc(100% + 16px)",
           height: "calc(100% - 20px)",
           direction: "rtl",
+          backgroundColor: "#eee",
           marginLeft: "-8px"
         },
         children: children

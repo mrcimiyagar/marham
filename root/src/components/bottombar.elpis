@@ -16,52 +16,87 @@ define function setBottomBarValue with params newValue
 bottombar = ({
               controlType: "BottomNavigation",
               properties: {
+                showLabels: true,
                 value: "${bottomBarValue}",
                 onChange: "${(event, newValue) => {page.setBottomBarValue({newValue: newValue});}}"
               },
               style: {
+                backgroundColor: "#07d",
                 width: "100%",
-                position: "absolute",
-                top: "calc(100vh - 56px)"
+                position: "fixed",
+                bottom: 0,
+                color: "#fff"
               },
               children: [
                 {
                   controlType: "BottomNavigationAction",
                   properties: {
-                    label: "تاریخچه",
-                    value: "recents",
+                    label: {
+                      controlType: "div",
+                      style: {
+                        color: "#fff"
+                      },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "تنظیمات"
+                        }
+                      ]
+                    },
+                    value: "settings",
                     icon: {
-                      controlType: "RestoreIcon"
+                      controlType: "SettingsIcon",
+                      style: {
+                        fill: "#fff"
+                      }
                     }
                   }
                 },
                 {
                   controlType: "BottomNavigationAction",
                   properties: {
-                    label: "پیام ها",
-                    value: "chat",
+                    label: {
+                      controlType: "div",
+                      style: {
+                        color: "#fff"
+                      },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "خانه"
+                        }
+                      ]
+                    },
+                    value: "home",
                     icon: {
-                      controlType: "ChatIcon"
+                      controlType: "HomeIcon",
+                      style: {
+                        fill: "#fff"
+                      }
                     }
                   }
                 },
                 {
                   controlType: "BottomNavigationAction",
                   properties: {
-                    label: "پروفایل",
-                    value: "profile",
+                    label: {
+                      controlType: "div",
+                      style: {
+                        color: "#fff"
+                      },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "اعلانات"
+                        }
+                      ]
+                    },
+                    value: "notifications",
                     icon: {
-                      controlType: "AccountCircleIcon"
-                    }
-                  }
-                },
-                {
-                  controlType: "BottomNavigationAction",
-                  properties: {
-                    label: "Feed",
-                    value: "feed",
-                    icon: {
-                      controlType: "RssFeedIcon"
+                      controlType: "NotificationsIcon",
+                      style: {
+                        fill: "#fff"
+                      }
                     }
                   }
                 }

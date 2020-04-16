@@ -1,40 +1,5 @@
 
-define function HomeItem with params xs, id, title
-  return ({
-              controlType: "Grid",
-              style: {
-                height: 130
-              },
-              properties: {
-                onClick: "${() => {page.loadAssignRole();}}",
-                item: true,
-                xs: xs
-              },
-              children: [
-                {
-                  controlType: "Button",
-                  properties: {
-                    animation: "${homeItemAnim}",
-                    animationTime: "1s"
-                  },
-                  style: {
-                      width: "100%",
-                      height: 120,
-                      background: "rgba(255, 255, 255, 0.75)",
-                      borderRadius: 8,
-                      color: "#000"
-                  },
-                  children: [
-                    {
-                      controlType: "Text",
-                      text: "انتساب نقش"
-                    }
-                  ]
-                }
-              ]
-            })
-
-define function ProfileTag with params xs, id, title
+define function ProfileTag with params xs, id
   return ({
               controlType: "Grid",
               style: {
@@ -53,7 +18,7 @@ define function ProfileTag with params xs, id, title
                     width: "100%",
                     height: 120,
                     position: "relative",
-                    backgroundColor: "#990"
+                    backgroundColor: "#fff"
                   },
                   properties: {
                     animation: "${homeItemAnim}",
@@ -61,37 +26,119 @@ define function ProfileTag with params xs, id, title
                   },
                   children: [
                     {
+                controlType: "Toolbar",
+                children: [
+                  {
+                    controlType: "Avatar",
+                    properties: {
+                      elevation: 12,
+                      src: "/webapp/res/avatar.png"
+                    },
+                    style: {
+                      width: 64,
+                      height: 64,
+                      position: "absolute",
+                      right: 16,
+                      top: "50%",
+                      transform: "translate(0, -50%)"
+                    }
+                  },
+                  {
+                    controlType: "div",
+                    style: {
+                      position: "relative",
+                      marginRight: 100
+                    },
+                    children: [
+                      {
+                        controlType: "Typography",
+                        style: {
+                          width: "100%",
+                          textAlign: "right",
+                          color: "white",
+                          position: "absolute",
+                          top: 32,
+                          fontSize: 18
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "کیهان محمدی"
+                          }
+                        ]
+                      },
+                      {
+                        controlType: "Typography",
+                        style: {
+                          width: "100%",
+                          textAlign: "right",
+                          color: "white",
+                          position: "absolute",
+                          top: 56,
+                          fontSize: 15
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "مشتری"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+                  ]
+                }
+              ]
+            })
+
+define function FeedTag with params xs, id
+  return ({
+              controlType: "Grid",
+              style: {
+                height: 130
+              },
+              properties: {
+                onClick: "${() => {page.loadFeed();}}",
+                item: true,
+                xs: xs
+              },
+              children: [
+                {
+                  controlType: "Paper",
+                  properties: {
+                    animation: "${homeItemAnim}",
+                    animationTime: "1s"
+                  },
+                  style: {
+                      width: "100%",
+                      height: 120,
+                      background: "#fff",
+                      borderRadius: 8,
+                      color: "#fff",
+                      textAlign: "center"
+                  },
+                  children: [
+                    {
+                      controlType: "RssFeedIcon",
+                      style: {
+                        fill: "#fff",
+                        width: 64,
+                        height: 64,
+                        marginTop: 12
+                      }
+                    },
+                    {
                       controlType: "div",
                       style: {
-                        position: "absolute",
-                        left: 0,
-                        top: 0,
                         width: "100%",
-                        height: "100%",
-                        textAlign: "center",
-                        verticalAlign: "middle",
-                        color: "#fff"
+                        textAlign: "center"
                       },
                       children: [
                         {
-                          controlType: "div",
-                          style: {
-                            position: "absolute",
-                            left: "50%",
-                            top: "50%",
-                            transform: "translate(-50%, -50%)"
-                          },
-                          children: [
-                            {
-                              controlType: "b",
-                              children: [
-                                {
-                                  controlType: "Text",
-                                  text: title
-                                }
-                              ]
-                            }
-                          ]
+                          controlType: "Text",
+                          text: "وبلاگ"
                         }
                       ]
                     }
@@ -100,21 +147,267 @@ define function ProfileTag with params xs, id, title
               ]
             })
 
+define function AssignRoleTag with params xs, id
+  return ({
+              controlType: "Grid",
+              style: {
+                height: 130
+              },
+              properties: {
+                onClick: "${() => {page.loadAssignRole();}}",
+                item: true,
+                xs: xs
+              },
+              children: [
+                {
+                  controlType: "Paper",
+                  properties: {
+                    animation: "${homeItemAnim}",
+                    animationTime: "1s"
+                  },
+                  style: {
+                      width: "100%",
+                      height: 120,
+                      background: "#fff",
+                      borderRadius: 8,
+                      color: "#fff",
+                      textAlign: "center"
+                  },
+                  children: [
+                    {
+                      controlType: "AssignmentIcon",
+                      style: {
+                        fill: "#fff",
+                        width: 64,
+                        height: 64,
+                        marginTop: 12
+                      }
+                    },
+                    {
+                      controlType: "div",
+                      style: {
+                        width: "100%",
+                        textAlign: "center"
+                      },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "انتساب نقش"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            })
+
+define function MessengerTag with params xs, id
+  return ({
+              controlType: "Grid",
+              style: {
+                height: 130
+              },
+              properties: {
+                onClick: "${() => {page.loadMessenger();}}",
+                item: true,
+                xs: xs
+              },
+              children: [
+                {
+                  controlType: "Paper",
+                  style: {
+                    borderRadius: 8,
+                    width: "100%",
+                    height: 120,
+                    position: "relative",
+                    backgroundColor: "#fff"
+                  },
+                  properties: {
+                    animation: "${homeItemAnim}",
+                    animationTime: "1s"
+                  },
+                  children: [
+                    {
+                controlType: "Toolbar",
+                children: [
+                  {
+                    controlType: "ChatIcon",
+                    style: {
+                      fill: "#fff",
+                      width: 64,
+                      height: 64,
+                      position: "absolute",
+                      right: 16,
+                      top: "50%",
+                      transform: "translate(0, -50%)"
+                    }
+                  },
+                  {
+                    controlType: "div",
+                    style: {
+                      position: "relative",
+                      marginRight: 100
+                    },
+                    children: [
+                      {
+                        controlType: "Typography",
+                        style: {
+                          width: "100%",
+                          textAlign: "right",
+                          color: "white",
+                          position: "absolute",
+                          top: 32,
+                          fontSize: 18
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "پیام ها"
+                          }
+                        ]
+                      },
+                      {
+                        controlType: "Typography",
+                        style: {
+                          width: "100%",
+                          textAlign: "right",
+                          position: "absolute",
+                          top: 56,
+                          fontSize: 15,
+                          color: "#f0c"
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "5 پیام خوانده نشده"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+                  ]
+                }
+              ]
+            })
+
+define function HomeItem with params title, icon, color, secondaryTitle, clickCallback
+  return ({
+              controlType: "div",
+              children: [
+            {
+              controlType: "ListItem",
+              properties: {
+                button: true,
+                onClick: clickCallback
+              },
+              children: [
+                {
+                  controlType: "ListItemAvatar",
+                  children: [
+                    {
+                      controlType: icon,
+                      style: {
+                        marginRight: 16,
+                        fill: "#fff",
+                        width: 28,
+                        height: 28,
+                        borderRadius: 16,
+                        padding: 10,
+                        backgroundColor: color
+                      }
+                    }
+                  ]
+                },
+                {
+                  controlType: "ListItemText",
+                  properties: {
+                    primary: title,
+                    secondary: secondaryTitle
+                  },
+                  style: {
+                    width: 200,
+                    textAlign: "right",
+                    marginRight: 16,
+                    marginLeft: 16
+                  }
+                },
+                {
+                  controlType: "div",
+                  style: {
+                    width: 40,
+                    height: 40,
+                    marginLeft: 12,
+                    backgroundColor: "#0b5",
+                    borderRadius: 20,
+                    position: "relative"
+                  },
+                  children: [
+                    {
+                      controlType: "div",
+                      style: {
+                        width: 37,
+                        height: 37,
+                        position: "absolute",
+                        left: "50%",
+                        top: "50%",
+                        transform: "translate(-50%, -50%)",
+                        backgroundColor: "#fff",
+                        borderRadius: 37 / 2
+                      },
+                      children: [
+                        {
+                          controlType: "div",
+                          style: {
+                            color: "#0b5",
+                            position: "absolute",
+                            left: "50%",
+                            top: "50%",
+                            transform: "translate(-50%, -50%)"
+                          },
+                          children: [
+                            {
+                              controlType: "Text",
+                              text: 3
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        })
+
 homeBody = (
       {
         controlType: "Box",
-        properties: {
-          id: "homeContainer"
-        },
         style: {
           width: "100%",
-          height: "calc(100% - 56px)",
-          position: "absolute",
-          left: 0,
-          top: 0,
+          height: "100%",
           overflow: "hidden"
         },
         children: [
+          {
+            controlType: "Typography",
+            properties: {
+              variant: "h5"
+            },
+            style: {
+              marginRight: 36,
+              marginTop: 16,
+              textAlign: "right"
+            },
+            children: [
+              {
+                controlType: "Text",
+                text: "امروز"
+              }
+            ]
+          },
           {
             controlType: "div",
             properties: {
@@ -126,52 +419,25 @@ homeBody = (
               height: "100%",
               marginLeft: 0,
               marginRight: 0,
-              position: "absolute",
-              top: 56,
-              left: 0,
-              overflow: "auto"
+              overflow: "auto",
+              marginTop: 12
             },
             children: [
-              {
-                controlType: "Grid",
-                style: {
-                  paddingLeft: 12,
-                  paddingTop: 12,
-                  paddingRight: 12,
-                  paddingBottom: 72
-                },
-                properties: {
-                  id: "homeGrid",
-                  container: true,
-                  spacing: 1
-                },
-                children: [
-                  HomeItem(xs: 4, id: 0, title: "انتساب نقش"),
-                  HomeItem(xs: 8, id: 1, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 2, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 3, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 4, title: "انتساب نقش"),
-                  HomeItem(xs: 8, id: 5, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 6, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 7, title: "انتساب نقش"),
-                  HomeItem(xs: 8, id: 8, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 9, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 10, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 11, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 12, title: "انتساب نقش"),
-                  HomeItem(xs: 8, id: 13, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 14, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 15, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 16, title: "انتساب نقش"),
-                  HomeItem(xs: 8, id: 17, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 18, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 19, title: "انتساب نقش"),
-                  HomeItem(xs: 8, id: 20, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 21, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 22, title: "انتساب نقش"),
-                  HomeItem(xs: 4, id: 23, title: "انتساب نقش")
-                ]
-              }
+                  {
+                    controlType: "div",
+                    children: [
+                      {
+                        controlType: "List",
+                        children: [
+                          HomeItem(title: "پروفایل", clickCallback: "${() => {page.loadProfile();}}", secondaryTitle: "پروفایل کیهان محمدی", icon: "PersonIcon", color: "#07d"),
+                          HomeItem(title: "وبلاگ", clickCallback: "${() => {page.loadFeed();}}", secondaryTitle: "120 پست", icon: "RssFeedIcon", color: "#60a"),
+                          HomeItem(title: "فایل ها", clickCallback: "${() => {}}", secondaryTitle: "256 فایل", icon: "DescriptionIcon", color: "#0d6"),
+                          HomeItem(title: "پیام ها", clickCallback: "${() => {page.loadMessenger();}}", secondaryTitle: "5 پیام خوانده نشده", icon: "ChatIcon", color: "#f09"),
+                          HomeItem(title: "تسک ها", clickCallback: "${() => {}}", secondaryTitle: "12 تسک انجام نشده", icon: "PlaylistAddCheckIcon", color: "#c90")
+                        ]
+                      }
+                    ]
+                  }
             ]
           }
         ]

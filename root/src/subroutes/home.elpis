@@ -9,17 +9,40 @@ define function Home
   children = ([
           appbar,
           {
-            controlType: "div",
+            controlType: "Paper",
+            style: {
+              height: "auto",
+              marginTop: 256,
+              backgroundColor: "#fff",
+              borderRadius: "32px 32px 0 0",
+              position: "relative",
+              paddingBottom: 56
+            },
             properties: {
+              elevation: 16,
               animation: "${homeBottomBarAnim}",
               animationTime: "${homeBottomBarAnimTime}"
             },
             children: [
+              {
+                controlType: "Fab",
+                properties: {
+                  color: "#f05"
+                },
+                style: {
+                  marginTop: -28,
+                  marginRight: "72%"
+                },
+                children: [
+                  {
+                    controlType: "SearchIcon"
+                  }
+                ]
+              },
               homeBody,
               bottombar
             ]
-          },
-          supportBtn
+          }
         ])
   
   return (
@@ -36,7 +59,7 @@ define function Home
           top: 0,
           right: 0,
           width: "100%",
-          height: "100%",
+          height: "100vh",
           display: "none"
         },
         children: children
