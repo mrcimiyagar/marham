@@ -2,6 +2,7 @@
 @ClientSide
 define function loadMessenger
   runJS(jsCode: "
+      page.document.documentElement.style.overflow = 'hidden'; 
       let savedOverflow = page.document.getElementById('messengerContainer').style.overflow;
       page.document.getElementById('messengerContainer').style.overflow = 'hidden';
       page.setState({...page.state, messengerAppBarAnim: 'fadeInDownBig', messengerListAnim: 'fadeInUpBig'
@@ -52,6 +53,7 @@ define function hideMessenger
         , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
         , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
+      page.document.documentElement.style.overflow = page.documentElementOverflow; 
       page.document.getElementById('messengerContainer').style.overflow = 'hidden';
       page.setStyle('homeContainer', 'display', 'block');
       setTimeout(() => {

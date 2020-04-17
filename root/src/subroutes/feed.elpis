@@ -40,6 +40,7 @@ define function hideFeedAndShowHome
           , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
           , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
+      page.document.documentElement.style.overflow = page.documentElementOverflow; 
       page.document.getElementById('feedContainer').style.overflow = 'hidden';
         page.setStyle('homeContainer', 'display', 'block');
       setTimeout(() => {

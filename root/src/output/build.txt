@@ -9,6 +9,7 @@
   {
     "filePath": "routes/main.elp",
     "depsPath": [
+      "subroutes/files.elp",
       "subroutes/userInfo.elp",
       "subroutes/assignRole.elp",
       "subroutes/post.elp",
@@ -20,6 +21,10 @@
       "subroutes/profile.elp",
       "subroutes/home.elp"
     ]
+  },
+  {
+    "filePath": "subroutes/files.elp",
+    "depsPath": []
   },
   {
     "filePath": "subroutes/userInfo.elp",

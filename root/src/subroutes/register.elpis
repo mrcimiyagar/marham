@@ -29,6 +29,7 @@ define function hideRegisterAndShowHome
           , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
           , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
           , registerFabAnim: 'zoomOut', registerFabAnimTime: '1s'});
+      page.document.documentElement.style.overflow = page.documentElementOverflow; 
       setTimeout(() => {
         page.setState({...page.state, registerAppBarAnim: '', registerFormAnim: ''
           , registerFabAnim: ''

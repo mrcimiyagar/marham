@@ -23,7 +23,6 @@ define function loadProfile
           , homeFabAnim: 'zoomOut'
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('profileContainer').style.overflow = savedOverflow;
-        page.document.documentElement.style.overflow = page.documentElementOverflow;
         setTimeout(() => {page.canTransit = true;}, 250);
       }, 1100);
       page.document.getElementById('profileContainer').style.display = 'block';
@@ -67,7 +66,6 @@ define function hideProfile
         , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
         , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
-      page.document.documentElement.style.overflow = 'hidden';
       page.document.getElementById('profileContainer').style.overflow = 'hidden';
       page.setStyle('homeContainer', 'display', 'block');
       setTimeout(() => {

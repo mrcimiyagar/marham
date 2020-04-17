@@ -1,0 +1,254 @@
+
+@ClientSide
+define function loadFiles
+  runJS(jsCode: "
+    if (page.canTransit) {
+      page.canTransit = false;
+      let savedOverflow = page.document.getElementById('filesContainer').style.overflow;
+      page.document.getElementById('filesContainer').style.overflow = 'hidden';
+      page.setState({...page.state, filesAppBarAnim: 'fadeInDownBig', filesHistListAnim: 'fadeInUpBig'
+        , filesAppBarAnimTime: '1s', filesHistListAnimTime: '1s'
+        , filesFabAnim: 'zoomIn', filesFabAnimTime: '1s'
+        , homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig'
+        , homeFabAnim: 'zoomOut', homeFabAnimTime: '1s'
+        , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
+      });
+      page.setStyle('filesContainer', 'display', 'block');
+      page.document.documentElement.style.overflow = 'hidden';
+      setTimeout(() => {
+        page.setStyle('homeContainer', 'display', 'none');
+        page.setState({...page.state, filesAppBarAnim: '', filesHistListAnim: '', filesFabAnim: ''
+          , homeFabAnim: 'zoomOut'
+          , homeAppBarAnim: '', homeBottomBarAnim: ''});
+        page.document.getElementById('filesContainer').style.overflow = savedOverflow;
+        setTimeout(() => {page.canTransit = true;}, 250);
+      }, 1100);
+      page.document.getElementById('filesContainer').style.display = 'block';
+    }
+  ")
+
+@ClientSide
+define function hideFiles
+  runJS(jsCode: "
+    if (page.canTransit) {
+      page.canTransit = false;
+      let savedOverflow = page.document.getElementById('filesContainer').style.overflow;
+      page.setState({...page.state, filesAppBarAnim: 'fadeOutUpBig', filesHistListAnim: 'fadeOutDownBig'
+        , filesAppBarAnimTime: '2s', filesHistListAnimTime: '2s'
+        , filesFabAnim: 'zoomOut', filesFabAnimTime: '2s'
+        , homeFabAnim: 'zoomIn', homeFabAnimTime: '1s'
+        , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
+        , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
+      });
+      page.document.getElementById('filesContainer').style.overflow = 'hidden';
+      page.setStyle('homeContainer', 'display', 'block');
+      setTimeout(() => {
+        page.setState({...page.state, filesAppBarAnim: '', filesHistListAnim: '', filesFabAnim: ''
+          , homeFabAnim: ''
+          , homeItemAnim: 'zoomIn'
+          , homeAppBarAnim: '', homeBottomBarAnim: ''});
+        page.document.getElementById('filesContainer').style.overflow = savedOverflow;
+        page.setStyle('filesContainer', 'display', 'none');
+        setTimeout(() => {
+          page.setState({...page.state, homeItemAnim: ''});
+          page.document.documentElement.style.overflow = page.documentElementOverflow;
+          setTimeout(() => {page.canTransit = true;}, 250);
+        }, 1100);
+      }, 1100);
+    }
+  ")
+
+@ClientSide
+define function handleFilesListClick
+  runJS(jsCode: "if (page.state.open === undefined) page.setState({...page.state, open: true});
+                 else page.setState({...page.state, open: !page.state.open});")
+
+fileGroupItem = (
+    <ListItem button onClick={"${() => page.handleFilesListClick()}"}>
+      <ListItemIcon>
+        <InboxIcon />
+      </ListItemIcon>
+      <ListItemText primary="Inbox" />
+      <ExpandMore />
+    </ListItem>
+  )
+
+collpaseItem = (
+      <Collapse in={"${open}"} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItem button>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Starred" />
+          </ListItem>
+        </List>
+      </Collapse>
+    )
+
+images = ([
+    "https://material-ui.com/static/images/grid-list/breakfast.jpg",
+    "https://material-ui.com/static/images/grid-list/burgers.jpg",
+    "https://material-ui.com/static/images/grid-list/camera.jpg",
+    "https://material-ui.com/static/images/grid-list/morning.jpg",
+    "https://material-ui.com/static/images/grid-list/hats.jpg",
+    "https://material-ui.com/static/images/grid-list/honey.jpg",
+    "https://material-ui.com/static/images/grid-list/vegetables.jpg",
+    "https://material-ui.com/static/images/grid-list/plant.jpg",
+    "https://material-ui.com/static/images/grid-list/mushroom.jpg",
+    "https://material-ui.com/static/images/grid-list/olive.jpg",
+    "https://material-ui.com/static/images/grid-list/star.jpg",
+    "https://material-ui.com/static/images/grid-list/bike.jpg"
+])
+flag = 0
+imageItems = []
+counter = 0
+for len(obj: images) times by step 1 do
+  append(list: imageItems, listItem: {img: images[counter], cols: 1})
+  counter = counter + 1
+
+counter = 0
+gridItems = []
+for len(obj: images) times by step 1 do
+  imageItem = imageItems[counter]
+  append(list: gridItems, listItem: (
+              <GridListTile key={imageItem.img} cols={imageItem.cols}>
+                <img style={{width: "100%", height: "100%"}} src={imageItem.img} />
+              </GridListTile>
+            )
+        )
+  counter = counter + 1
+  
+counter = 21
+fileGroups = []
+for 20 times by step 1 do
+  append(list: fileGroups, listItem: (
+      <li key={"section-" + counter} style={{width: "calc(100% - 8px)", marginLeft: -32, marginRight: -32}}>
+        <ul style={{width: "100%"}}>
+          <ListSubheader style={{width: "100%", backgroundColor: "#fff"}}>{ controlType: "Text", text: (counter + 1) + " فروردین 1399" }</ListSubheader>
+          <ListItem key={"item-" + counter + "-0"} style={{width: "100%"}}>
+            {
+              controlType: "GridList",
+              properties: {
+                cellHeight: 100,
+                cols: 3
+              },
+              style: {
+                width: "100%"
+              },
+              children: gridItems
+            }
+          </ListItem>
+        </ul>
+      </li>))
+  counter = counter - 1
+
+define function Files
+  return (
+    <div 
+        id="filesContainer" 
+        style={{backgroundColor: "#fff", display: "none", width: "100%", height: "100%"}}>
+          {
+            controlType: "div",
+            properties: {
+              animation: "${filesHistListAnim}",
+              animationTime: "${filesHistListAnimTime}"
+            },
+            style: {
+              width: "100%",
+              height: "calc(100vh - 56px)",
+              backgroundColor: "#fff",
+              position: "absolute",
+              top: 56,
+              overflow: "auto"
+            },
+            children: [
+              {
+                controlType: "List",
+                style: {
+                  width: "100%"
+                },
+                children: fileGroups
+              }
+            ]
+          }
+          {
+            controlType: "AppBar",
+            properties: {
+              id: "homeAppBar",
+              animation: "${filesAppBarAnim}",
+              animationTime: "${filesAppBarAnimTime}",
+              color: "#07d"
+            },
+            style: {
+              width: "100%",
+              height: 56,
+              marginLeft: 0,
+              marginRight: 0,
+              position: "fixed",
+              top: 0,
+              left: 0
+            },
+            children: [
+              {
+                controlType: "Toolbar",
+                children: [
+                  {
+                    controlType: "DescriptionIcon",
+                    style: {
+                      marginTop: 20,
+                      marginRight: 24
+                    }
+                  },
+              {
+                controlType: "div",
+                style: {
+                  position: "relative",
+                  marginRight: 64
+                },
+                children: [
+                  {
+                    controlType: "Typography",
+                    style: {
+                      width: "100%",
+                      textAlign: "right",
+                      color: "white",
+                      marginTop: -36
+                    },
+                    properties: {
+                      variant: "h6"
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "فایل ها"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                    controlType: "IconButton",
+                    properties: {
+                      onClick: "${() => {page.hideFiles();}}"
+                    },
+                    style: {
+                      position: "absolute",
+                      left: 8,
+                      top: 8
+                    },
+                    children: [
+                      {
+                        controlType: "CloseIcon",
+                        style: {
+                          fill: "#fff"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+  </div>
+  )

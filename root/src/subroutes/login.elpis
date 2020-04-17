@@ -30,6 +30,7 @@ define function hideLoginAndShowHome
           , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
           , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
           , loginFabAnim: 'zoomOut', loginFabAnimTime: '1s'});
+      page.document.documentElement.style.overflow = page.documentElementOverflow; 
       setTimeout(() => {
         page.setState({...page.state, loginAppBarAnim: '', loginFormAnim: ''
           , homeItemAnim: 'zoomIn'

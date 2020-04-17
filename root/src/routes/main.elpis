@@ -9,6 +9,7 @@ use "subroutes/feed.elpis"
 use "subroutes/post.elpis"
 use "subroutes/assignRole.elpis"
 use "subroutes/userInfo.elpis"
+use "subroutes/files.elpis"
 
 currentPath = "profile"
 
@@ -18,6 +19,7 @@ define function main
     window.page = {...window.parent, ...window.parent.page};
     page.documentElementOverflow = page.document.documentElement.style.overflow;
     page.document.getElementById('feedGrid').style.display = 'none !important';
+    page.document.documentElement.style.overflow = 'hidden'; 
     page.canTransit = true;
   ")
   hideRegisterAndShowLogin()
@@ -36,7 +38,8 @@ define function mainPage
           feedPage,
           postPage,
           assignRolePage,
-          userInfoPage
+          userInfoPage,
+          Files()
         ])
   
   return (
