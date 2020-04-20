@@ -60,6 +60,9 @@ define function HomeProfileTag with params profileName
 define function HomeAddProfileTag
   return ({
             controlType: "div",
+            properties: {
+              onClick: "${() => {page.hideLoginAndShowRegister();}}"
+            },
             style: {
               width: 112,
               height: "auto",
@@ -148,7 +151,9 @@ appbar = ({
                 },
                 style: {
                   color: "#fff",
-                  paddingRight: 24
+                  paddingRight: 24,
+                  width: "100%",
+                  textAlign: "right"
                 },
                 children: [
                   {

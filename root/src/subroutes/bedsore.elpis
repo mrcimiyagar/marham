@@ -1,0 +1,270 @@
+
+@ClientSide
+define function loadBedsore
+  runJS(jsCode: "
+      page.setStyle('bedsoreContainer', 'display', 'block');
+      page.setState({...page.state, homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig', homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
+          , bedsoreAppBarAnim: 'fadeInDownBig', bedsoreFormAnim: 'fadeInUpBig', bedsoreAppBarAnimTime: '1s', bedsoreFormAnimTime: '1s'
+          , bedsoreFabAnim: 'zoomIn', homeFabAnim: 'zoomOut', bedsoreFabAnimTime: '1s', homeFabAnimTime: '1s'});
+      page.document.documentElement.style.overflow = 'hidden';
+      setTimeout(() => {
+        page.setState({...page.state, homeAppBarAnim: '', homeBottomBarAnim: '',
+           bedsoreAppBarAnim: '', bedsoreFormAnim: ''
+          , bedsoreFabAnim: '', homeFabAnim: ''});
+        page.document.getElementById('homeContainer').style.display = 'none';
+      }, 1100);
+    ")
+
+@ClientSide
+define function hideBedsoreAndShowHome
+  runJS(jsCode: "
+      page.document.getElementById('homeContainer').style.display = 'block';
+      page.setState({...page.state, bedsoreAppBarAnim: 'fadeOutUpBig', bedsoreFormAnim: 'fadeOutDownBig'
+          , bedsoreAppBarAnimTime: '1s', bedsoreFormAnimTime: '1s'
+          , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
+          , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
+          , homeFabAnim: 'zoomIn', homeFabAnimTime: '1s'
+          , bedsoreFabAnim: 'zoomOut', bedsoreFabAnimTime: '1s'});
+      setTimeout(() => {
+        page.setState({...page.state, bedsoreAppBarAnim: '', bedsoreFormAnim: ''
+          , bedsoreFabAnim: ''
+          , homeFabAnim: ''
+          , homeItemAnim: 'zoomIn'
+          , homeAppBarAnim: '', homeBottomBarAnim: ''});
+        page.document.documentElement.style.overflow = page.documentElementOverflow;
+        page.setStyle('bedsoreContainer', 'display', 'none');
+        setTimeout(() => {
+          page.setState({...page.state, homeItemAnim: ''});
+        }, 1100);
+      }, 1100);
+    ")
+
+bedsorePage = (
+      {
+        controlType: "Box",
+        properties: {
+          id: "bedsoreContainer"
+        },
+        style: {
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          left: 0,
+          top: 0,
+          display: "none",
+          overflow: "hidden"
+        },
+        children: [
+          {
+            controlType: "div",
+            properties: {
+              animation: "${bedsoreFormAnim}",
+              animationTime: "${bedsoreFormAnimTime}"
+            },
+            style: {
+              width: "100%",
+              height: "calc(100vh - 164px)",
+              backgroundColor: "#eee",
+              marginLeft: 0,
+              marginRight: 0,
+              position: "absolute",
+              top: 164,
+              left: 0,
+              overflow: "auto"
+            },
+            children: [
+                  {
+                    controlType: "form",
+                    children: [
+                      <List style={{paddingBottom: 112}}>
+                      <ListItem style={{marginTop: -8}}>
+                        <h3>"پنل زخم بستر"</h3>
+                      </ListItem>
+                      <ListItem style={{marginTop: -16}}>
+                      <FormControl
+                        style={{backgroundColor: "#fff", borderRadius: 4, width: "100%"}}>
+                        <OutlinedInput 
+                          id="bedsoreReportInput" 
+                          rows={12}
+                          multiline
+                          placeholder="گزارش"/>
+                      </FormControl>
+                      </ListItem>
+                      <ListItem>
+                      <Paper
+                        style={{width: "100%", height: 264, position: "relative", padding: 32}}>
+                        <Grid container justify="center" spacing={2}>
+                          <Grid key={0} item>
+                            <Button variant="outlined" color="#a15" style={{padding: 40}}>
+                              <AddAPhotoIcon 
+                                style={{
+                                  fill: "#a15",
+                                  width: 40,
+                                  height: 40
+                                }}/>
+                            </Button>
+                          </Grid>
+                          <Grid key={1} item>
+                            <Button variant="outlined" color="#a15" style={{padding: 40}}>
+                              <AddAPhotoIcon 
+                                style={{
+                                  fill: "#a15",
+                                  width: 40,
+                                  height: 40
+                                }}/>
+                            </Button>
+                          </Grid>
+                          <Grid key={2} item>
+                            <Button variant="outlined" color="#a15" style={{padding: 40}}>
+                              <AddAPhotoIcon 
+                                style={{
+                                  fill: "#a15",
+                                  width: 40,
+                                  height: 40
+                                }}/>
+                            </Button>
+                          </Grid>
+                          <Grid key={3} item>
+                            <Button variant="outlined" color="#a15" style={{padding: 40}}>
+                              <AddAPhotoIcon 
+                                style={{
+                                  fill: "#a15",
+                                  width: 40,
+                                  height: 40
+                                }}/>
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      </Paper>
+                      </ListItem>
+                      </List>
+                    ]
+                  }
+            ]
+          },
+          {
+            controlType: "AppBar",
+            properties: {
+              id: "bedsoreAppBar",
+              animation: "${bedsoreAppBarAnim}",
+              animationTime: "${bedsoreAppBarAnimTime}",
+              hideOnScroll: true,
+              color: "#07d"
+            },
+            style: {
+              width: "100%",
+              height: 164,
+              marginLeft: 0,
+              marginRight: 0,
+              position: "absolute",
+              top: 0,
+              left: 0
+            },
+            children: [
+              {
+                controlType: "Toolbar",
+                children: [
+                  {
+                    controlType: "Avatar",
+                    properties: {
+                      elevation: 12,
+                      src: "/webapp/res/hospital.png"
+                    },
+                    style: {
+                      width: 84,
+                      height: 84,
+                      position: "absolute",
+                      right: 32,
+                      top: 32
+                    }
+                  },
+                  {
+                    controlType: "div",
+                    style: {
+                      position: "relative",
+                      marginRight: 128
+                    },
+                    children: [
+                      {
+                        controlType: "Typography",
+                        style: {
+                          width: "100%",
+                          textAlign: "right",
+                          color: "white",
+                          position: "absolute",
+                          top: 32
+                        },
+                        properties: {
+                          variant: "h4"
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "مرحم"
+                          }
+                        ]
+                      },
+                      {
+                        controlType: "Typography",
+                        style: {
+                          width: "100%",
+                          textAlign: "right",
+                          color: "white",
+                          position: "absolute",
+                          top: 72
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "متن دوم"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "IconButton",
+                    properties: {
+                      onClick: "${() => page.hideBedsoreAndShowHome()}"
+                    },
+                    style: {
+                      marginLeft: 16,
+                      marginTop: 16,
+                      marginRight: 16,
+                      position: "absolute",
+                      left: 0
+                    },
+                    children: [
+                      {
+                        controlType: "CloseIcon",
+                        style: {
+                          fill: "#fff"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+                        controlType: "Fab",
+                        properties: {
+                          color: "#a15",
+                          animation: "${bedsoreFabAnim}",
+                          animationTime: "${bedsoreFabAnimTime}",
+                          onClick: "${() => {page.hideBedsoreAndShowHome();}}"
+                        },
+                        style: {
+                          position: "fixed",
+                          left: 32,
+                          bottom: 32
+                        },
+                        children: [
+                          {
+                            controlType: "DoneIcon"
+                          }
+                        ]
+          }
+        ]
+      })

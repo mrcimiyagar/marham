@@ -1,0 +1,261 @@
+
+use "components/medicineTable.elpis"
+
+@ClientSide
+define function loadMedicine
+  runJS(jsCode: "
+      page.setStyle('medicineContainer', 'display', 'block');
+      page.setState({...page.state, homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig', homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
+          , medicineAppBarAnim: 'fadeInDownBig', medicineFormAnim: 'fadeInUpBig', medicineAppBarAnimTime: '1s', medicineFormAnimTime: '1s'
+          , medicineFabAnim: 'zoomIn', homeFabAnim: 'zoomOut', medicineFabAnimTime: '1s', homeFabAnimTime: '1s'});
+      page.document.documentElement.style.overflow = 'hidden';
+      setTimeout(() => {
+        page.setState({...page.state, homeAppBarAnim: '', homeBottomBarAnim: '',
+           medicineAppBarAnim: '', medicineFormAnim: ''
+          , medicineFabAnim: '', homeFabAnim: ''});
+        page.document.getElementById('homeContainer').style.display = 'none';
+      }, 1100);
+    ")
+
+@ClientSide
+define function hideMedicineAndShowHome
+  runJS(jsCode: "
+      page.document.getElementById('homeContainer').style.display = 'block';
+      page.setState({...page.state, medicineAppBarAnim: 'fadeOutUpBig', medicineFormAnim: 'fadeOutDownBig'
+          , medicineAppBarAnimTime: '1s', medicineFormAnimTime: '1s'
+          , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
+          , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
+          , homeFabAnim: 'zoomIn', homeFabAnimTime: '1s'
+          , medicineFabAnim: 'zoomOut', medicineFabAnimTime: '1s'});
+      setTimeout(() => {
+        page.setState({...page.state, medicineAppBarAnim: '', medicineFormAnim: ''
+          , medicineFabAnim: ''
+          , homeFabAnim: ''
+          , homeItemAnim: 'zoomIn'
+          , homeAppBarAnim: '', homeBottomBarAnim: ''});
+        page.document.documentElement.style.overflow = page.documentElementOverflow;
+        page.setStyle('medicineContainer', 'display', 'none');
+        setTimeout(() => {
+          page.setState({...page.state, homeItemAnim: ''});
+        }, 1100);
+      }, 1100);
+    ")
+
+medicinePage = (
+      {
+        controlType: "Box",
+        properties: {
+          id: "medicineContainer"
+        },
+        style: {
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          left: 0,
+          top: 0,
+          display: "none",
+          overflow: "hidden"
+        },
+        children: [
+          {
+            controlType: "div",
+            properties: {
+              animation: "${medicineFormAnim}",
+              animationTime: "${medicineFormAnimTime}"
+            },
+            style: {
+              width: "100%",
+              height: "calc(100vh - 164px)",
+              backgroundColor: "#eee",
+              marginLeft: 0,
+              marginRight: 0,
+              position: "absolute",
+              top: 164,
+              left: 0,
+              overflow: "auto"
+            },
+            children: [
+                  {
+                    controlType: "form",
+                    children: [
+                      <List style={{
+                              paddingBottom: 112,
+                              overflow: "auto"}}>
+          <ListItem style={{marginTop: -16, position: "relative"}}>
+            <h3>"دارو ها"</h3>
+          </ListItem>
+          <ListItem key={"item-" + 0 + "-0"} style={{width: "100%"}}>
+                      {
+                        controlType: "ListItem",
+                        style: {
+                          marginTop: -24
+                        },
+                        children: [
+                          medicineTable
+                        ]
+                      }
+          </ListItem>
+                      </List>
+                    ]
+                  }
+            ]
+          },
+          {
+            controlType: "AppBar",
+            properties: {
+              id: "medicineAppBar",
+              animation: "${medicineAppBarAnim}",
+              animationTime: "${medicineAppBarAnimTime}",
+              hideOnScroll: true,
+              color: "#07d"
+            },
+            style: {
+              width: "100%",
+              height: 164,
+              marginLeft: 0,
+              marginRight: 0,
+              position: "absolute",
+              top: 0,
+              left: 0
+            },
+            children: [
+              {
+                controlType: "Toolbar",
+                children: [
+                  {
+                    controlType: "Avatar",
+                    properties: {
+                      elevation: 12,
+                      src: "/webapp/res/hospital.png"
+                    },
+                    style: {
+                      width: 84,
+                      height: 84,
+                      position: "absolute",
+                      right: 32,
+                      top: 32
+                    }
+                  },
+                  {
+                    controlType: "div",
+                    style: {
+                      position: "relative",
+                      marginRight: 128
+                    },
+                    children: [
+                      {
+                        controlType: "Typography",
+                        style: {
+                          width: "100%",
+                          textAlign: "right",
+                          color: "white",
+                          position: "absolute",
+                          top: 32
+                        },
+                        properties: {
+                          variant: "h4"
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "مرحم"
+                          }
+                        ]
+                      },
+                      {
+                        controlType: "Typography",
+                        style: {
+                          width: "100%",
+                          textAlign: "right",
+                          color: "white",
+                          position: "absolute",
+                          top: 72
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "متن دوم"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "IconButton",
+                    properties: {
+                      onClick: "${() => page.hideMedicineAndShowHome()}"
+                    },
+                    style: {
+                      marginLeft: 16,
+                      marginTop: 16,
+                      marginRight: 16,
+                      position: "absolute",
+                      left: 0
+                    },
+                    children: [
+                      {
+                        controlType: "CloseIcon",
+                        style: {
+                          fill: "#fff"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "Fab",
+                    properties: {
+                      color: "#a15",
+                      variant: "extended",
+                      onClick: "${() => {}}"
+                    },
+                    style: {
+                      position: "fixed",
+                      left: 32,
+                      top: 164 - 28
+                    },
+                    children: [
+                      {
+                        controlType: "SearchIcon",
+                        style: {
+                          marginLeft: 16
+                        }
+                      },
+                      {
+                        controlType: "Typography",
+                        properties: {
+                          marginLeft: 16
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "جستجو"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+                        controlType: "Fab",
+                        properties: {
+                          color: "#a15",
+                          animation: "${medicineFabAnim}",
+                          animationTime: "${medicineFabAnimTime}",
+                          onClick: "${() => {page.hideMedicineAndShowHome();}}"
+                        },
+                        style: {
+                          position: "fixed",
+                          left: 32,
+                          bottom: 32
+                        },
+                        children: [
+                          {
+                            controlType: "AddIcon"
+                          }
+                        ]
+          }
+        ]
+      })

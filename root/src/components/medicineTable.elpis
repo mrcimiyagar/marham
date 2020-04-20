@@ -1,0 +1,89 @@
+
+medicineRows = []
+
+keyCounter = 1
+for 5 times by step 1 do
+  append(list: medicineRows, listItem: (
+            <TableRow hover role="checkbox" tabIndex={-1} key={keyCounter}>
+              <TableCell key={1} align={"right"}>
+                "دپاکین"
+              </TableCell>
+              <TableCell key={2} align={"right"}>
+                "10"
+              </TableCell>
+              <TableCell key={3} align={"right"}>
+                "10000"
+              </TableCell>
+              <TableCell key={4} align={"right"}>
+                <IconButton>
+                  <DeleteIcon/>
+                </IconButton>
+              </TableCell>
+              <TableCell key={5} align={"right"}>
+                <IconButton>
+                  <EditIcon/>
+                </IconButton>
+              </TableCell>
+            </TableRow>
+          )
+        )
+  keyCounter = keyCounter + 1
+
+medicineTable = (
+  <div>
+    <Paper
+      style={{
+        marginLeft: 16,
+        marginRight: -16
+      }}>
+      <TableContainer>
+        <Table stickyHeader>
+          <TableHead>
+            <TableRow>
+              <TableCell
+                  key={1}
+                  align={"right"}
+                  style={{ minWidth: 60 }}>
+                  "نام دارو"
+              </TableCell>
+              <TableCell
+                  key={2}
+                  align={"right"}
+                  style={{ minWidth: 60 }}>
+                  "تعداد"
+              </TableCell>
+              <TableCell
+                  key={3}
+                  align={"right"}
+                  style={{ minWidth: 60 }}>
+                  "قیمت"
+              </TableCell>
+              <TableCell
+                  key={5}
+                  align={"right"}
+                  style={{ minWidth: 40 }}>
+                  ""
+              </TableCell>
+              <TableCell
+                  key={4}
+                  align={"right"}
+                  style={{ minWidth: 40 }}>
+                  ""
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          {
+            controlType: "TableBody",
+            children: medicineRows
+          }
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10]}
+        component="div"
+        count={100}
+        rowsPerPage={10}
+        page={0}
+      />
+    </Paper>
+  </div>)

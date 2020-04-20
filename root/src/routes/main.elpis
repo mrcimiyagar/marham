@@ -10,6 +10,9 @@ use "subroutes/post.elpis"
 use "subroutes/assignRole.elpis"
 use "subroutes/userInfo.elpis"
 use "subroutes/files.elpis"
+use "subroutes/bedsore.elpis"
+use "subroutes/medicine.elpis"
+
 
 currentPath = "profile"
 
@@ -39,7 +42,9 @@ define function mainPage
           postPage,
           assignRolePage,
           userInfoPage,
-          Files()
+          Files(),
+          bedsorePage,
+          medicinePage
         ])
   
   return (
@@ -50,11 +55,10 @@ define function mainPage
           fontName: "IranianSans"
         },
         style: {
-          width: "calc(100% + 16px)",
-          height: "calc(100% - 20px)",
+          width: "100%",
+          height: "100%",
           direction: "rtl",
-          backgroundColor: "#eee",
-          marginLeft: "-8px"
+          backgroundColor: "#eee"
         },
         children: children
       }

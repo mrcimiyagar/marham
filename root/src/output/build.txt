@@ -9,6 +9,8 @@
   {
     "filePath": "routes/main.elp",
     "depsPath": [
+      "subroutes/medicine.elp",
+      "subroutes/bedsore.elp",
       "subroutes/files.elp",
       "subroutes/userInfo.elp",
       "subroutes/assignRole.elp",
@@ -21,6 +23,20 @@
       "subroutes/profile.elp",
       "subroutes/home.elp"
     ]
+  },
+  {
+    "filePath": "subroutes/medicine.elp",
+    "depsPath": [
+      "components/medicineTable.elp"
+    ]
+  },
+  {
+    "filePath": "components/medicineTable.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "subroutes/bedsore.elp",
+    "depsPath": []
   },
   {
     "filePath": "subroutes/files.elp",
