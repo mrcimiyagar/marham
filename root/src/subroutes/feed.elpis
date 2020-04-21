@@ -230,24 +230,18 @@ feedPage = (
                   {
                     controlType: "RssFeedIcon",
                     style: {
-                      marginTop: 20,
-                      marginRight: 24
+                      position: "absolute",
+                      top: 20,
+                      right: 24
                     }
                   },
-              {
-                controlType: "div",
-                style: {
-                  position: "relative",
-                  marginRight: 64
-                },
-                children: [
                   {
                     controlType: "Typography",
                     style: {
-                      width: "100%",
-                      textAlign: "right",
                       color: "white",
-                      marginTop: -36
+                      position: "absolute",
+                      right: 64,
+                      top: 16
                     },
                     properties: {
                       variant: "h6"
@@ -258,10 +252,8 @@ feedPage = (
                         text: "وبلاگ مرحم"
                       }
                     ]
-                  }
-                ]
-              },
-              {
+                  },
+                  {
                     controlType: "IconButton",
                     properties: {
                       onClick: "${() => {page.hideFeedAndShowHome();}}"
