@@ -81,7 +81,7 @@ loginPage = (
                 controlType: "div",
                 style: {
                   marginTop: 40,
-                  marginLeft: 16
+                  marginRight: 32
                 },
                 children: [
                   {
@@ -98,6 +98,7 @@ loginPage = (
                   },
                   {
                     controlType: "form",
+                    style: {marginRight: -24},
                     children: [
                       {
                         controlType: "FormControl",

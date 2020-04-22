@@ -79,7 +79,7 @@ registerPage = (
                 controlType: "div",
                 style: {
                   paddingTop: 40,
-                  marginLeft: 16
+                  marginRight: 32
                 },
                 children: [
                   {
@@ -96,6 +96,7 @@ registerPage = (
                   },
                   {
                     controlType: "form",
+                    style: {marginRight: -24},
                     children: [
                       TextField(inputId: "registerUsernameInput", inputLabel: "نام کاربری"),
                       TextField(inputId: "registerPasswordInput", inputLabel: "رمز عبور"),

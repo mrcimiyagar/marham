@@ -194,7 +194,7 @@ var Module = typeof Module !== 'undefined' ? Module : {};
     }
   
    }
-   loadPackage({"files": [{"filename": "/root/@ClientSideFunctions.elp", "start": 0, "end": 46282, "audio": 0}], "remote_package_size": 46282, "package_uuid": "219b8ac0-8591-425d-95b6-e6f852487a54"});
+   loadPackage({"files": [{"filename": "/root/@ClientSideFunctions.elp", "start": 0, "end": 48424, "audio": 0}], "remote_package_size": 48424, "package_uuid": "5c987b72-8637-4a8e-83b1-87e7a6a355e1"});
   
   })();
   
@@ -1449,11 +1449,11 @@ function updateGlobalBufferAndViews(buf) {
 }
 
 var STATIC_BASE = 1024,
-    STACK_BASE = 5256016,
+    STACK_BASE = 5256112,
     STACKTOP = STACK_BASE,
-    STACK_MAX = 13136,
-    DYNAMIC_BASE = 5256016,
-    DYNAMICTOP_PTR = 12976;
+    STACK_MAX = 13232,
+    DYNAMIC_BASE = 5256112,
+    DYNAMICTOP_PTR = 13072;
 
 assert(STACK_BASE % 16 === 0, 'stack must start aligned');
 assert(DYNAMIC_BASE % 16 === 0, 'heap must start aligned');
@@ -1977,19 +1977,20 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  2224: function() {window.parent.page = {...window.parent};},  
- 2267: function($0) {let funcName = UTF8ToString($0); window.parent.page[funcName] = function(args) { window.parent.executeFunction(funcName, args); };}
+  2334: function() {window.parent.page = {...window.parent};},  
+ 2377: function($0) {let funcName = UTF8ToString($0); window.parent.page[funcName] = function(args) { window.parent.executeFunction(funcName, args); };}
 };
 
 function _emscripten_asm_const_iii(code, sigPtr, argbuf) {
   var args = readAsmConstArgs(sigPtr, argbuf);
   return ASM_CONSTS[code].apply(null, args);
 }function attach_event_listener(eventName,funcName){ const fName = UTF8ToString(funcName); window.parent.addEventListener(UTF8ToString(eventName), () => { window[fName]({}) }); }
+function call_loaded(){ window.parent.loadedCount++; if (window.parent.loadedCount >= 2) window.parent.executeFunction("main", {}); }
 function call_set_state(key,value){ window.parent.setState({...window.parent.state, [UTF8ToString(key)]: UTF8ToString(value)}); }
 
 
 
-// STATICTOP = STATIC_BASE + 12112;
+// STATICTOP = STATIC_BASE + 12208;
 /* global initializers */  __ATINIT__.push({ func: function() { ___wasm_call_ctors() } });
 
 
@@ -5659,7 +5660,7 @@ function call_set_state(key,value){ window.parent.setState({...window.parent.sta
     }
 
   function _emscripten_get_sbrk_ptr() {
-      return 12976;
+      return 13072;
     }
 
   function _emscripten_memcpy_big(dest, src, num) {
@@ -6131,7 +6132,7 @@ function intArrayToString(array) {
 
 
 var asmGlobalArg = {};
-var asmLibraryArg = { "__handle_stack_overflow": ___handle_stack_overflow, "__syscall102": ___syscall102, "__syscall12": ___syscall12, "__syscall221": ___syscall221, "__syscall3": ___syscall3, "__syscall5": ___syscall5, "__syscall54": ___syscall54, "abort": _abort, "atexit": _atexit, "attach_event_listener": attach_event_listener, "call_set_state": call_set_state, "emscripten_asm_const_iii": _emscripten_asm_const_iii, "emscripten_get_sbrk_ptr": _emscripten_get_sbrk_ptr, "emscripten_memcpy_big": _emscripten_memcpy_big, "emscripten_resize_heap": _emscripten_resize_heap, "emscripten_run_script": _emscripten_run_script, "environ_get": _environ_get, "environ_sizes_get": _environ_sizes_get, "exit": _exit, "fd_close": _fd_close, "fd_read": _fd_read, "fd_seek": _fd_seek, "fd_write": _fd_write, "getaddrinfo": _getaddrinfo, "gettimeofday": _gettimeofday, "memory": wasmMemory, "pthread_cancel": _pthread_cancel, "setTempRet0": _setTempRet0, "table": wasmTable, "uuid_generate": _uuid_generate, "uuid_unparse": _uuid_unparse };
+var asmLibraryArg = { "__handle_stack_overflow": ___handle_stack_overflow, "__syscall102": ___syscall102, "__syscall12": ___syscall12, "__syscall221": ___syscall221, "__syscall3": ___syscall3, "__syscall5": ___syscall5, "__syscall54": ___syscall54, "abort": _abort, "atexit": _atexit, "attach_event_listener": attach_event_listener, "call_loaded": call_loaded, "call_set_state": call_set_state, "emscripten_asm_const_iii": _emscripten_asm_const_iii, "emscripten_get_sbrk_ptr": _emscripten_get_sbrk_ptr, "emscripten_memcpy_big": _emscripten_memcpy_big, "emscripten_resize_heap": _emscripten_resize_heap, "emscripten_run_script": _emscripten_run_script, "environ_get": _environ_get, "environ_sizes_get": _environ_sizes_get, "exit": _exit, "fd_close": _fd_close, "fd_read": _fd_read, "fd_seek": _fd_seek, "fd_write": _fd_write, "getaddrinfo": _getaddrinfo, "gettimeofday": _gettimeofday, "memory": wasmMemory, "pthread_cancel": _pthread_cancel, "setTempRet0": _setTempRet0, "table": wasmTable, "uuid_generate": _uuid_generate, "uuid_unparse": _uuid_unparse };
 var asm = createWasm();
 Module["asm"] = asm;
 /** @type {function(...*):?} */

@@ -9,6 +9,7 @@
   {
     "filePath": "routes/main.elp",
     "depsPath": [
+      "subroutes/reserve.elp",
       "subroutes/medicine.elp",
       "subroutes/bedsore.elp",
       "subroutes/files.elp",
@@ -23,6 +24,21 @@
       "subroutes/profile.elp",
       "subroutes/home.elp"
     ]
+  },
+  {
+    "filePath": "subroutes/reserve.elp",
+    "depsPath": [
+      "components/freeTimeTable.elp",
+      "components/textfield.elp"
+    ]
+  },
+  {
+    "filePath": "components/freeTimeTable.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "components/textfield.elp",
+    "depsPath": []
   },
   {
     "filePath": "subroutes/medicine.elp",

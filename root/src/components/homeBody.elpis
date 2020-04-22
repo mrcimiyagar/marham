@@ -429,13 +429,14 @@ homeBody = (
                       {
                         controlType: "List",
                         children: [
-                          HomeItem(title: "پروفایل", clickCallback: "${() => {page.scrollToTop(); page.loadProfile();}}", secondaryTitle: "پروفایل کیهان محمدی", icon: "PersonIcon", color: "#07d"),
-                          HomeItem(title: "وبلاگ", clickCallback: "${() => {page.scrollToTop(); page.loadFeed();}}", secondaryTitle: "120 پست", icon: "RssFeedIcon", color: "#60a"),
-                          HomeItem(title: "فایل ها", clickCallback: "${() => {page.scrollToTop(); page.loadFiles();}}", secondaryTitle: "256 فایل", icon: "DescriptionIcon", color: "#0d6"),
-                          HomeItem(title: "پیام ها", clickCallback: "${() => {page.scrollToTop(); page.loadMessenger();}}", secondaryTitle: "5 پیام خوانده نشده", icon: "ChatIcon", color: "#f09"),
-                          HomeItem(title: "تسک ها", clickCallback: "${() => {page.scrollToTop(); }}", secondaryTitle: "12 تسک انجام نشده", icon: "PlaylistAddCheckIcon", color: "#c90"),
-                          HomeItem(title: "پنل زخم بستر", clickCallback: "${() => {page.scrollToTop(); page.loadBedsore();}}", secondaryTitle: "", icon: "ChatIcon", color: "#f09"),
-                          HomeItem(title: "پنل دارو ها", clickCallback: "${() => {page.scrollToTop(); page.loadMedicine();}}", secondaryTitle: "", icon: "ChatIcon", color: "#f09")
+                          HomeItem(title: "پروفایل", clickCallback: "${() => {page.document.body.scrollTop = 0; page.document.documentElement.scrollTop = 0; page.loadProfile();}}", secondaryTitle: "پروفایل کیهان محمدی", icon: "PersonIcon", color: "#07d"),
+                          HomeItem(title: "وبلاگ", clickCallback: "${() => {page.document.body.scrollTop = 0; page.document.documentElement.scrollTop = 0; page.loadFeed();}}", secondaryTitle: "120 پست", icon: "RssFeedIcon", color: "#60a"),
+                          HomeItem(title: "فایل ها", clickCallback: "${() => {page.document.body.scrollTop = 0; page.document.documentElement.scrollTop = 0; page.loadFiles();}}", secondaryTitle: "256 فایل", icon: "DescriptionIcon", color: "#0d6"),
+                          HomeItem(title: "پیام ها", clickCallback: "${() => {page.document.body.scrollTop = 0; page.document.documentElement.scrollTop = 0; page.loadMessenger();}}", secondaryTitle: "5 پیام خوانده نشده", icon: "ChatIcon", color: "#f09"),
+                          HomeItem(title: "تسک ها", clickCallback: "${() => {page.document.body.scrollTop = 0; page.document.documentElement.scrollTop = 0; }}", secondaryTitle: "12 تسک انجام نشده", icon: "PlaylistAddCheckIcon", color: "#c90"),
+                          HomeItem(title: "پنل زخم بستر", clickCallback: "${() => {page.document.body.scrollTop = 0; page.document.documentElement.scrollTop = 0; page.loadBedsore();}}", secondaryTitle: "", icon: "ChatIcon", color: "#f09"),
+                          HomeItem(title: "درخواست خدمات", clickCallback: "${() => {page.document.body.scrollTop = 0; page.document.documentElement.scrollTop = 0; page.loadReserve();}}", secondaryTitle: "", icon: "ChatIcon", color: "#f09"),
+                          HomeItem(title: "پنل دارو ها", clickCallback: "${() => {page.document.body.scrollTop = 0; page.document.documentElement.scrollTop = 0; page.loadMedicine();}}", secondaryTitle: "", icon: "ChatIcon", color: "#f09")
                         ]
                       }
                     ]

@@ -1,0 +1,63 @@
+
+freeTimeRows = []
+
+keyCounter = 1
+for 24 times by step 1 do
+  append(list: freeTimeRows, listItem: (
+            <TableRow hover role="checkbox" tabIndex={-1} key={keyCounter}>
+              <TableCell padding="checkbox">
+                <Checkbox
+                  checked={false}
+                />
+              </TableCell>
+              <TableCell key={2} align={"center"}>
+                "02:00 PM"
+              </TableCell>
+              <TableCell key={1} align={"center"}>
+                "01:00 PM"
+              </TableCell>
+            </TableRow>
+          )
+        )
+  keyCounter = keyCounter + 1
+
+freeTimeTable = (
+  <div>
+    <Paper
+      style={{
+        direction: "ltr",
+        marginTop: 24
+      }}>
+      <TableContainer style={{maxHeight: 225}}>
+        <Table stickyHeader>
+          <TableHead>
+            <TableRow>
+              <TableCell padding="checkbox">
+                <Checkbox
+                  indeterminate={false}
+                  checked={false}
+                  onChange={"${() => page.onFreeTimeSelectAllClick()}"}
+                />
+              </TableCell>
+              <TableCell
+                  key={2}
+                  align={"center"}
+                  style={{ minWidth: "_{(window.innerWidth / 2) + 'px'}" }}>
+                  "تا"
+              </TableCell>
+              <TableCell
+                  key={1}
+                  align={"center"}
+                  style={{ minWidth: "_{(window.innerWidth / 2) + 'px'}" }}>
+                  "از"
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          {
+            controlType: "TableBody",
+            children: freeTimeRows
+          }
+        </Table>
+      </TableContainer>
+    </Paper>
+  </div>)

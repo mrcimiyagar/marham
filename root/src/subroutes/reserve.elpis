@@ -1,0 +1,299 @@
+
+use "components/textfield.elpis"
+use "components/freeTimeTable.elpis"
+
+@ClientSide
+define function loadReserve
+  runJS(jsCode: "
+      page.document.getElementById('reserveContainer').style.display = 'block';
+      page.setState({...page.state, homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig', homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
+          , reserveAppBarAnim: 'fadeInDownBig', reserveFormAnim: 'fadeInUpBig', reserveAppBarAnimTime: '1s', reserveFormAnimTime: '1s'
+          , reserveFabAnim: 'zoomIn', homeFabAnim: 'zoomOut', reserveFabAnimTime: '1s', homeFabAnimTime: '1s'});
+      //page.document.documentElement.style.overflow = 'hidden';
+      setTimeout(() => {
+        page.setState({...page.state, homeAppBarAnim: '', homeBottomBarAnim: '',
+           reserveAppBarAnim: '', reserveFormAnim: ''
+          , reserveFabAnim: '', homeFabAnim: ''});
+        page.document.getElementById('homeContainer').style.display = 'none';
+      }, 1100);
+    ")
+
+@ClientSide
+define function hideReserveAndShowHome
+  runJS(jsCode: "
+      page.document.getElementById('homeContainer').style.display = 'block';
+      page.setState({...page.state, reserveAppBarAnim: 'fadeOutUpBig', reserveFormAnim: 'fadeOutDownBig'
+          , reserveAppBarAnimTime: '1s', reserveFormAnimTime: '1s'
+          , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
+          , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
+          , homeFabAnim: 'zoomIn', homeFabAnimTime: '1s'
+          , reserveFabAnim: 'zoomOut', reserveFabAnimTime: '1s'});
+      setTimeout(() => {
+        page.setState({...page.state, reserveAppBarAnim: '', reserveFormAnim: ''
+          , reserveFabAnim: ''
+          , homeFabAnim: ''
+          , homeItemAnim: 'zoomIn'
+          , homeAppBarAnim: '', homeBottomBarAnim: ''});
+        page.setStyle('reserveContainer', 'display', 'none');
+        page.document.documentElement.style.overflow = page.documentElementOverflow;
+        setTimeout(() => {
+          page.setState({...page.state, homeItemAnim: ''});
+        }, 1100);
+      }, 1100);
+    ")
+
+@ClientSide
+define function handleDateChange with params newValue
+  setState(stateKey: "selectedDate", stateValue: newValue)
+
+reservePage = (
+      {
+        controlType: "Box",
+        properties: {
+          id: "reserveContainer"
+        },
+        style: {
+          width: "100%",
+          height: "calc(100vh + 256px)",
+          position: "absolute",
+          left: 0,
+          top: 0,
+          display: "none",
+          overflow: "hidden"
+        },
+        children: [
+          {
+            controlType: "div",
+            properties: {
+              animation: "${reserveFormAnim}",
+              animationTime: "${reserveFormAnimTime}"
+            },
+            style: {
+              width: "100%",
+              height: "calc(100vh + 256px)",
+              backgroundColor: "#eee",
+              marginLeft: 0,
+              marginRight: 0,
+              position: "absolute",
+              top: 164,
+              left: 0
+            },
+            children: [
+              {
+                controlType: "List",
+                style: {
+                  paddingTop: 16,
+                  marginLeft: 16,
+                  marginRight: 16,
+                  overflow: "auto"
+                },
+                children: [
+                  <ListItem>
+                  {
+                    controlType: "Typography",
+                    properties: {
+                      variant: "h6",
+                      marginLeft: 16
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "درخواست خدمت"
+                      }
+                    ]
+                  }
+                  </ListItem>,
+                  <ListItem>
+                  {
+                    controlType: "form",
+                    style: {width: "100%", textAlign: "center"},
+                    children: [
+                      <Paper style={{position: "relative"}}>
+                        <DatePicker
+                          id="datePicker"
+                          hintText="تاریخ"
+                          okLabel="تایید"
+                          cancelLabel="لغو"
+                          locale="fa-IR"
+                          firstDayOfWeek={6}
+                          value={"1399/02/03"}
+                          onChange={"${(event, newValue) => {page.handleDateChange({newValue: newValue});}}"}/>
+                        <EventIcon 
+                          onClick={"${(e) => page.document.getElementById('datePicker').click()}"}
+                          style={{fill: "#777", position: "absolute", left: 24, top: "50%", transform: "translate(0, -50%)"}}/>
+                      </Paper>,
+                      freeTimeTable
+                    ]
+                  }
+                  </ListItem>,
+                  <ListItem>
+                  {
+                    controlType: "Button",
+                    style: {
+                      width: "100%",
+                      height: 96,
+                      fontSize: 20
+                    },
+                    properties: {
+                      color: "#a15",
+                      variant: "outlined"
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "+ انتخاب خدمت"
+                      }
+                    ]
+                  }
+                  </ListItem>,
+                  <ListItem>
+                  {
+                    controlType: "Button",
+                    style: {
+                      width: "100%",
+                      height: 96,
+                      fontSize: 20
+                    },
+                    properties: {
+                      color: "#a15",
+                      variant: "outlined"
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "+ انتخاب پرسنل"
+                      }
+                    ]
+                  }
+                  </ListItem>
+                ]
+              }
+            ]
+          },
+          {
+            controlType: "AppBar",
+            properties: {
+              id: "reserveAppBar",
+              animation: "${reserveAppBarAnim}",
+              animationTime: "${reserveAppBarAnimTime}",
+              hideOnScroll: true,
+              color: "#07d"
+            },
+            style: {
+              width: "100%",
+              height: 164,
+              marginLeft: 0,
+              marginRight: 0,
+              position: "absolute",
+              top: 0,
+              left: 0
+            },
+            children: [
+              {
+                controlType: "Toolbar",
+                children: [
+                  {
+                    controlType: "Avatar",
+                    properties: {
+                      elevation: 12,
+                      src: "/webapp/res/hospital.png"
+                    },
+                    style: {
+                      width: 84,
+                      height: 84,
+                      position: "absolute",
+                      right: 32,
+                      top: 32
+                    }
+                  },
+                  {
+                    controlType: "div",
+                    style: {
+                      position: "relative",
+                      marginRight: 128
+                    },
+                    children: [
+                      {
+                        controlType: "Typography",
+                        style: {
+                          width: "100%",
+                          textAlign: "right",
+                          color: "white",
+                          position: "absolute",
+                          top: 32
+                        },
+                        properties: {
+                          variant: "h4"
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "مرحم"
+                          }
+                        ]
+                      },
+                      {
+                        controlType: "Typography",
+                        style: {
+                          width: "100%",
+                          textAlign: "right",
+                          color: "white",
+                          position: "absolute",
+                          top: 72
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "متن دوم"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "IconButton",
+                    properties: {
+                      onClick: "${() => page.hideReserveAndShowHome()}"
+                    },
+                    style: {
+                      marginLeft: 16,
+                      marginTop: 16,
+                      marginRight: 16,
+                      position: "absolute",
+                      left: 0
+                    },
+                    children: [
+                      {
+                        controlType: "CloseIcon",
+                        style: {
+                          fill: "#fff"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+                      {
+                        controlType: "Fab",
+                        properties: {
+                          color: "#a15",
+                          elevation: 16,
+                          animation: "${reserveFabAnim}",
+                          animationTime: "${reserveFabAnimTime}",
+                          onClick: "${() => {page.hideReserveAndShowHome();}}"
+                        },
+                        style: {
+                          position: "fixed",
+                          left: 32,
+                          bottom: 32
+                        },
+                        children: [
+                          {
+                            controlType: "DoneIcon"
+                          }
+                        ]
+                      }
+        ]
+      })
