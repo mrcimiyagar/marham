@@ -1,6 +1,7 @@
 
 use "components/textfield.elpis"
 use "components/freeTimeTable.elpis"
+use "components/servicePersonTable.elpis"
 
 @ClientSide
 define function loadReserve
@@ -8,13 +9,15 @@ define function loadReserve
       page.document.getElementById('reserveContainer').style.display = 'block';
       page.setState({...page.state, homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig', homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
           , reserveAppBarAnim: 'fadeInDownBig', reserveFormAnim: 'fadeInUpBig', reserveAppBarAnimTime: '1s', reserveFormAnimTime: '1s'
-          , reserveFabAnim: 'zoomIn', homeFabAnim: 'zoomOut', reserveFabAnimTime: '1s', homeFabAnimTime: '1s'});
+          , homeFabAnim: 'zoomOut', reserveFabAnimTime: '1s', homeFabAnimTime: '1s'});
       //page.document.documentElement.style.overflow = 'hidden';
       setTimeout(() => {
         page.setState({...page.state, homeAppBarAnim: '', homeBottomBarAnim: '',
            reserveAppBarAnim: '', reserveFormAnim: ''
           , reserveFabAnim: '', homeFabAnim: ''});
         page.document.getElementById('homeContainer').style.display = 'none';
+        page.setStyle('doneFab', 'display', 'inline');
+        page.setStyle('personSelectFab', 'display', 'inline');
       }, 1100);
     ")
 
@@ -27,10 +30,11 @@ define function hideReserveAndShowHome
           , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
           , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
           , homeFabAnim: 'zoomIn', homeFabAnimTime: '1s'
-          , reserveFabAnim: 'zoomOut', reserveFabAnimTime: '1s'});
+          , reserveFabAnimTime: '1s'});
+      page.setStyle('doneFab', 'display', 'none');
+      page.setStyle('personSelectFab', 'display', 'none');
       setTimeout(() => {
         page.setState({...page.state, reserveAppBarAnim: '', reserveFormAnim: ''
-          , reserveFabAnim: ''
           , homeFabAnim: ''
           , homeItemAnim: 'zoomIn'
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
@@ -54,7 +58,7 @@ reservePage = (
         },
         style: {
           width: "100%",
-          height: "calc(100vh + 256px)",
+          height: "calc(100vh + 324px)",
           position: "absolute",
           left: 0,
           top: 0,
@@ -70,7 +74,7 @@ reservePage = (
             },
             style: {
               width: "100%",
-              height: "calc(100vh + 256px)",
+              height: "calc(100vh + 324px)",
               backgroundColor: "#eee",
               marginLeft: 0,
               marginRight: 0,
@@ -128,41 +132,10 @@ reservePage = (
                   </ListItem>,
                   <ListItem>
                   {
-                    controlType: "Button",
-                    style: {
-                      width: "100%",
-                      height: 96,
-                      fontSize: 20
-                    },
-                    properties: {
-                      color: "#a15",
-                      variant: "outlined"
-                    },
+                    controlType: "div",
+                    style: {width: "100%", textAlign: "center"},
                     children: [
-                      {
-                        controlType: "Text",
-                        text: "+ انتخاب خدمت"
-                      }
-                    ]
-                  }
-                  </ListItem>,
-                  <ListItem>
-                  {
-                    controlType: "Button",
-                    style: {
-                      width: "100%",
-                      height: 96,
-                      fontSize: 20
-                    },
-                    properties: {
-                      color: "#a15",
-                      variant: "outlined"
-                    },
-                    children: [
-                      {
-                        controlType: "Text",
-                        text: "+ انتخاب پرسنل"
-                      }
+                      servicePersonTable
                     ]
                   }
                   </ListItem>
@@ -176,15 +149,14 @@ reservePage = (
               id: "reserveAppBar",
               animation: "${reserveAppBarAnim}",
               animationTime: "${reserveAppBarAnimTime}",
-              hideOnScroll: true,
-              color: "#07d"
+              color: "#07d",
+              position: "fixed"
             },
             style: {
               width: "100%",
               height: 164,
               marginLeft: 0,
               marginRight: 0,
-              position: "absolute",
               top: 0,
               left: 0
             },
@@ -270,11 +242,51 @@ reservePage = (
                         }
                       }
                     ]
+                  },
+                  {
+                controlType: "Fab",
+                properties: {
+                  color: "#a15",
+                  variant: "extended",
+                  onClick: "${() => {}}"
+                },
+                style: {
+                  position: "fixed",
+                  left: 32,
+                  top: 164 - 28
+                },                
+                children: [
+                  {
+                    controlType: "LocalHospitalIcon",
+                    style: {
+                      marginLeft: 16
+                    }
+                  },
+                  {
+                    controlType: "Typography",
+                    properties: {
+                      marginLeft: 16
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "انتخاب خدمت"
+                      }
+                    ]
+                  }
+                ]
                   }
                 ]
               }
             ]
           },
+            <div id="doneFab" style={{
+                  position: "fixed",
+                  left: 32,
+                  bottom: 32,
+                  zIndex: 5,
+                  display: "none"
+                }}>
                       {
                         controlType: "Fab",
                         properties: {
@@ -284,16 +296,48 @@ reservePage = (
                           animationTime: "${reserveFabAnimTime}",
                           onClick: "${() => {page.hideReserveAndShowHome();}}"
                         },
-                        style: {
-                          position: "fixed",
-                          left: 32,
-                          bottom: 32
-                        },
                         children: [
                           {
                             controlType: "DoneIcon"
                           }
                         ]
                       }
+                  </div>,
+            <div id="personSelectFab" style={{
+                  position: "fixed",
+                  right: 32,
+                  bottom: 32,
+                  zIndex: 5,
+                  display: "none"
+                }}>
+              {
+                controlType: "Fab",
+                properties: {
+                  color: "#a15",
+                  variant: "extended",
+                  onClick: "${() => {}}"
+                },                
+                children: [
+                  {
+                    controlType: "PersonIcon",
+                    style: {
+                      marginLeft: 16
+                    }
+                  },
+                  {
+                    controlType: "Typography",
+                    properties: {
+                      marginLeft: 16
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "انتخاب پرسنل"
+                      }
+                    ]
+                  }
+                ]
+              }
+            </div>
         ]
       })

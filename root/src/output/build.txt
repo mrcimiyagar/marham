@@ -28,9 +28,14 @@
   {
     "filePath": "subroutes/reserve.elp",
     "depsPath": [
+      "components/servicePersonTable.elp",
       "components/freeTimeTable.elp",
       "components/textfield.elp"
     ]
+  },
+  {
+    "filePath": "components/servicePersonTable.elp",
+    "depsPath": []
   },
   {
     "filePath": "components/freeTimeTable.elp",
