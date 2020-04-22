@@ -58,7 +58,7 @@ reservePage = (
         },
         style: {
           width: "100%",
-          height: "calc(100vh + 324px)",
+          height: "calc(100vh + 375px)",
           position: "absolute",
           left: 0,
           top: 0,
@@ -74,7 +74,7 @@ reservePage = (
             },
             style: {
               width: "100%",
-              height: "calc(100vh + 324px)",
+              height: "calc(100vh + 375px)",
               backgroundColor: "#eee",
               marginLeft: 0,
               marginRight: 0,

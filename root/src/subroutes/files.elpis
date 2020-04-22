@@ -123,9 +123,9 @@ counter = 21
 fileGroups = []
 for 20 times by step 1 do
   append(list: fileGroups, listItem: (
-      <li key={"section-" + counter} style={{width: "calc(100% - 8px)", marginLeft: -32, marginRight: -32}}>
+      <li key={"section-" + counter} style={{width: "100%", marginLeft: -40, marginRight: 0}}>
         <ul style={{width: "100%"}}>
-          <ListSubheader style={{width: "100%", backgroundColor: "#fff"}}>{ controlType: "Text", text: (counter + 1) + " فروردین 1399" }</ListSubheader>
+          <ListSubheader style={{width: "100%", backgroundColor: "#fff", textAlign: "right", direction: "rtl"}}>{ controlType: "Text", text: (counter + 1) + " فروردین 1399" }</ListSubheader>
           <ListItem key={"item-" + counter + "-0"} style={{width: "100%"}}>
             {
               controlType: "GridList",
@@ -147,7 +147,7 @@ define function Files
   return (
     <div 
         id="filesContainer" 
-        style={{backgroundColor: "#fff", display: "none", width: "100%", height: "100%"}}>
+        style={{backgroundColor: "#fff", display: "none", width: "100%", height: "100%", direction: "ltr"}}>
           {
             controlType: "div",
             properties: {
@@ -156,10 +156,11 @@ define function Files
             },
             style: {
               width: "100%",
-              height: "calc(100vh - 56px)",
+              height: "calc(100vh - 64px)",
               backgroundColor: "#fff",
               position: "absolute",
-              top: 56,
+              top: 64,
+              left: 0,
               overflow: "auto"
             },
             children: [
@@ -182,7 +183,7 @@ define function Files
             },
             style: {
               width: "100%",
-              height: 56,
+              height: 64,
               marginLeft: 0,
               marginRight: 0,
               position: "fixed",

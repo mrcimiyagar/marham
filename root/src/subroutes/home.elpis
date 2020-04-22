@@ -27,11 +27,27 @@ define function Home
               {
                 controlType: "Fab",
                 properties: {
-                  color: "#f05"
+                  color: "#f05",
+                  onClick: "${() => {page.loadReserve();}}"
                 },
                 style: {
                   marginTop: -28,
-                  marginRight: "72%"
+                  marginRight: "calc(80% - 72px)"
+                },
+                children: [
+                  {
+                    controlType: "LocalHospitalIcon"
+                  }
+                ]
+              },
+              {
+                controlType: "Fab",
+                properties: {
+                  color: "#f05"
+                },
+                style: {
+                  marginTop: -72,
+                  marginRight: "80%"
                 },
                 children: [
                   {
