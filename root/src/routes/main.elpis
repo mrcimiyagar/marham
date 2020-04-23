@@ -19,6 +19,13 @@ currentPath = "profile"
 @ClientSide
 define function main
   runJS(jsCode: "
+    window.parent.customTheme = window.parent.createTheme({
+      palette: {
+        secondary: {
+          main: '#a15'
+        }
+      }
+    });
     window.page = {...window.parent, ...window.parent.page};
     page.documentElementOverflow = page.document.documentElement.style.overflow;
     page.document.documentElement.style.overflow = 'hidden'; 

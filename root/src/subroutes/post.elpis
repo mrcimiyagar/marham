@@ -67,7 +67,7 @@ define function PostImageItem
                     height: "${4 * window.innerWidth / 5 + 'px'}"
                   },
                   properties: {
-                    src: "/webapp/res/post-content.jpg"
+                    src: "/webapp/res/profile-header.jpg"
                   }
                 }
               ]
@@ -123,7 +123,7 @@ postPage = (
                           height: "${4 * window.innerWidth / 5 + 'px'}"
                         },
                         properties: {
-                          src: "/webapp/res/feed-item.jpg"
+                          src: "/webapp/res/profile-header.jpg"
                         }
                       },
                       {

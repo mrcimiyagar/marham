@@ -5,7 +5,7 @@ use "subroutes/post.elpis"
 @ClientSide
 define function loadFeed
   runJS(jsCode: "
-      page.document.documentElement.style.overflow = 'hidden';  
+      //page.document.documentElement.style.overflow = 'hidden';  
       let savedOverflow = page.document.getElementById('feedContainer').style.overflow;
       page.document.getElementById('feedContainer').style.overflow = 'hidden';
       page.setState({...page.state, feedAppBarAnim: 'fadeInDownBig', feedListAnim: 'fadeInUpBig'
@@ -13,18 +13,17 @@ define function loadFeed
         , feedFabAnim: 'zoomIn', feedFabAnimTime: '1s'
         , homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig'
         , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
-        , homeFabAnim: 'zoomOut', homeFabAnimTime: '1s'
+        , homeFabAnim: 'zoomOut', homeFabAnimTime: '1s', feedTabValue: 1
       });
       setTimeout(() => {
         page.document.getElementById('homeContainer').style.display = 'none';
         page.setState({...page.state, feedAppBarAnim: '', feedListAnim: '', feedFabAnim: '' 
           , feedItemAnim: 'zoomIn'
-          , homeFabAnim: 'zoomOut'
+          , homeFabAnim: 'zoomOut', feedTabValue: 1
           , homeAppBarAnim: '', homeBottomBarAnim: ''});
         page.document.getElementById('feedContainer').style.overflow = savedOverflow;
-        page.setStyle('feedGrid', 'display', '');
         setTimeout(() => {
-          page.setState({...page.state, feedItemAnim: ''});
+          page.setState({...page.state, feedItemAnim: '', feedTabValue: 1});
         }, 1100);
       }, 1100);
       page.document.getElementById('feedContainer').style.display = 'block';
@@ -40,14 +39,13 @@ define function hideFeedAndShowHome
           , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
           , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
       });
-      page.document.documentElement.style.overflow = page.documentElementOverflow; 
+      //page.document.documentElement.style.overflow = page.documentElementOverflow; 
       page.document.getElementById('feedContainer').style.overflow = 'hidden';
         page.setStyle('homeContainer', 'display', 'block');
       setTimeout(() => {
           page.setState({...page.state, feedAppBarAnim: '', feedListAnim: '', feedFabAnim: ''
             , homeAppBarAnim: '', homeBottomBarAnim: '', homeFabAnim: '', homeItemAnim: 'zoomIn'});
           page.document.getElementById('feedContainer').style.overflow = savedOverflow;
-          page.setStyle('feedGrid', 'display', 'none');
           page.setStyle('feedContainer', 'display', 'none');
           setTimeout(() => {
             page.setState({...page.state, homeItemAnim: ''});
@@ -55,11 +53,69 @@ define function hideFeedAndShowHome
       }, 1100);
     ")
 
+feedItem = ({
+              controlType: "div",
+              children: [
+            {
+              controlType: "ListItem",
+              properties: {
+                button: true 
+              },
+              style: {
+                marginRight: -16
+              },
+              children: [
+                {
+                  controlType: "ListItemAvatar",
+                  children: [
+                    <img style={{width: 128, height: 96}} src={"/webapp/res/profile-header.jpg"}/>
+                  ]
+                },
+                {
+                  controlType: "ListItemText",
+                  properties: {
+                    primary: <div><span>"ویروس کرونا"</span><br/><span style={{color: "#a15", fontSize: 14}}>"بیماری"</span></div>,
+                    secondary: "هر آنچه در عصر حاضر در مورد کرونا باید بدانیم ..."
+                  },
+                  style: {
+                    width: "auto",
+                    textAlign: "right",
+                    marginRight: 16,
+                    marginLeft: 16
+                  }
+                },
+                {
+                  controlType: "div",
+                  style: {
+                    marginLeft: -32
+                  },
+                  children: [
+                    {
+                      controlType: "IconButton",
+                      children: [
+                        {
+                          controlType: "StarOutlineIcon"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              controlType: "Divider",
+              properties: {
+                component: "li"
+              }
+            }
+          ]
+        })
+
 define function FeedItem with params xs, id
   return ({
               controlType: "Grid",
               style: {
-                height: 130
+                height: 110
               },
               properties: {
                 onClick: "${() => {page.loadPost();}}",
@@ -68,16 +124,13 @@ define function FeedItem with params xs, id
               },
               children: [
                 {
-                  controlType: "Paper",
+                  controlType: "div",
                   style: {
                     borderRadius: 1,
-                    width: "100%",
-                    height: 120,
-                    position: "relative"
-                  },
-                  properties: {
-                    animation: "${feedItemAnim}",
-                    animationTime: "1s"
+                    width: "calc(100% - 4px)",
+                    height: "calc(100% - 4px)",
+                    position: "relative",
+                    margin: 2
                   },
                   children: [
                     {
@@ -87,44 +140,8 @@ define function FeedItem with params xs, id
                         height: "100%"
                       },
                       properties: {
-                        src: "/webapp/res/feed-item.jpg"
+                        src: "/webapp/res/profile-header.jpg"
                       }
-                    },
-                    {
-                      controlType: "div",
-                      style: {
-                        position: "absolute",
-                        left: 0,
-                        top: 0,
-                        background: "rgba(0, 0, 0, 0.45)",
-                        width: "100%",
-                        height: "100%",
-                        textAlign: "center",
-                        verticalAlign: "middle",
-                        color: "#fff"
-                      },
-                      children: [
-                        {
-                          controlType: "div",
-                          style: {
-                            position: "absolute",
-                            left: "50%",
-                            top: "50%",
-                            transform: "translate(-50%, -50%)"
-                          },
-                          children: [
-                            {
-                              controlType: "b",
-                              children: [
-                                {
-                                  controlType: "Text",
-                                  text: "پست 1"
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
                     }
                   ]
                 }
@@ -140,88 +157,24 @@ feedPage = (
         style: {
           width: "100%",
           height: "100%",
+          direction: "ltr",
           position: "absolute",
           left: 0,
           top: 0,
-          display: "none",
-          overflow: "hidden"
+          display: "none"
         },
         children: [
           {
-            controlType: "div",
-            properties: {
-              animation: "${feedListAnim}",
-              animationTime: "${feedListAnimTime}"
-            },
-            style: {
-              width: "100%",
-              height: "calc(100vh - 64px)",
-              backgroundColor: "#fff",
-              marginLeft: 0,
-              marginRight: 0,
-              position: "absolute",
-              top: 64,
-              left: 0,
-              overflow: "auto"
-            },
-            children: [
-              {
-                controlType: "Grid",
-                style: {
-                  padding: 16,
-                  display: "none"
-                },
-                properties: {
-                  id: "feedGrid",
-                  container: true,
-                  spacing: 1
-                },
-                children: [
-                  FeedItem(xs: 4, id: 0),
-                  FeedItem(xs: 8, id: 1),
-                  FeedItem(xs: 4, id: 2),
-                  FeedItem(xs: 4, id: 3),
-                  FeedItem(xs: 4, id: 4),
-                  FeedItem(xs: 8, id: 5),
-                  FeedItem(xs: 4, id: 6),
-                  FeedItem(xs: 4, id: 7),
-                  FeedItem(xs: 8, id: 8),
-                  FeedItem(xs: 4, id: 9),
-                  FeedItem(xs: 4, id: 10),
-                  FeedItem(xs: 4, id: 11),
-                  FeedItem(xs: 4, id: 12),
-                  FeedItem(xs: 8, id: 13),
-                  FeedItem(xs: 4, id: 14),
-                  FeedItem(xs: 4, id: 15),
-                  FeedItem(xs: 4, id: 16),
-                  FeedItem(xs: 8, id: 17),
-                  FeedItem(xs: 4, id: 18),
-                  FeedItem(xs: 4, id: 19),
-                  FeedItem(xs: 8, id: 20),
-                  FeedItem(xs: 4, id: 21),
-                  FeedItem(xs: 4, id: 22),
-                  FeedItem(xs: 4, id: 23)
-                ]
-              }
-            ]
-          },
-          {
             controlType: "AppBar",
             properties: {
-              id: "homeAppBar",
+              id: "feedAppBar",
               animation: "${feedAppBarAnim}",
               animationTime: "${feedAppBarAnimTime}",
               hideOnScroll: true,
               color: "#07d"
             },
             style: {
-              width: "100%",
-              height: 64,
-              marginLeft: 0,
-              marginRight: 0,
-              position: "absolute",
-              top: 0,
-              left: 0
+              height: "auto"
             },
             children: [
               {
@@ -273,7 +226,233 @@ feedPage = (
                     ]
                   }
                 ]
+              },
+              <ThemeProvider secondary={"#fff"}>
+                <Tabs
+                  style={{marginTop: 64, color: "#eee"}}
+                  value={"${feedTabValue}"}
+                  onChange={"${(event, newValue) => window.setState({...page.state, feedTabValue: newValue})}"}
+                  variant="fullWidth"
+                  indicatorColor="secondary"
+                  textColor="secondary">
+                  <Tab style={{color: "white"}} value={0} icon={<PlayCircleOutlineIcon />} label="ویدئو ها" />
+                  <Tab style={{color: "white"}} value={1} icon={<MenuBookIcon />} label="مقالات" />
+                </Tabs>
+              </ThemeProvider>
+            ]
+          },
+          {
+            controlType: "div",
+            style: {
+              height: 128
+            }
+          },
+          {
+            controlType: "div",
+            properties: {
+              animation: "${feedListAnim}",
+              animationTime: "${feedListAnimTime}"
+            },
+            style: {
+              width: "100%",
+              backgroundColor: "#fff"
+            },
+            children: [
+              <SwipeableViews
+                style={{margin: -16}}
+                index={"${feedTabValue}"}
+                onChangeIndex={"${(index) => window.setState({...window.state, feedTabValue: index})}"}
+              >
+              <TabPanel value={"${feedTabValue}"} index={0} style={{direction: "rtl"}}>
+              {
+                controlType: "Grid",
+                style: {
+                  backgroundColor: "#fff",
+                  paddingTop: 16
+                },
+                properties: {
+                  item: true,
+                  xs: 12,
+                  md: 6
+                },
+                children: [
+                <div style={{display: "flex"}}>
+                  {
+                    controlType: "Typography",
+                    properties: {
+                      variant: "h6",
+                      marginRight: 16,
+                      paddingTop: 8
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "ویدئو های اخیر"
+                      }
+                    ]
+                  }
+                  <div style={{flexGrow: 1}}/>
+                  {
+                    controlType: "IconButton",
+                    style: {
+                      marginTop: -4
+                    },
+                    properties: {
+                      onClick: "${() => {}}"
+                    },
+                    children: [
+                      {
+                        controlType: "SearchIcon"
+                      }
+                    ]
+                  }
+                  {
+                    controlType: "IconButton",
+                    style: {
+                      marginTop: -4
+                    },
+                    properties: {
+                      onClick: "${() => {}}"
+                    },
+                    children: [
+                      {
+                        controlType: "FilterListIcon"
+                      }
+                    ]
+                  }
+                  </div>,
+              {
+                controlType: "Grid",
+                properties: {
+                  container: true,
+                  spacing: 0
+                },
+                children: [
+                  FeedItem(xs: 4, id: 0),
+                  FeedItem(xs: 8, id: 1),
+                  FeedItem(xs: 4, id: 2),
+                  FeedItem(xs: 4, id: 3),
+                  FeedItem(xs: 4, id: 4),
+                  FeedItem(xs: 8, id: 5),
+                  FeedItem(xs: 4, id: 6),
+                  FeedItem(xs: 4, id: 7),
+                  FeedItem(xs: 8, id: 8),
+                  FeedItem(xs: 4, id: 9),
+                  FeedItem(xs: 4, id: 10),
+                  FeedItem(xs: 4, id: 11),
+                  FeedItem(xs: 4, id: 12),
+                  FeedItem(xs: 8, id: 13),
+                  FeedItem(xs: 4, id: 14),
+                  FeedItem(xs: 4, id: 15),
+                  FeedItem(xs: 4, id: 16),
+                  FeedItem(xs: 8, id: 17),
+                  FeedItem(xs: 4, id: 18),
+                  FeedItem(xs: 4, id: 19),
+                  FeedItem(xs: 8, id: 20),
+                  FeedItem(xs: 4, id: 21),
+                  FeedItem(xs: 4, id: 22),
+                  FeedItem(xs: 4, id: 23)
+                ]
               }
+                ]
+              }
+              </TabPanel>
+              <TabPanel value={"${feedTabValue}"} index={1} style={{direction: "rtl"}}>
+              {
+                controlType: "Grid",
+                style: {
+                  backgroundColor: "#fff",
+                  paddingTop: 16
+                },
+                properties: {
+                  item: true,
+                  xs: 12,
+                  md: 6
+                },
+                children: [
+                  <div style={{display: "flex"}}>
+                  {
+                    controlType: "Typography",
+                    properties: {
+                      variant: "h6",
+                      marginRight: 16,
+                      paddingTop: 8
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "پست های اخیر"
+                      }
+                    ]
+                  }
+                  <div style={{flexGrow: 1}}/>
+                  {
+                    controlType: "IconButton",
+                    style: {
+                      marginTop: -4
+                    },
+                    properties: {
+                      onClick: "${() => {}}"
+                    },
+                    children: [
+                      {
+                        controlType: "SearchIcon"
+                      }
+                    ]
+                  }
+                  {
+                    controlType: "IconButton",
+                    style: {
+                      marginTop: -4
+                    },
+                    properties: {
+                      onClick: "${() => {}}"
+                    },
+                    children: [
+                      {
+                        controlType: "FilterListIcon"
+                      }
+                    ]
+                  }
+                  </div>,
+                  {
+                    controlType: "div",
+                    children: [
+                      {
+                        controlType: "List",
+                        children: [
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem,
+                          feedItem
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+              </TabPanel>
+          </SwipeableViews>
             ]
           }
         ]
