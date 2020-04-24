@@ -1,0 +1,170 @@
+
+@ClientSide
+define function loadServices
+  runJS(jsCode: "
+      if (page.canTransit) {
+        page.canTransit = false;
+        page.setState({...page.state, reserveOpen: true, servicesOpen: true});
+        setTimeout(() => {page.canTransit = true;}, 250);
+      }
+    ")
+
+@ClientSide
+define function hideServicesAndShowHome
+  runJS(jsCode: "
+    if (page.canTransit) {
+      page.canTransit = false;
+      page.setState({...page.state, reserveOpen: true, servicesOpen: false});
+      setTimeout(() => {
+        page.canTransit = true;
+      }, 250);
+    }
+  ")
+
+define function ServicesItem with params xs, id
+  return ({
+              controlType: "Grid",
+              style: {
+                height: 176
+              },
+              properties: {
+                onClick: "${() => {}}",
+                item: true,
+                xs: xs
+              },
+              children: [
+                {
+                  controlType: "Button",
+                  properties: {
+                    variant: "outlined",
+                    color: "#a15"
+                  },
+                  style: {
+                    borderRadius: 1,
+                    width: "calc(100% - 4px)",
+                    height: "calc(100% - 4px)",
+                    position: "relative",
+                    margin: 2
+                  },
+                  children: [
+                    <LocalHospitalIcon/>,
+                    <Typography style={{position: "absolute", left: "50%", top: "60%", transform: "translate(-50%, 0)"}}>
+                      {
+                        controlType: "Text",
+                        text: "بیماری"
+                      }
+                    </Typography>
+                  ]
+                }
+              ]
+            })
+
+servicesPage = (
+    <Dialog id="servicesContainer" fullScreen open={"${servicesOpen}"} transitionType={"Slide"}>
+      {
+        controlType: "Box",
+        style: {
+          width: "100%",
+          height: "100%",
+          direction: "rtl",
+          position: "absolute",
+          left: 0,
+          top: 0
+        },
+        children: [
+          <AppBar style={{width: "100%", height: 64, backgroundColor: "#07d"}} color={"#07d"}>
+              {
+                controlType: "Toolbar",
+                children: [
+                  {
+                    controlType: "LocalHospitalIcon",
+                    style: {
+                      marginTop: 20,
+                      marginRight: 24
+                    }
+                  },
+                  {
+                    controlType: "Typography",
+                    style: {
+                      color: "white",
+                      position: "absolute",
+                      right: 64,
+                      top: 16
+                    },
+                    properties: {
+                      variant: "h6"
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "خدمات"
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "IconButton",
+                    properties: {
+                      onClick: "${() => {window.setState({...window.state, servicesOpen: false});}}"
+                    },
+                    style: {
+                      position: "absolute",
+                      left: 8,
+                      top: 8
+                    },
+                    children: [
+                      {
+                        controlType: "CloseIcon",
+                        style: {
+                          fill: "#fff"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+          </AppBar>,
+          {
+            controlType: "div",
+            style: {
+              height: 64
+            }
+          },
+          {
+                controlType: "Grid",
+                style: {
+                  width: "100%"
+                },
+                properties: {
+                  container: true,
+                  spacing: 0
+                },
+                children: [
+                  ServicesItem(xs: 6, id: 0),
+                  ServicesItem(xs: 6, id: 1),
+                  ServicesItem(xs: 6, id: 2),
+                  ServicesItem(xs: 6, id: 3),
+                  ServicesItem(xs: 6, id: 4),
+                  ServicesItem(xs: 6, id: 5),
+                  ServicesItem(xs: 6, id: 6),
+                  ServicesItem(xs: 6, id: 7),
+                  ServicesItem(xs: 6, id: 8),
+                  ServicesItem(xs: 6, id: 9),
+                  ServicesItem(xs: 6, id: 10),
+                  ServicesItem(xs: 6, id: 11),
+                  ServicesItem(xs: 6, id: 12),
+                  ServicesItem(xs: 6, id: 13),
+                  ServicesItem(xs: 6, id: 14),
+                  ServicesItem(xs: 6, id: 15),
+                  ServicesItem(xs: 6, id: 16),
+                  ServicesItem(xs: 6, id: 17),
+                  ServicesItem(xs: 6, id: 18),
+                  ServicesItem(xs: 6, id: 19),
+                  ServicesItem(xs: 6, id: 20),
+                  ServicesItem(xs: 6, id: 21),
+                  ServicesItem(xs: 6, id: 22),
+                  ServicesItem(xs: 6, id: 23)
+                ]
+          }
+        ]
+      }
+    </Dialog>)

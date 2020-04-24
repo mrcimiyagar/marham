@@ -2,48 +2,18 @@
 use "components/textfield.elpis"
 use "components/freeTimeTable.elpis"
 use "components/servicePersonTable.elpis"
+use "subroutes/services.elpis"
 
 @ClientSide
 define function loadReserve
   runJS(jsCode: "
-      page.document.getElementById('reserveContainer').style.display = 'block';
-      page.setState({...page.state, homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig', homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
-          , reserveAppBarAnim: 'fadeInDownBig', reserveFormAnim: 'fadeInUpBig', reserveAppBarAnimTime: '1s', reserveFormAnimTime: '1s'
-          , homeFabAnim: 'zoomOut', reserveFabAnimTime: '1s', homeFabAnimTime: '1s'});
-      //page.document.documentElement.style.overflow = 'hidden';
-      setTimeout(() => {
-        page.setState({...page.state, homeAppBarAnim: '', homeBottomBarAnim: '',
-           reserveAppBarAnim: '', reserveFormAnim: ''
-          , reserveFabAnim: '', homeFabAnim: ''});
-        page.document.getElementById('homeContainer').style.display = 'none';
-        page.setStyle('doneFab', 'display', 'inline');
-        page.setStyle('personSelectFab', 'display', 'inline');
-      }, 1100);
+      page.setState({...page.state, reserveOpen: true});
     ")
 
 @ClientSide
 define function hideReserveAndShowHome
   runJS(jsCode: "
-      page.document.getElementById('homeContainer').style.display = 'block';
-      page.setState({...page.state, reserveAppBarAnim: 'fadeOutUpBig', reserveFormAnim: 'fadeOutDownBig'
-          , reserveAppBarAnimTime: '1s', reserveFormAnimTime: '1s'
-          , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
-          , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
-          , homeFabAnim: 'zoomIn', homeFabAnimTime: '1s'
-          , reserveFabAnimTime: '1s'});
-      page.setStyle('doneFab', 'display', 'none');
-      page.setStyle('personSelectFab', 'display', 'none');
-      setTimeout(() => {
-        page.setState({...page.state, reserveAppBarAnim: '', reserveFormAnim: ''
-          , homeFabAnim: ''
-          , homeItemAnim: 'zoomIn'
-          , homeAppBarAnim: '', homeBottomBarAnim: ''});
-        page.setStyle('reserveContainer', 'display', 'none');
-        page.document.documentElement.style.overflow = page.documentElementOverflow;
-        setTimeout(() => {
-          page.setState({...page.state, homeItemAnim: ''});
-        }, 1100);
-      }, 1100);
+      page.setState({...page.state, reserveOpen: false});
     ")
 
 @ClientSide
@@ -51,18 +21,15 @@ define function handleDateChange with params newValue
   setState(stateKey: "selectedDate", stateValue: newValue)
 
 reservePage = (
+    <Dialog id="reserveContainer" style={{direction: "rtl"}} fullScreen open={"${reserveOpen}"} transitionType={"Slide"}>
       {
         controlType: "Box",
-        properties: {
-          id: "reserveContainer"
-        },
         style: {
           width: "100%",
           height: "calc(100vh + 375px)",
           position: "absolute",
           left: 0,
           top: 0,
-          display: "none",
           overflow: "hidden"
         },
         children: [
@@ -248,7 +215,7 @@ reservePage = (
                 properties: {
                   color: "#a15",
                   variant: "extended",
-                  onClick: "${() => {}}"
+                  onClick: "${() => page.loadServices()}"
                 },
                 style: {
                   position: "fixed",
@@ -284,8 +251,7 @@ reservePage = (
                   position: "fixed",
                   left: 32,
                   bottom: 32,
-                  zIndex: 5,
-                  display: "none"
+                  zIndex: 5
                 }}>
                       {
                         controlType: "Fab",
@@ -307,8 +273,7 @@ reservePage = (
                   position: "fixed",
                   right: 32,
                   bottom: 32,
-                  zIndex: 5,
-                  display: "none"
+                  zIndex: 5
                 }}>
               {
                 controlType: "Fab",
@@ -340,4 +305,5 @@ reservePage = (
               }
             </div>
         ]
-      })
+      }
+    </Dialog>)

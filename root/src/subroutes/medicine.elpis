@@ -4,56 +4,25 @@ use "components/medicineTable.elpis"
 @ClientSide
 define function loadMedicine
   runJS(jsCode: "
-      page.setStyle('medicineContainer', 'display', 'block');
-      page.setState({...page.state, homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig', homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
-          , medicineAppBarAnim: 'fadeInDownBig', medicineFormAnim: 'fadeInUpBig', medicineAppBarAnimTime: '1s', medicineFormAnimTime: '1s'
-          , medicineFabAnim: 'zoomIn', homeFabAnim: 'zoomOut', medicineFabAnimTime: '1s', homeFabAnimTime: '1s'});
-      page.document.documentElement.style.overflow = 'hidden';
-      setTimeout(() => {
-        page.setState({...page.state, homeAppBarAnim: '', homeBottomBarAnim: '',
-           medicineAppBarAnim: '', medicineFormAnim: ''
-          , medicineFabAnim: '', homeFabAnim: ''});
-        page.document.getElementById('homeContainer').style.display = 'none';
-      }, 1100);
+      page.setState({...page.state, medicineOpen: true});
     ")
 
 @ClientSide
 define function hideMedicineAndShowHome
   runJS(jsCode: "
-      page.document.getElementById('homeContainer').style.display = 'block';
-      page.setState({...page.state, medicineAppBarAnim: 'fadeOutUpBig', medicineFormAnim: 'fadeOutDownBig'
-          , medicineAppBarAnimTime: '1s', medicineFormAnimTime: '1s'
-          , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
-          , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
-          , homeFabAnim: 'zoomIn', homeFabAnimTime: '1s'
-          , medicineFabAnim: 'zoomOut', medicineFabAnimTime: '1s'});
-      setTimeout(() => {
-        page.setState({...page.state, medicineAppBarAnim: '', medicineFormAnim: ''
-          , medicineFabAnim: ''
-          , homeFabAnim: ''
-          , homeItemAnim: 'zoomIn'
-          , homeAppBarAnim: '', homeBottomBarAnim: ''});
-        page.document.documentElement.style.overflow = page.documentElementOverflow;
-        page.setStyle('medicineContainer', 'display', 'none');
-        setTimeout(() => {
-          page.setState({...page.state, homeItemAnim: ''});
-        }, 1100);
-      }, 1100);
+      page.setState({...page.state, medicineOpen: false});
     ")
 
 medicinePage = (
+    <Dialog id="medicineContainer" style={{direction: "rtl"}} fullScreen open={"${medicineOpen}"} transitionType={"Slide"}>
       {
         controlType: "Box",
-        properties: {
-          id: "medicineContainer"
-        },
         style: {
           width: "100%",
           height: "100%",
           position: "absolute",
           left: 0,
           top: 0,
-          display: "none",
           overflow: "hidden"
         },
         children: [
@@ -258,4 +227,5 @@ medicinePage = (
                         ]
           }
         ]
-      })
+      }
+    </Dialog>)

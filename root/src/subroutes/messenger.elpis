@@ -2,76 +2,39 @@
 @ClientSide
 define function loadMessenger
   runJS(jsCode: "
+    if (page.canTransit) {
+      page.canTransit = false;
       page.document.documentElement.style.overflow = 'hidden'; 
-      let savedOverflow = page.document.getElementById('messengerContainer').style.overflow;
-      page.document.getElementById('messengerContainer').style.overflow = 'hidden';
-      page.setState({...page.state, messengerAppBarAnim: 'fadeInDownBig', messengerListAnim: 'fadeInUpBig'
-        , messengerAppBarAnimTime: '1s', messengerListAnimTime: '1s'
-        , messengerFabAnim: 'zoomIn', messengerFabAnimTime: '1s'
-        , homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig'
-        , homeFabAnim: 'zoomOut', homeFabAnimTime: '1s'
-        , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
-      });
-      setTimeout(() => {
-        page.setStyle('homeContainer', 'display', 'none');
-        page.setState({...page.state, messengerAppBarAnim: '', messengerListAnim: '', messengerFabAnim: ''
-          , homeFabAnim: 'zoomOut'
-          , homeAppBarAnim: '', homeBottomBarAnim: ''});
-        page.document.getElementById('messengerContainer').style.overflow = savedOverflow;
-      }, 1100);
-      page.document.getElementById('messengerContainer').style.display = 'block';
-    ")
+      page.setState({...page.state, messengerOpen: true});
+      setTimeout(() => {page.canTransit = true;}, 250);
+    }
+  ")
 
 @ClientSide
 define function hideMessengerAndShowChat
   runJS(jsCode: "
-      let savedOverflow = page.document.getElementById('messengerContainer').style.overflow;
-      page.setState({...page.state, messengerAppBarAnim: 'fadeOutUpBig', messengerListAnim: 'fadeOutDownBig'
-        , messengerAppBarAnimTime: '2s', messengerListAnimTime: '2s'
-        , messengerFabAnim: 'zoomOut', messengerFabAnimTime: '2s'
-        , chatAppBarAnim: 'fadeInDownBig', chatListAnim: 'fadeInUpBig'
-        , chatAppBarAnimTime: '1s', chatListAnimTime: '1s'
-      });
-      page.document.getElementById('messengerContainer').style.overflow = 'hidden';
-      page.document.getElementById('chatContainer').style.display = 'block';
-      setTimeout(() => {
-        page.setState({...page.state, messengerAppBarAnim: '', messengerListAnim: '', messengerFabAnim: ''
-          , chatAppBarAnim: '', chatListAnim: ''});
-        page.document.getElementById('messengerContainer').style.overflow = savedOverflow;
-        page.setStyle('messengerContainer', 'display', 'none');
-      }, 1100);
-    ")
+    if (page.canTransit) {
+      page.canTransit = false;
+      page.setState({...page.state, messengerOpen: true, chatOpen: true});
+      setTimeout(() => {page.canTransit = true;}, 250);
+    }
+  ")
 
 @ClientSide
 define function hideMessenger
   runJS(jsCode: "
-      let savedOverflow = page.document.getElementById('messengerContainer').style.overflow;
-      page.setState({...page.state, messengerAppBarAnim: 'fadeOutUpBig', messengerListAnim: 'fadeOutDownBig'
-        , messengerAppBarAnimTime: '2s', messengerListAnimTime: '2s'
-        , messengerFabAnim: 'zoomOut', messengerFabAnimTime: '2s'
-        , homeFabAnim: 'zoomIn', homeFabAnimTime: '1s'
-        , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
-        , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
-      });
+    if (page.canTransit) {
+      page.canTransit = false;
       page.document.documentElement.style.overflow = page.documentElementOverflow; 
-      page.document.getElementById('messengerContainer').style.overflow = 'hidden';
-      page.setStyle('homeContainer', 'display', 'block');
-      setTimeout(() => {
-        page.setState({...page.state, messengerAppBarAnim: '', messengerListAnim: '', messengerFabAnim: ''
-          , homeFabAnim: ''
-          , homeItemAnim: 'zoomIn'
-          , homeAppBarAnim: '', homeBottomBarAnim: ''});
-        page.document.getElementById('messengerContainer').style.overflow = savedOverflow;
-        page.setStyle('messengerContainer', 'display', 'none');
-        setTimeout(() => {
-          page.setState({...page.state, homeItemAnim: ''});
-        }, 1100);
-      }, 1100);
-    ")
+      page.setState({...page.state, messengerOpen: false});
+      setTimeout(() => {page.canTransit = true;}, 250);
+    }
+  ")
 
-chatItem = ({
-              controlType: "div",
-              children: [
+chatItem = (
+        {
+          controlType: "div",
+          children: [
             {
               controlType: "ListItem",
               properties: {
@@ -125,18 +88,15 @@ chatItem = ({
         })
 
 messengerPage = (
+    <Dialog id="messengerContainer" style={{direction: "rtl"}} fullScreen open={"${messengerOpen}"} transitionType={"Slide"}>
       {
         controlType: "Box",
-        properties: {
-          id: "messengerContainer"
-        },
         style: {
           width: "100%",
           height: "100%",
           position: "absolute",
           left: 0,
           top: 0,
-          display: "none",
           overflow: "hidden"
         },
         children: [
@@ -285,4 +245,5 @@ messengerPage = (
                         ]
                       }
         ]
-      })
+      }
+    </Dialog>)

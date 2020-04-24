@@ -8,24 +8,8 @@ define function loadProfile
   runJS(jsCode: "
     if (page.canTransit) {
       page.canTransit = false;
-      let savedOverflow = page.document.getElementById('profileContainer').style.overflow;
-      page.document.getElementById('profileContainer').style.overflow = 'hidden';
-      page.setState({...page.state, profileAppBarAnim: 'fadeInDownBig', profileHistListAnim: 'fadeInUpBig'
-        , profileAppBarAnimTime: '1s', profileHistListAnimTime: '1s'
-        , profileFabAnim: 'zoomIn', profileFabAnimTime: '1s'
-        , homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig'
-        , homeFabAnim: 'zoomOut', homeFabAnimTime: '1s'
-        , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
-      });
-      setTimeout(() => {
-        page.setStyle('homeContainer', 'display', 'none');
-        page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: '', profileFabAnim: ''
-          , homeFabAnim: 'zoomOut'
-          , homeAppBarAnim: '', homeBottomBarAnim: ''});
-        page.document.getElementById('profileContainer').style.overflow = savedOverflow;
-        setTimeout(() => {page.canTransit = true;}, 250);
-      }, 1100);
-      page.document.getElementById('profileContainer').style.display = 'block';
+      page.setState({...page.state, profileOpen: true});
+      setTimeout(() => {page.canTransit = true;}, 250);
     }
   ")
 
@@ -34,22 +18,8 @@ define function hideProfileAndShowUserInfo
   runJS(jsCode: "
     if (page.canTransit) {
       page.canTransit = false;
-      let savedOverflow = page.document.getElementById('profileContainer').style.overflow;
-      page.setState({...page.state, profileAppBarAnim: 'fadeOutUpBig', profileHistListAnim: 'fadeOutDownBig'
-        , profileAppBarAnimTime: '2s', profileHistListAnimTime: '2s'
-        , profileFabAnim: 'zoomOut', profileFabAnimTime: '2s'
-        , userInfoAppBarAnim: 'fadeInDownBig', userInfoFormAnim: 'fadeInUpBig'
-        , userInfoAppBarAnimTime: '1s', userInfoFormAnimTime: '1s'
-      });
-      page.document.getElementById('profileContainer').style.overflow = 'hidden';
-      page.document.getElementById('userInfoContainer').style.display = 'block';
-      setTimeout(() => {
-        page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: '', profileFabAnim: ''
-          , userInfoAppBarAnim: '', userInfoFormAnim: ''});
-        page.document.getElementById('profileContainer').style.overflow = savedOverflow;
-        page.setStyle('profileContainer', 'display', 'none');
-        setTimeout(() => {page.canTransit = true;}, 250);
-      }, 1100);
+      page.setState({...page.state, profileOpen: true, userInfoOpen: true});
+      setTimeout(() => {page.canTransit = true;}, 250);
     }
   ")
 
@@ -58,28 +28,9 @@ define function hideProfile
   runJS(jsCode: "
     if (page.canTransit) {
       page.canTransit = false;
-      let savedOverflow = page.document.getElementById('profileContainer').style.overflow;
-      page.setState({...page.state, profileAppBarAnim: 'fadeOutUpBig', profileHistListAnim: 'fadeOutDownBig'
-        , profileAppBarAnimTime: '2s', profileHistListAnimTime: '2s'
-        , profileFabAnim: 'zoomOut', profileFabAnimTime: '2s'
-        , homeFabAnim: 'zoomIn', homeFabAnimTime: '1s'
-        , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
-        , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
-      });
-      page.document.getElementById('profileContainer').style.overflow = 'hidden';
-      page.setStyle('homeContainer', 'display', 'block');
-      setTimeout(() => {
-        page.setState({...page.state, profileAppBarAnim: '', profileHistListAnim: '', profileFabAnim: ''
-          , homeFabAnim: ''
-          , homeItemAnim: 'zoomIn'
-          , homeAppBarAnim: '', homeBottomBarAnim: ''});
-        page.document.getElementById('profileContainer').style.overflow = savedOverflow;
-        page.setStyle('profileContainer', 'display', 'none');
-        setTimeout(() => {
-          page.setState({...page.state, homeItemAnim: ''});
-          setTimeout(() => {page.canTransit = true;}, 250);
-        }, 1100);
-      }, 1100);
+      page.setState({...page.state, profileOpen: false});
+      page.document.documentElement.style.overflow = page.documentElementOverflow;
+      setTimeout(() => {page.canTransit = true;}, 250);
     }
   ")
 
@@ -139,34 +90,25 @@ histItem = ({
         })
 
 profilePage = (
+    <Dialog id="profileContainer" fullScreen open={"${profileOpen}"} transitionType={"Slide"}>
       {
         controlType: "Box",
-        properties: {
-          id: "profileContainer"
-        },
         style: {
           width: "100%",
-          height: "100%",
+          height: "auto",
           direction: "rtl",
           position: "absolute",
           left: 0,
-          top: 0,
-          display: "none"
+          top: 0
         },
         children: [
           {
-            controlType: "AppBar",
-            properties: {
-              id: "profileAppBar",
-              animation: "${profileAppBarAnim}",
-              animationTime: "${profileAppBarAnimTime}",
-              hideOnScroll: true,
-              color: "#07d"
-            },
+            controlType: "div",
             style: {
               height: 256
-            },
-            children: [
+            }
+          },
+      <CollapsibleAppBar style={{width: "100%", height: 256, backgroundColor: "#07d"}} id={"profileGap"} color={"#07d"} threshold={400}>
               {
                 controlType: "div",
                 style: {
@@ -216,7 +158,7 @@ profilePage = (
                     ]
                   }
                 ]
-              },
+              }
               {
                 controlType: "div",
                 style: {
@@ -240,7 +182,7 @@ profilePage = (
                     }
                   }
                 ]
-              },
+              }
               {
                 controlType: "div",
                 style: {
@@ -291,14 +233,7 @@ profilePage = (
                   }
                 ]
               }
-            ]
-          },
-          {
-            controlType: "div",
-            style: {
-              height: 256
-            }
-          },
+      </CollapsibleAppBar>,
           {
             controlType: "div",
             properties: {
@@ -307,13 +242,15 @@ profilePage = (
             },
             style: {
               width: "100%",
-              backgroundColor: "#fff"
+              backgroundColor: "#fff",
+              height: "auto"
             },
             children: [
               {
                 controlType: "Grid",
                 style: {
                   backgroundColor: "#fff",
+                  height: "auto",
                   paddingTop: 16,
                   marginLeft: 16,
                   marginRight: 16
@@ -342,6 +279,9 @@ profilePage = (
                     children: [
                       {
                         controlType: "List",
+                        style: {
+                          height: "auto"
+                        },
                         children: [
                           histItem,
                           histItem,
@@ -376,4 +316,5 @@ profilePage = (
             ]
           }
         ]
-      })
+      }
+    </Dialog>)

@@ -8,7 +8,7 @@ define function loadUserInfo
     if (page.canTransit) {
       page.canTransit = false;
       //let savedOverflow = page.document.getElementById('profileContainer').style.overflow;
-      page.document.getElementById('userInfoContainer').style.display = 'block';
+      //page.document.getElementById('userInfoContainer').style.display = 'block';
       page.setState({...page.state, profileAppBarAnim: 'fadeOutUpBig', profileHistListAnim: 'fadeOutDownBig', profileAppBarAnimTime: '1s', profileHistListAnimTime: '1s'
           , userInfoAppBarAnim: 'fadeInDownBig', userInfoFormAnim: 'fadeInUpBig', userInfoAppBarAnimTime: '1s', userInfoFormAnimTime: '1s'
           , userInfoFabAnim: 'zoomIn', profileFabAnim: 'zoomOut', userInfoFabAnimTime: '1s', profileFabAnimTime: '1s'});
@@ -28,27 +28,8 @@ define function hideUserInfoAndShowProfile
   runJS(jsCode: "
     if (page.canTransit) {
       page.canTransit = false;
-      //let savedOverflow = page.document.getElementById('userInfoContainer').style.overflow;
-      page.document.getElementById('profileContainer').style.display = 'block';
-      page.setState({...page.state, userInfoAppBarAnim: 'fadeOutUpBig', userInfoFormAnim: 'fadeOutDownBig'
-          , userInfoAppBarAnimTime: '1s', userInfoFormAnimTime: '1s'
-          , profileAppBarAnim: 'fadeInDownBig', profileHistListAnim: 'fadeInUpBig'
-          , profileAppBarAnimTime: '1s', profileHistListAnimTime: '1s'
-          , profileFabAnim: 'zoomIn', profileFabAnimTime: '1s'
-          , userInfoFabAnim: 'zoomOut', userInfoFabAnimTime: '1s'});
-      setTimeout(() => {
-        page.setState({...page.state, userInfoAppBarAnim: '', userInfoFormAnim: ''
-          , userInfoFabAnim: ''
-          , profileFabAnim: ''
-          , profileItemAnim: 'zoomIn'
-          , profileAppBarAnim: '', profileHistListAnim: ''});
-        //page.document.getElementById('userInfoContainer').style.overflow = savedOverflow;
-        page.setStyle('userInfoContainer', 'display', 'none');
-        setTimeout(() => {
-          page.setState({...page.state, profileItemAnim: ''});
-          setTimeout(() => {page.canTransit = true;}, 250);
-        }, 1100);
-      }, 1100);
+      page.setState({...page.state, userInfoOpen: false, profileOpen: true});
+      setTimeout(() => {page.canTransit = true;}, 250);
     }
   ")
 
@@ -82,18 +63,15 @@ define function UserInfoField with params fieldName
           })
 
 userInfoPage = (
+    <Dialog id="userInfoContainer" fullScreen open={"${userInfoOpen}"} transitionType={"Slide"}>
       {
         controlType: "Box",
-        properties: {
-          id: "userInfoContainer"
-        },
         style: {
           width: "100%",
           height: "100%",
           position: "absolute",
           left: 0,
           top: 0,
-          display: "none",
           overflow: "hidden"
         },
         children: [
@@ -111,7 +89,8 @@ userInfoPage = (
               marginRight: 0,
               position: "absolute",
               top: 164,
-              left: 0
+              left: 0,
+              direction: "rtl"
             },
             children: [
               {
@@ -265,4 +244,5 @@ userInfoPage = (
                         ]
                       }
         ]
-      })
+      }
+    </Dialog>)

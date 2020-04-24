@@ -5,53 +5,24 @@ use "subroutes/post.elpis"
 @ClientSide
 define function loadFeed
   runJS(jsCode: "
-      //page.document.documentElement.style.overflow = 'hidden';  
-      let savedOverflow = page.document.getElementById('feedContainer').style.overflow;
-      page.document.getElementById('feedContainer').style.overflow = 'hidden';
-      page.setState({...page.state, feedAppBarAnim: 'fadeInDownBig', feedListAnim: 'fadeInUpBig'
-        , feedAppBarAnimTime: '1s', feedListAnimTime: '1s'
-        , feedFabAnim: 'zoomIn', feedFabAnimTime: '1s'
-        , homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig'
-        , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
-        , homeFabAnim: 'zoomOut', homeFabAnimTime: '1s', feedTabValue: 1
-      });
-      setTimeout(() => {
-        page.document.getElementById('homeContainer').style.display = 'none';
-        page.setState({...page.state, feedAppBarAnim: '', feedListAnim: '', feedFabAnim: '' 
-          , feedItemAnim: 'zoomIn'
-          , homeFabAnim: 'zoomOut', feedTabValue: 1
-          , homeAppBarAnim: '', homeBottomBarAnim: ''});
-        page.document.getElementById('feedContainer').style.overflow = savedOverflow;
-        setTimeout(() => {
-          page.setState({...page.state, feedItemAnim: '', feedTabValue: 1});
-        }, 1100);
-      }, 1100);
-      page.document.getElementById('feedContainer').style.display = 'block';
+      if (page.canTransit) {
+        page.canTransit = false;
+        page.setState({...page.state, feedOpen: true, feedTabValue: 1});
+        setTimeout(() => {page.canTransit = true;}, 250);
+      }
     ")
 
 @ClientSide
 define function hideFeedAndShowHome
   runJS(jsCode: "
-      let savedOverflow = page.document.getElementById('feedContainer').style.overflow;
-      page.setState({...page.state, feedAppBarAnim: 'fadeOutUpBig', feedListAnim: 'fadeOutDownBig'
-          , feedAppBarAnimTime: '2s', feedListAnimTime: '2s'
-          , homeFabAnim: 'zoomIn', homeFabAnimTime: '1s'
-          , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
-          , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
-      });
-      //page.document.documentElement.style.overflow = page.documentElementOverflow; 
-      page.document.getElementById('feedContainer').style.overflow = 'hidden';
-        page.setStyle('homeContainer', 'display', 'block');
+    if (page.canTransit) {
+      page.canTransit = false;
+      page.setState({...page.state, feedOpen: false});
       setTimeout(() => {
-          page.setState({...page.state, feedAppBarAnim: '', feedListAnim: '', feedFabAnim: ''
-            , homeAppBarAnim: '', homeBottomBarAnim: '', homeFabAnim: '', homeItemAnim: 'zoomIn'});
-          page.document.getElementById('feedContainer').style.overflow = savedOverflow;
-          page.setStyle('feedContainer', 'display', 'none');
-          setTimeout(() => {
-            page.setState({...page.state, homeItemAnim: ''});
-          }, 1100);
-      }, 1100);
-    ")
+        page.canTransit = true;
+      }, 250);
+    }
+  ")
 
 feedItem = ({
               controlType: "div",
@@ -149,34 +120,16 @@ define function FeedItem with params xs, id
             })
 
 feedPage = (
+    <Dialog id="feedContainer" fullScreen open={"${feedOpen}"} transitionType={"Slide"}>
       {
         controlType: "Box",
-        properties: {
-          id: "feedContainer"
-        },
         style: {
           width: "100%",
           height: "100%",
-          direction: "ltr",
-          position: "absolute",
-          left: 0,
-          top: 0,
-          display: "none"
+          direction: "ltr"
         },
         children: [
-          {
-            controlType: "AppBar",
-            properties: {
-              id: "feedAppBar",
-              animation: "${feedAppBarAnim}",
-              animationTime: "${feedAppBarAnimTime}",
-              hideOnScroll: true,
-              color: "#07d"
-            },
-            style: {
-              height: "auto"
-            },
-            children: [
+          <CollapsibleAppBar style={{width: "100%", height: "auto", backgroundColor: "#07d"}} id={"feedGap"} color={"#07d"} threshold={400}>
               {
                 controlType: "Toolbar",
                 children: [
@@ -209,7 +162,7 @@ feedPage = (
                   {
                     controlType: "IconButton",
                     properties: {
-                      onClick: "${() => {page.hideFeedAndShowHome();}}"
+                      onClick: "${() => {window.setState({...window.state, feedOpen: false});}}"
                     },
                     style: {
                       position: "absolute",
@@ -226,12 +179,12 @@ feedPage = (
                     ]
                   }
                 ]
-              },
+              }
               <ThemeProvider secondary={"#fff"}>
                 <Tabs
                   style={{marginTop: 64, color: "#eee"}}
                   value={"${feedTabValue}"}
-                  onChange={"${(event, newValue) => window.setState({...page.state, feedTabValue: newValue})}"}
+                  onChange={"${(event, newValue) => window.setState({...window.state, feedTabValue: newValue})}"}
                   variant="fullWidth"
                   indicatorColor="secondary"
                   textColor="secondary">
@@ -239,8 +192,7 @@ feedPage = (
                   <Tab style={{color: "white"}} value={1} icon={<MenuBookIcon />} label="مقالات" />
                 </Tabs>
               </ThemeProvider>
-            ]
-          },
+          </CollapsibleAppBar>,
           {
             controlType: "div",
             style: {
@@ -259,7 +211,7 @@ feedPage = (
             },
             children: [
               <SwipeableViews
-                style={{margin: -16}}
+                style={{marginTop: -16, padding: 0}}
                 index={"${feedTabValue}"}
                 onChangeIndex={"${(index) => window.setState({...window.state, feedTabValue: index})}"}
               >
@@ -323,6 +275,11 @@ feedPage = (
                   </div>,
               {
                 controlType: "Grid",
+                style: {
+                  width: "calc(100% + 32px)",
+                  marginLeft: -16,
+                  marginRight: -16
+                },
                 properties: {
                   container: true,
                   spacing: 0
@@ -417,6 +374,10 @@ feedPage = (
                   </div>,
                   {
                     controlType: "div",
+                    style: {
+                      width: "calc(100% + 24px)",
+                      padding: -16
+                    },
                     children: [
                       {
                         controlType: "List",
@@ -456,4 +417,5 @@ feedPage = (
             ]
           }
         ]
-      })
+      }
+    </Dialog>)

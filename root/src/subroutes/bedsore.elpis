@@ -2,56 +2,25 @@
 @ClientSide
 define function loadBedsore
   runJS(jsCode: "
-      page.setStyle('bedsoreContainer', 'display', 'block');
-      page.setState({...page.state, homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig', homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
-          , bedsoreAppBarAnim: 'fadeInDownBig', bedsoreFormAnim: 'fadeInUpBig', bedsoreAppBarAnimTime: '1s', bedsoreFormAnimTime: '1s'
-          , bedsoreFabAnim: 'zoomIn', homeFabAnim: 'zoomOut', bedsoreFabAnimTime: '1s', homeFabAnimTime: '1s'});
-      page.document.documentElement.style.overflow = 'hidden';
-      setTimeout(() => {
-        page.setState({...page.state, homeAppBarAnim: '', homeBottomBarAnim: '',
-           bedsoreAppBarAnim: '', bedsoreFormAnim: ''
-          , bedsoreFabAnim: '', homeFabAnim: ''});
-        page.document.getElementById('homeContainer').style.display = 'none';
-      }, 1100);
+      page.setState({...page.state, bedsoreOpen: true});
     ")
 
 @ClientSide
 define function hideBedsoreAndShowHome
   runJS(jsCode: "
-      page.document.getElementById('homeContainer').style.display = 'block';
-      page.setState({...page.state, bedsoreAppBarAnim: 'fadeOutUpBig', bedsoreFormAnim: 'fadeOutDownBig'
-          , bedsoreAppBarAnimTime: '1s', bedsoreFormAnimTime: '1s'
-          , homeAppBarAnim: 'fadeInDownBig', homeBottomBarAnim: 'fadeInUpBig'
-          , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
-          , homeFabAnim: 'zoomIn', homeFabAnimTime: '1s'
-          , bedsoreFabAnim: 'zoomOut', bedsoreFabAnimTime: '1s'});
-      setTimeout(() => {
-        page.setState({...page.state, bedsoreAppBarAnim: '', bedsoreFormAnim: ''
-          , bedsoreFabAnim: ''
-          , homeFabAnim: ''
-          , homeItemAnim: 'zoomIn'
-          , homeAppBarAnim: '', homeBottomBarAnim: ''});
-        page.document.documentElement.style.overflow = page.documentElementOverflow;
-        page.setStyle('bedsoreContainer', 'display', 'none');
-        setTimeout(() => {
-          page.setState({...page.state, homeItemAnim: ''});
-        }, 1100);
-      }, 1100);
+      page.setState({...page.state, bedsoreOpen: false});
     ")
 
 bedsorePage = (
+    <Dialog id="bedsoreContainer" style={{direction: "rtl"}} fullScreen open={"${bedsoreOpen}"} transitionType={"Slide"}>
       {
         controlType: "Box",
-        properties: {
-          id: "bedsoreContainer"
-        },
         style: {
           width: "100%",
           height: "100%",
           position: "absolute",
           left: 0,
           top: 0,
-          display: "none",
           overflow: "hidden"
         },
         children: [
@@ -267,4 +236,5 @@ bedsorePage = (
                         ]
           }
         ]
-      })
+      }
+    </Dialog>)

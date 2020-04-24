@@ -4,22 +4,12 @@ use "components/textfield.elpis"
 @ClientSide
 define function hideChatAndShowMessenger
   runJS(jsCode: "
-      let savedOverflow = page.document.getElementById('chatContainer').style.overflow;
-      page.setState({...page.state, chatAppBarAnim: 'fadeOutUpBig', chatListAnim: 'fadeOutDownBig'
-        , chatAppBarAnimTime: '2s', chatListAnimTime: '2s'
-        , messengerFabAnim: 'zoomOut', messengerFabAnimTime: '1s'
-        , messengerAppBarAnim: 'fadeInDownBig', messengerListAnim: 'fadeInUpBig'
-        , messengerAppBarAnimTime: '1s', messengerListAnimTime: '1s'
-      });
-      page.document.getElementById('chatContainer').style.overflow = 'hidden';
-      page.document.getElementById('messengerContainer').style.display = 'block';
-      setTimeout(() => {
-        page.setState({...page.state, chatAppBarAnim: '', chatListAnim: '', chatFabAnim: ''
-          , messengerAppBarAnim: '', messengerListAnim: '', messengerFabAnim: ''});
-        page.document.getElementById('chatContainer').style.overflow = savedOverflow;
-        page.document.getElementById('chatContainer').style.display = 'none';
-      }, 1000);
-    ")
+    if (page.canTransit) {
+      page.canTransit = false;
+      page.setState({...page.state, messengerOpen: true, chatOpen: true});
+      setTimeout(() => {page.canTransit = true;}, 250);  
+    }
+  ")
 
 leftMsgItem = ({
               controlType: "ListItem",
@@ -172,18 +162,15 @@ rightMsgItem = ({
             })
 
 chatPage = (
+    <Dialog id="chatContainer" fullScreen open={"${chatOpen}"} transitionType={"Slide"}>
       {
         controlType: "Box",
-        properties: {
-          id: "chatContainer"
-        },
         style: {
           width: "100%",
           height: "100%",
           position: "absolute",
           left: 0,
           top: 0,
-          display: "none",
           overflow: "hidden"
         },
         children: [
@@ -386,4 +373,5 @@ chatPage = (
             ]
           }
         ]
-      })
+      }
+    </Dialog>)
