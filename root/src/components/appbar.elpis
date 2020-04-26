@@ -61,7 +61,7 @@ define function HomeAddProfileTag
   return ({
             controlType: "div",
             properties: {
-              onClick: "${() => {page.hideLoginAndShowRegister();}}"
+              onClick: "${() => {page.hideHomeAndShowRegister();}}"
             },
             style: {
               width: 112,

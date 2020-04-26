@@ -193,7 +193,7 @@ define function Files
                     },
                     children: [
                       {
-                        controlType: "CloseIcon",
+                        controlType: "ArrowBackIcon",
                         style: {
                           fill: "#fff"
                         }

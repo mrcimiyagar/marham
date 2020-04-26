@@ -1,0 +1,39 @@
+
+@ClientSide
+define function loadVideoCall
+  runJS(jsCode: "
+    if (page.canTransit) {
+      page.canTransit = false;
+      if (page.beforeVideoCall === 'chat') {
+        page.setState({...page.state, messengerOpen: true, chatOpen: true, videoCallOpen: true});
+      }
+      setTimeout(() => {page.canTransit = true;}, 250);
+    }
+  ")
+
+@ClientSide
+define function hideVideoCall
+  runJS(jsCode: "
+    if (page.canTransit) {
+      page.canTransit = false;
+      if (page.beforeVideoCall === 'chat') {
+        page.setState({...page.state, messengerOpen: true, chatOpen: true, msgTabValue: page.currentMsgTabValue, videoCallOpen: false});
+      }
+      setTimeout(() => {page.canTransit = true;}, 250);
+    }
+  ")
+
+define function VideoCall
+  return (
+  <Dialog id="videoCallContainer" fullScreen open={"${videoCallOpen}"} transitionType={"Slide"}>
+    <div style={{backgroundColor: "#fff", width: "100%", height: "100%", direction: "ltr"}}>
+      <img src={"/webapp/res/user-avatar.jpg"} style={{position: "fixed", width: "100%", height: "100%"}}/>
+      <Paper style={{position: "fixed", right: 16, top: 16, width: 100, height: 175}}>
+        <img src={"/webapp/res/user-avatar.jpg"} style={{width: "100%", height: "100%"}}/>
+      </Paper>
+      <Fab onClick={"${() => page.hideVideoCall()}"} color={"#a15"} style={{position: "absolute", left: "50%", top: "calc(50% + 176px)", transform: "translate(-50%, 0)"}}>
+        <CallEndIcon/>
+      </Fab>
+    </div>
+  </Dialog>
+  )

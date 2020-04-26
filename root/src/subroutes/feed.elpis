@@ -30,6 +30,7 @@ feedItem = ({
             {
               controlType: "ListItem",
               properties: {
+                onClick: "${() => {page.loadPost();}}",
                 button: true 
               },
               style: {
@@ -89,7 +90,7 @@ define function FeedItem with params xs, id
                 height: 110
               },
               properties: {
-                onClick: "${() => {page.loadPost();}}",
+                onClick: "${() => {}}",
                 item: true,
                 xs: xs
               },
@@ -171,7 +172,7 @@ feedPage = (
                     },
                     children: [
                       {
-                        controlType: "CloseIcon",
+                        controlType: "ArrowBackIcon",
                         style: {
                           fill: "#fff"
                         }

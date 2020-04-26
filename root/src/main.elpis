@@ -6,4 +6,4 @@ server = HttpServer.createServer(filesPath: "/webapp", root: "/webapp")
 
 HttpServer.registerRoute(server: server, path: "/api/main", pathAction: mainPage)
 
-HttpServer.startServer(server: server, port: 8081)
+HttpServer.startServer(server: server, port: 8080)

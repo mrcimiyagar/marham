@@ -163,7 +163,7 @@ medicinePage = (
                     },
                     children: [
                       {
-                        controlType: "CloseIcon",
+                        controlType: "ArrowBackIcon",
                         style: {
                           fill: "#fff"
                         }

@@ -14,6 +14,8 @@ use "subroutes/bedsore.elpis"
 use "subroutes/medicine.elpis"
 use "subroutes/reserve.elpis"
 use "subroutes/services.elpis"
+use "subroutes/call.elpis"
+use "subroutes/videoCall.elpis"
 
 currentPath = "profile"
 
@@ -51,7 +53,9 @@ define function mainPage
           bedsorePage,
           medicinePage,
           reservePage,
-          servicesPage
+          servicesPage,
+          Call(),
+          VideoCall()
         ])
   
   return (

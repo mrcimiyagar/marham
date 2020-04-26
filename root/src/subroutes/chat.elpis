@@ -1,17 +1,19 @@
 
 use "components/textfield.elpis"
+use "subroutes/call.elpis"
+use "subroutes/videoCall.elpis"
 
 @ClientSide
 define function hideChatAndShowMessenger
   runJS(jsCode: "
     if (page.canTransit) {
       page.canTransit = false;
-      page.setState({...page.state, messengerOpen: true, chatOpen: true});
+      page.setState({...page.state, messengerOpen: true, chatOpen: false, msgTabValue: page.currentMsgTabValue});
       setTimeout(() => {page.canTransit = true;}, 250);  
     }
   ")
 
-leftMsgItem = ({
+rightMsgItem = ({
               controlType: "ListItem",
               style: {
                 direction: "rtl"
@@ -23,11 +25,8 @@ leftMsgItem = ({
                     {
                       controlType: "Avatar",
                       style: {
-                        width: 32,
-                        height: 32
-                      },
-                      properties: {
-                        src: "/webapp/res/user-avatar.jpg"
+                        width: 48,
+                        height: 48
                       }
                     }
                   ]
@@ -35,9 +34,10 @@ leftMsgItem = ({
                 {
                   controlType: "ListItemText",
                   properties: {
-                    primary: "کیهان محمدی",
+                    component: <Paper/>,
+                    primary: "کاربر 134",
                     secondary: {
-                      controlType: "React.Fragment",
+                      controlType: "div",
                       children: [
                         {
                           controlType: "Typography",
@@ -45,8 +45,9 @@ leftMsgItem = ({
                             component: "span"
                           },
                           style: {
-                            color: "#fff",
-                            fontSize: 13
+                            color: "#222",
+                            fontSize: 13,
+                            marginTop: 8
                           },
                           children: [
                             {
@@ -54,39 +55,50 @@ leftMsgItem = ({
                               text: "سلام چطورین ؟ اوضاع خوبه ؟"
                             }
                           ]
-                        }
+                        },
+                        {
+                          controlType: "Typography",
+                          properties: {
+                            component: "span"
+                          },
+                          style: {
+                            color: "#222",
+                            fontSize: 13,
+                            marginTop: 16,
+                            position: "absolute",
+                            left: 8,
+                            bottom: 8
+                          },
+                          children: [
+                            {
+                              controlType: "Text",
+                              text: "14:12"
+                            }
+                          ]
+                        },
+                        <DoneAllIcon style={{position: "absolute", right: 8, bottom: 8}}/>
                       ]
                     }
                   },
                   style: {
+                    paddingBottom: 40,
+                    position: "relative",
                     width: "auto",
                     maxWidth: 250,
                     textAlign: "center",
                     marginRight: 16,
                     marginLeft: 16,
-                    backgroundColor: "#07d",
-                    borderRadius: 16,
+                    background: "rgba(255, 255, 255, 0.9)",
+                    borderRadius: "16px 8px 8px 16px",
                     padding: 12,
-                    color: "#fe5",
+                    color: "#000",
                     fontSize: 16
                   }
-                },
-                {
-                  controlType: "Typography",
-                  style: {
-                    fontSize: 12
-                  },
-                  children: [
-                    {
-                      controlType: "Text",
-                      text: "14/01/1399 14:12 PM"
-                    }
-                  ]
                 }
               ]
             })
 
-rightMsgItem = ({
+leftMsgItem = ({
               controlType: "ListItem",
               style: {
                 direction: "ltr"
@@ -98,8 +110,8 @@ rightMsgItem = ({
                     {
                       controlType: "Avatar",
                       style: {
-                        width: 32,
-                        height: 32
+                        width: 48,
+                        height: 48
                       },
                       properties: {
                         src: "/webapp/res/user-avatar.jpg"
@@ -110,9 +122,10 @@ rightMsgItem = ({
                 {
                   controlType: "ListItemText",
                   properties: {
+                    component: <Paper/>,
                     primary: "کیهان محمدی",
                     secondary: {
-                      controlType: "React.Fragment",
+                      controlType: "div",
                       children: [
                         {
                           controlType: "Typography",
@@ -120,8 +133,9 @@ rightMsgItem = ({
                             component: "span"
                           },
                           style: {
-                            color: "#fff",
-                            fontSize: 13
+                            color: "#222",
+                            fontSize: 13,
+                            marginTop: 8
                           },
                           children: [
                             {
@@ -129,37 +143,65 @@ rightMsgItem = ({
                               text: "سلام چطورین ؟ اوضاع خوبه ؟"
                             }
                           ]
+                        },
+                    {
+                      controlType: "Typography",
+                      properties: {
+                        component: "span"
+                      },
+                      style: {
+                        color: "#222",
+                        fontSize: 13,
+                        marginTop: 16,
+                        position: "absolute",
+                        right: 8,
+                        bottom: 8
+                      },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "14:12"
                         }
+                      ]
+                    }
                       ]
                     }
                   },
                   style: {
+                    paddingBottom: 40,
+                    position: "relative",
+                    borderRadius: "8px 16px 16px 8px",
                     width: "auto",
                     maxWidth: 250,
                     textAlign: "center",
                     marginRight: 16,
                     marginLeft: 16,
-                    backgroundColor: "#07d",
-                    borderRadius: 16,
+                    background: "rgba(255, 255, 255, 0.9)",
                     padding: 12,
-                    color: "#fe5",
+                    color: "#000",
                     fontSize: 16
                   }
-                },
-                {
-                  controlType: "Typography",
-                  style: {
-                    fontSize: 12
-                  },
-                  children: [
-                    {
-                      controlType: "Text",
-                      text: "14/01/1399 14:12 PM"
-                    }
-                  ]
                 }
               ]
             })
+
+@ClientSide
+define function prepareCall
+  runJS(jsCode: "
+    page.beforeCall = 'chat';
+    page.loadCall();
+  ")
+
+@ClientSide
+define function prepareVideoCall
+  runJS(jsCode: "
+    page.beforeVideoCall = 'chat';
+    page.loadVideoCall();
+  ")
+
+dayDivider = (<div style={{direction: "rtl", paddingTop: 8, width: "calc(100% + 32px)", marginLeft: -16, marginRight: -16, height: 32, background: "rgba(255, 255, 255, 0.65)", color: "#000", textAlign: "center"}}>
+                "11 فروردین 1399"
+              </div>)
 
 chatPage = (
     <Dialog id="chatContainer" fullScreen open={"${chatOpen}"} transitionType={"Slide"}>
@@ -183,7 +225,7 @@ chatPage = (
             style: {
               width: "100%",
               height: "calc(100vh - 64px - 48px)",
-              backgroundImage: "url(/webapp/res/chat-background.jpg)",
+              backgroundImage: "url(/webapp/res/chat-background.png)",
               backgroundSize: "cover",
               marginLeft: 0,
               marginRight: 0,
@@ -203,6 +245,7 @@ chatPage = (
                 children: [
                   rightMsgItem,
                   leftMsgItem,
+                  dayDivider,
                   rightMsgItem,
                   leftMsgItem,
                   rightMsgItem,
@@ -283,8 +326,9 @@ chatPage = (
                       src: "/webapp/res/user-avatar.jpg"
                     },
                     style: {
-                      marginTop: 8,
-                      marginRight: 24,
+                      position: "absolute", 
+                      right: 24,
+                      top: 12,
                       width: 48,
                       height: 48
                     }
@@ -302,15 +346,32 @@ chatPage = (
                       width: "100%",
                       textAlign: "right",
                       color: "white",
-                      marginTop: -40
-                    },
-                    properties: {
-                      variant: "h6"
+                      position: "absolute",
+                      top: 12,
+                      fontSize: 17
                     },
                     children: [
                       {
                         controlType: "Text",
                         text: "کیهان محمدی"
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "Typography",
+                    style: {
+                      width: "100%",
+                      textAlign: "right",
+                      color: "white",
+                      position: "absolute",
+                      top: 36,
+                      right: 4,
+                      fontSize: 12
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "آنلاین"
                       }
                     ]
                   }
@@ -328,13 +389,19 @@ chatPage = (
                     },
                     children: [
                       {
-                        controlType: "CloseIcon",
+                        controlType: "ArrowBackIcon",
                         style: {
                           fill: "#fff"
                         }
                       }
                     ]
-                  }
+                  },
+              <IconButton onClick={"${() => page.prepareCall()}"} style={{position: "absolute", left: 56, top: 8}}>
+                <PhoneIcon style={{fill: "#fff"}}/>
+              </IconButton>,
+              <IconButton onClick={"${() => page.prepareVideoCall()}"} style={{position: "absolute", left: 104, top: 8}}>
+                <VideocamIcon style={{fill: "#fff"}}/>
+              </IconButton>
                 ]
               }
             ]
@@ -345,6 +412,7 @@ chatPage = (
               elevation: 16
             },
             style: {
+                direction: "rtl",
                 width: "100%",
                 height: "auto",
                 position: "absolute",
@@ -354,8 +422,11 @@ chatPage = (
                 borderRadius: 0
             },
             children: [
+              <IconButton>
+                <InsertEmoticonIcon/>
+              </IconButton>,
               {
-                controlType: "TextField",
+                controlType: "InputBase",
                 properties: {
                   placeholder: "پیام جدید",
                   multiline: true,
@@ -363,13 +434,18 @@ chatPage = (
                   underline: false
                 },
                 style: {
-                  width: "calc(100% - 32px)",
-                  marginLeft: 16,
-                  marginRight: 16,
-                  minHeight: 40,
+                  width: "calc(100% - 48px - 48px - 48px)",
+                  height: "100%",
+                  minHeight: 48,
                   paddingTop: 8
                 }
-              }
+              },
+              <IconButton>
+                <DescriptionIcon/>
+              </IconButton>,
+              <IconButton>
+                <MicIcon/>
+              </IconButton>
             ]
           }
         ]

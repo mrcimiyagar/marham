@@ -4,40 +4,28 @@ use "components/textfield.elpis"
 @ClientSide
 define function loadPost
   runJS(jsCode: "
-      page.document.documentElement.style.overflow = 'hidden';  
-      let savedOverflow = page.document.getElementById('postContainer').style.overflow;
-      page.document.getElementById('postContainer').style.overflow = 'hidden';
       page.setState({...page.state
         , postBodyAnim: 'fadeInUpBig', postBodyAnimTime: '1s'
-        , feedAppBarAnim: 'fadeOutUpBig', feedListAnim: 'fadeOutDownBig'
-        , feedAppBarAnimTime: '1s', feedListAnimTime: '1s'
+        , feedTabValue: 1, feedOpen: true
       });
+      page.setStyle('postContainer', 'display', 'block');
       setTimeout(() => {
-        page.document.getElementById('feedContainer').style.display = 'none';
         page.setState({...page.state, postBodyAnim: ''
-          , feedAppBarAnim: '', feedListAnim: ''});
-        page.document.getElementById('postContainer').style.overflow = savedOverflow;
+          , feedTabValue: 1, feedOpen: true});
       }, 1100);
-      page.document.getElementById('postContainer').style.display = 'block';
     ")
 
 @ClientSide
 define function hidePostAndShowFeed
   runJS(jsCode: "
-      let savedOverflow = page.document.getElementById('postContainer').style.overflow;
       page.setState({...page.state, postBodyAnim: 'fadeOutDownBig'
-          , postBodyAnimTime: '2s'
-          , feedFabAnim: 'zoomIn', feedFabAnimTime: '1s'
-          , feedAppBarAnim: 'fadeInDownBig', feedListAnim: 'fadeInUpBig'
-          , feedAppBarAnimTime: '1s', feedListAnimTime: '1s'
+          , postBodyAnimTime: '1s'
+          , feedTabValue: 1, feedOpen: true
       });
-      page.document.getElementById('postContainer').style.overflow = 'hidden';
-      page.document.getElementById('feedContainer').style.display = 'block';
       setTimeout(() => {
-          page.setState({...page.state, postBodyAnim: ''
-            , feedAppBarAnim: '', feedListAnim: '', feedFabAnim: ''});
-          page.document.getElementById('postContainer').style.overflow = savedOverflow;
-          page.document.getElementById('postContainer').style.display = 'none';  
+        page.setState({...page.state, postBodyAnim: ''
+            , feedTabValue: 1, feedOpen: true});
+        page.setStyle('postContainer', 'display', 'none');
       }, 1100);
     ")
 
@@ -85,6 +73,7 @@ postPage = (
           position: "absolute",
           left: 0,
           top: 0,
+          zIndex: 10000,
           display: "none",
           overflow: "hidden"
         },
@@ -138,7 +127,7 @@ postPage = (
                         },
                         children: [
                           {
-                            controlType: "CloseIcon",
+                            controlType: "ArrowBackIcon",
                             style: {
                               fill: "#fff"
                             }

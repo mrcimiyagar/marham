@@ -42,6 +42,29 @@ define function hideRegisterAndShowHome
       }, 1100);
     ")
 
+@ClientSide
+define function hideHomeAndShowRegister
+  runJS(jsCode: "
+      page.setState({...page.state, 
+
+            homeAppBarAnim: 'fadeOutUpBig', homeBottomBarAnim: 'fadeOutDownBig'
+          , homeAppBarAnimTime: '1s', homeBottomBarAnimTime: '1s'
+
+          , registerAppBarAnim: 'fadeInDownBig', registerFormAnim: 'fadeInUpBig'
+          , registerAppBarAnimTime: '1s', registerFormAnimTime: '1s'
+          , registerFabAnim: 'zoomOut', registerFabAnimTime: '1s'
+          
+      });
+      page.setStyle('registerContainer', 'display', 'block');
+      page.document.documentElement.style.overflow = 'hidden'; 
+      setTimeout(() => {
+        page.setStyle('homeContainer', 'display', 'none');
+        page.setState({...page.state, registerAppBarAnim: '', registerFormAnim: ''
+          , registerFabAnim: ''
+          , homeAppBarAnim: '', homeBottomBarAnim: ''});
+      }, 1100);
+    ")
+
 registerPage = (
       {
         controlType: "Box",

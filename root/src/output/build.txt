@@ -9,6 +9,8 @@
   {
     "filePath": "routes/main.elp",
     "depsPath": [
+      "subroutes/videoCall.elp",
+      "subroutes/call.elp",
       "subroutes/services.elp",
       "subroutes/reserve.elp",
       "subroutes/medicine.elp",
@@ -25,6 +27,14 @@
       "subroutes/profile.elp",
       "subroutes/home.elp"
     ]
+  },
+  {
+    "filePath": "subroutes/videoCall.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "subroutes/call.elp",
+    "depsPath": []
   },
   {
     "filePath": "subroutes/services.elp",
@@ -132,8 +142,18 @@
   {
     "filePath": "subroutes/chat.elp",
     "depsPath": [
+      "subroutes/videoCall.elp",
+      "subroutes/call.elp",
       "components/textfield.elp"
     ]
+  },
+  {
+    "filePath": "subroutes/videoCall.elp",
+    "depsPath": []
+  },
+  {
+    "filePath": "subroutes/call.elp",
+    "depsPath": []
   },
   {
     "filePath": "components/textfield.elp",
