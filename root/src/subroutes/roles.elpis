@@ -1,0 +1,207 @@
+
+use "components/textfield.elpis"
+use "components/rolesTable.elpis"
+
+@ClientSide
+define function loadRoles
+  runJS(jsCode: "
+    if (page.canTransit) {
+      page.canTransit = false;
+      page.setState({...page.state, rolesOpen: true});
+      setTimeout(() => {page.canTransit = true;}, 250);
+      page.document.documentElement.style.overflow = page.documentElementOverflow;
+    }
+  ")
+
+@ClientSide
+define function hideRolesAndShowHome
+  runJS(jsCode: "
+    if (page.canTransit) {
+      page.canTransit = false;
+      page.setState({...page.state, rolesOpen: false});
+      setTimeout(() => {page.canTransit = true;}, 250);
+    }
+  ")
+
+rolesPage = (
+    <Dialog id="rolesContainer" fullScreen open={"${rolesOpen}"} transitionType={"Slide"}>
+      {
+        controlType: "Box",
+        style: {
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          left: 0,
+          top: 0,
+          overflow: "hidden"
+        },
+        children: [
+          {
+            controlType: "div",
+            style: {
+              width: "100%",
+              height: "calc(100vh - 164px)",
+              backgroundColor: "#fff",
+              marginLeft: 0,
+              marginRight: 0,
+              position: "absolute",
+              top: 164,
+              left: 0,
+              direction: "rtl",
+              overflow: "auto"
+            },
+            children: [
+              {
+                controlType: "div",
+                style: {
+                  paddingTop: 16,
+                  marginLeft: 16,
+                  marginRight: 16,
+                  marginBottom: 112
+                },
+                children: [
+                  {
+                    controlType: "Typography",
+                    properties: {
+                      variant: "h6",
+                      marginLeft: 16
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "نقش های موجود :"
+                      }
+                    ]
+                  },
+                  RolesTable()
+                ]
+              }
+            ]
+          },
+          {
+            controlType: "AppBar",
+            properties: {
+              id: "rolesAppBar",
+              animation: "${rolesAppBarAnim}",
+              animationTime: "${rolesAppBarAnimTime}",
+              hideOnScroll: true,
+              color: "#07d"
+            },
+            style: {
+              width: "100%",
+              height: 164,
+              marginLeft: 0,
+              marginRight: 0,
+              position: "absolute",
+              top: 0,
+              left: 0
+            },
+            children: [
+              {
+                controlType: "Toolbar",
+                children: [
+                  {
+                    controlType: "Avatar",
+                    properties: {
+                      elevation: 12,
+                      src: "/webapp/res/hospital.png"
+                    },
+                    style: {
+                      width: 84,
+                      height: 84,
+                      position: "absolute",
+                      right: 32,
+                      top: 32
+                    }
+                  },
+                  {
+                    controlType: "div",
+                    style: {
+                      position: "relative",
+                      marginRight: 128
+                    },
+                    children: [
+                      {
+                        controlType: "Typography",
+                        style: {
+                          width: "100%",
+                          textAlign: "right",
+                          color: "white",
+                          position: "absolute",
+                          top: 32
+                        },
+                        properties: {
+                          variant: "h4"
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "مرحم"
+                          }
+                        ]
+                      },
+                      {
+                        controlType: "Typography",
+                        style: {
+                          width: "100%",
+                          textAlign: "right",
+                          color: "white",
+                          position: "absolute",
+                          top: 72
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "متن دوم"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "IconButton",
+                    properties: {
+                      onClick: "${() => page.hideRolesAndShowHome()}"
+                    },
+                    style: {
+                      marginLeft: 16,
+                      marginTop: 16,
+                      marginRight: 16,
+                      position: "absolute",
+                      left: 0
+                    },
+                    children: [
+                      {
+                        controlType: "ArrowBackIcon",
+                        style: {
+                          fill: "#fff"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+                      {
+                        controlType: "Fab",
+                        properties: {
+                          color: "#a15",
+                          animation: "${rolesFabAnim}",
+                          animationTime: "${rolesFabAnimTime}",
+                          onClick: "${() => {page.loadRole();}}"
+                        },
+                        style: {
+                          position: "fixed",
+                          left: 32,
+                          bottom: 32
+                        },
+                        children: [
+                          {
+                            controlType: "AddIcon"
+                          }
+                        ]
+                      }
+        ]
+      }
+    </Dialog>)

@@ -435,6 +435,7 @@ homeBody = (
                           HomeItem(title: "پیام ها", clickCallback: "${() => {page.document.body.scrollTop = 0; page.document.documentElement.scrollTop = 0; page.loadMessenger();}}", secondaryTitle: "5 پیام خوانده نشده", icon: "ChatIcon", color: "#f09"),
                           HomeItem(title: "تسک ها", clickCallback: "${() => {page.document.body.scrollTop = 0; page.document.documentElement.scrollTop = 0; }}", secondaryTitle: "12 تسک انجام نشده", icon: "PlaylistAddCheckIcon", color: "#c90"),
                           HomeItem(title: "پنل زخم بستر", clickCallback: "${() => {page.document.body.scrollTop = 0; page.document.documentElement.scrollTop = 0; page.loadBedsore();}}", secondaryTitle: "", icon: "ChatIcon", color: "#f09"),
+                          HomeItem(title: "پنل نقش ها", clickCallback: "${() => {page.document.body.scrollTop = 0; page.document.documentElement.scrollTop = 0; page.loadRoles();}}", secondaryTitle: "", icon: "ChatIcon", color: "#f09"),
                           HomeItem(title: "پنل دارو ها", clickCallback: "${() => {page.document.body.scrollTop = 0; page.document.documentElement.scrollTop = 0; page.loadMedicine();}}", secondaryTitle: "", icon: "ChatIcon", color: "#f09")
                         ]
                       }

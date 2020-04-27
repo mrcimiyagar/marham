@@ -1,0 +1,223 @@
+
+define function RolesTable
+  return (
+    {
+      controlType: "TableContainer",
+      children: [
+        {
+          controlType: "Table",
+          children: [
+            {
+              controlType: "TableHead",
+              children: [
+                {
+                  controlType: "TableRow",
+                  children: [
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "نام نقش"
+                        }
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "-"
+                        }
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "-"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              controlType: "TableBody",
+              children: [
+                {
+                  controlType: "TableRow",
+                  children: [
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "ادمین"
+                        }
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        <IconButton>
+                          <DeleteIcon/>
+                        </IconButton>
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        <IconButton>
+                          <EditIcon/>
+                        </IconButton>
+                      ]
+                    }
+                  ]
+                },
+                {
+                  controlType: "TableRow",
+                  children: [
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "سوپروایزر"
+                        }
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        <IconButton>
+                          <DeleteIcon/>
+                        </IconButton>
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        <IconButton>
+                          <EditIcon/>
+                        </IconButton>
+                      ]
+                    }
+                  ]
+                },
+                {
+                  controlType: "TableRow",
+                  children: [
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "پزشک"
+                        }
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        <IconButton>
+                          <DeleteIcon/>
+                        </IconButton>
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        <IconButton>
+                          <EditIcon/>
+                        </IconButton>
+                      ]
+                    }
+                  ]
+                },
+                {
+                  controlType: "TableRow",
+                  children: [
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "پرستار"
+                        }
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        <IconButton>
+                          <DeleteIcon/>
+                        </IconButton>
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        <IconButton>
+                          <EditIcon/>
+                        </IconButton>
+                      ]
+                    }
+                  ]
+                },
+                {
+                  controlType: "TableRow",
+                  children: [
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        {
+                          controlType: "Text",
+                          text: "مشتری"
+                        }
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        <IconButton>
+                          <DeleteIcon/>
+                        </IconButton>
+                      ]
+                    },
+                    {
+                      controlType: "TableCell",
+                      properties: { align: "center" },
+                      children: [
+                        <IconButton>
+                          <EditIcon/>
+                        </IconButton>
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    })

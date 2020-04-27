@@ -16,6 +16,8 @@ use "subroutes/reserve.elpis"
 use "subroutes/services.elpis"
 use "subroutes/call.elpis"
 use "subroutes/videoCall.elpis"
+use "subroutes/roles.elpis"
+use "subroutes/role.elpis"
 
 currentPath = "profile"
 
@@ -55,7 +57,9 @@ define function mainPage
           reservePage,
           servicesPage,
           Call(),
-          VideoCall()
+          VideoCall(),
+          rolesPage,
+          rolePage
         ])
   
   return (

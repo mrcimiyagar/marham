@@ -1,0 +1,211 @@
+
+use "components/textfield.elpis"
+
+@ClientSide
+define function loadRole
+  runJS(jsCode: "
+    if (page.canTransit) {
+      page.canTransit = false;
+      page.setState({...page.state, roleOpen: true, rolesOpen: true});
+      setTimeout(() => {page.canTransit = true;}, 250);
+      page.document.documentElement.style.overflow = page.documentElementOverflow;
+    }
+  ")
+
+@ClientSide
+define function hideRoleAndShowHome
+  runJS(jsCode: "
+    if (page.canTransit) {
+      page.canTransit = false;
+      page.setState({...page.state, roleOpen: false, rolesOpen: true});
+      setTimeout(() => {page.canTransit = true;}, 250);
+    }
+  ")
+
+rolePage = (
+    <Dialog id="roleContainer" fullScreen open={"${roleOpen}"} transitionType={"Slide"}>
+      {
+        controlType: "Box",
+        style: {
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          left: 0,
+          top: 0,
+          overflow: "hidden"
+        },
+        children: [
+          {
+            controlType: "div",
+            style: {
+              width: "100%",
+              height: "calc(100vh - 164px)",
+              backgroundColor: "#eee",
+              marginLeft: 0,
+              marginRight: 0,
+              position: "absolute",
+              top: 164,
+              left: 0,
+              direction: "rtl",
+              overflow: "auto"
+            },
+            children: [
+              {
+                controlType: "div",
+                style: {
+                  paddingTop: 16,
+                  marginRight: 16,
+                  marginBottom: 176
+                },
+                children: [
+                  {
+                    controlType: "Typography",
+                    properties: {
+                      variant: "h6",
+                      width: "100%",
+                      textAlign: "right"
+                    },
+                    children: [
+                      {
+                        controlType: "Text",
+                        text: "ویرایش یا افزودن نقش :"
+                      }
+                    ]
+                  },
+                  <div style={{marginRight: -16}}>
+                    TextField(inputId: "roleNameInput", inputLabel: "نام نقش")
+                  </div>,
+                  <div style={{marginRight: -16}}>
+                    <TransferList style={{marginRight: -16, marginTop: 16}} leftTitle={"مخزن دسترسی ها"} rightTitle={"دسترسی های نقش"} leftItems={["Access 1", "Access 2", "Access 3", "Access 4", "Access 5"]} rightItems={[]}/>
+                  </div>
+                ]
+              }
+            ]
+          },
+          {
+            controlType: "AppBar",
+            properties: {
+              id: "roleAppBar",
+              animation: "${roleAppBarAnim}",
+              animationTime: "${roleAppBarAnimTime}",
+              hideOnScroll: true,
+              color: "#07d"
+            },
+            style: {
+              width: "100%",
+              height: 164,
+              marginLeft: 0,
+              marginRight: 0,
+              position: "absolute",
+              top: 0,
+              left: 0
+            },
+            children: [
+              {
+                controlType: "Toolbar",
+                children: [
+                  {
+                    controlType: "Avatar",
+                    properties: {
+                      elevation: 12,
+                      src: "/webapp/res/hospital.png"
+                    },
+                    style: {
+                      width: 84,
+                      height: 84,
+                      position: "absolute",
+                      right: 32,
+                      top: 32
+                    }
+                  },
+                  {
+                    controlType: "div",
+                    style: {
+                      position: "relative",
+                      marginRight: 128
+                    },
+                    children: [
+                      {
+                        controlType: "Typography",
+                        style: {
+                          width: "100%",
+                          textAlign: "right",
+                          color: "white",
+                          position: "absolute",
+                          top: 32
+                        },
+                        properties: {
+                          variant: "h4"
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "مرحم"
+                          }
+                        ]
+                      },
+                      {
+                        controlType: "Typography",
+                        style: {
+                          width: "100%",
+                          textAlign: "right",
+                          color: "white",
+                          position: "absolute",
+                          top: 72
+                        },
+                        children: [
+                          {
+                            controlType: "Text",
+                            text: "متن دوم"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    controlType: "IconButton",
+                    properties: {
+                      onClick: "${() => page.hideRoleAndShowHome()}"
+                    },
+                    style: {
+                      marginLeft: 16,
+                      marginTop: 16,
+                      marginRight: 16,
+                      position: "absolute",
+                      left: 0
+                    },
+                    children: [
+                      {
+                        controlType: "ArrowBackIcon",
+                        style: {
+                          fill: "#fff"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+                      {
+                        controlType: "Fab",
+                        properties: {
+                          color: "#a15",
+                          animation: "${roleFabAnim}",
+                          animationTime: "${roleFabAnimTime}",
+                          onClick: "${() => {page.hideRoleAndShowHome();}}"
+                        },
+                        style: {
+                          position: "fixed",
+                          left: 32,
+                          bottom: 32
+                        },
+                        children: [
+                          {
+                            controlType: "DoneIcon"
+                          }
+                        ]
+                      }
+        ]
+      }
+    </Dialog>)
