@@ -9,6 +9,7 @@
   {
     "filePath": "routes/main.elp",
     "depsPath": [
+      "subroutes/deleteDialog.elp",
       "subroutes/role.elp",
       "subroutes/roles.elp",
       "subroutes/videoCall.elp",
@@ -31,6 +32,16 @@
     ]
   },
   {
+    "filePath": "subroutes/deleteDialog.elp",
+    "depsPath": [
+      "components/textfield.elp"
+    ]
+  },
+  {
+    "filePath": "components/textfield.elp",
+    "depsPath": []
+  },
+  {
     "filePath": "subroutes/role.elp",
     "depsPath": [
       "components/textfield.elp"
@@ -49,6 +60,18 @@
   },
   {
     "filePath": "components/rolesTable.elp",
+    "depsPath": [
+      "subroutes/deleteDialog.elp"
+    ]
+  },
+  {
+    "filePath": "subroutes/deleteDialog.elp",
+    "depsPath": [
+      "components/textfield.elp"
+    ]
+  },
+  {
+    "filePath": "components/textfield.elp",
     "depsPath": []
   },
   {

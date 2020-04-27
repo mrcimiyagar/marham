@@ -18,6 +18,7 @@ use "subroutes/call.elpis"
 use "subroutes/videoCall.elpis"
 use "subroutes/roles.elpis"
 use "subroutes/role.elpis"
+use "subroutes/deleteDialog.elpis"
 
 currentPath = "profile"
 
@@ -59,7 +60,8 @@ define function mainPage
           Call(),
           VideoCall(),
           rolesPage,
-          rolePage
+          rolePage,
+          deleteDialog
         ])
   
   return (

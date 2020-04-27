@@ -1,0 +1,52 @@
+
+use "components/textfield.elpis"
+
+@ClientSide
+define function loadDelete
+  runJS(jsCode: "
+    if (page.canTransit) {
+      page.canTransit = false;
+      page.setState({...page.state, deleteOpen: true});
+      setTimeout(() => {page.canTransit = true;}, 250);
+      page.document.documentElement.style.overflow = page.documentElementOverflow;
+    }
+  ")
+
+@ClientSide
+define function hideDeleteAndShowHome
+  runJS(jsCode: "
+    if (page.canTransit) {
+      page.canTransit = false;
+      page.setState({...page.state, deleteOpen: false});
+      setTimeout(() => {page.canTransit = true;}, 250);
+    }
+  ")
+
+deleteDialog = (
+    <Dialog id="deleteContainer" open={"${deleteOpen}"} transitionType={"SlideUp"}>
+      {
+        controlType: "Box",
+        style: {
+          width: "100%",
+          height: "100%",
+          overflow: "hidden",
+          direction: "rtl"
+        },
+        children: [
+          <DialogTitle id="alert-dialog-title">"آیا میخواهید این آیتم را حذف کنید ؟"</DialogTitle>,
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              "این آیتم حذف خواهد شد اما از طریق بخش تاریخچه در مدت 1 هفته پس از اکنون قابل بازیابی خواهد بود ."
+            </DialogContentText>
+          </DialogContent>,
+          <DialogActions>
+            <Button onClick={"${() => page.hideDeleteAndShowHome()}"} color="#a15">
+              "لغو"
+            </Button>
+            <Button onClick={"${() => page.hideDeleteAndShowHome()}"} color="#a15" autoFocus>
+              "تایید"
+            </Button>
+          </DialogActions>
+        ]
+      }
+    </Dialog>)

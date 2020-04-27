@@ -161,8 +161,34 @@ callItem = (
 define function setCurrentMsgTab with params index
   runJS(jsCode: "page.currentMsgTabValue = " + index + "; page.setState({...page.state, messengerOpen: true, msgTabValue: " + index + "});")
 
+@ClientSide
+define function handlePosSave with params x
+  runJS(jsCode: "
+    page.dragStartX = " + x + ";
+  ")
+
+@ClientSide
+define function prepareSlideBack with params x
+  runJS(jsCode: "
+    if ((page.dragStartX - " + x + ") < -25) {
+      let container = page.document.getElementById('messengerContainer');
+      container.style.visibility = 'hidden';
+      page.hideMessenger();
+      setTimeout(() => {
+        container.style.visibility = 'visible';
+      }, 1100);
+    }
+  ")
+
 messengerPage = (
-    <Dialog id="messengerContainer" style={{direction: "rtl"}} fullScreen open={"${messengerOpen}"} transitionType={"Slide"}>
+  <DraggableDialog onStart={"${(e, data) => {page.handlePosSave({x: data.lastX});}}"}
+                   onStop={"${(e, data) => {page.prepareSlideBack({x: data.lastX});}}"}
+                   id="messengerContainer"
+                   fullScreen
+                   style={{direction: "rtl"}}
+                   open={"${messengerOpen}"}
+                   transitionType={"Slide"}>
+    <div>
       {
         controlType: "Box",
         style: {
@@ -180,11 +206,7 @@ messengerPage = (
               width: "100%",
               height: "calc(100vh - 64px)",
               backgroundColor: "#fff",
-              marginLeft: 0,
-              marginRight: 0,
-              position: "absolute",
-              top: 64,
-              left: 0,
+              marginTop: 64,
               overflow: "auto"
             },
             children: [
@@ -348,4 +370,6 @@ messengerPage = (
                       }
         ]
       }
-    </Dialog>)
+    </div>
+  </DraggableDialog>
+  )

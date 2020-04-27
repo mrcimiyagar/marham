@@ -1,4 +1,6 @@
 
+use "subroutes/deleteDialog.elpis"
+
 define function RolesTable
   return (
     {
@@ -65,7 +67,7 @@ define function RolesTable
                     },
                     {
                       controlType: "TableCell",
-                      properties: { align: "center" },
+                      properties: { align: "center", onClick: "${() => page.loadDelete()}" },
                       children: [
                         <IconButton>
                           <DeleteIcon/>
@@ -98,7 +100,7 @@ define function RolesTable
                     },
                     {
                       controlType: "TableCell",
-                      properties: { align: "center" },
+                      properties: { align: "center", onClick: "${() => page.loadDelete()}" },
                       children: [
                         <IconButton>
                           <DeleteIcon/>
@@ -131,7 +133,7 @@ define function RolesTable
                     },
                     {
                       controlType: "TableCell",
-                      properties: { align: "center" },
+                      properties: { align: "center", onClick: "${() => page.loadDelete()}" },
                       children: [
                         <IconButton>
                           <DeleteIcon/>
@@ -164,7 +166,7 @@ define function RolesTable
                     },
                     {
                       controlType: "TableCell",
-                      properties: { align: "center" },
+                      properties: { align: "center", onClick: "${() => page.loadDelete()}" },
                       children: [
                         <IconButton>
                           <DeleteIcon/>
@@ -197,7 +199,7 @@ define function RolesTable
                     },
                     {
                       controlType: "TableCell",
-                      properties: { align: "center" },
+                      properties: { align: "center", onClick: "${() => page.loadDelete()}" },
                       children: [
                         <IconButton>
                           <DeleteIcon/>

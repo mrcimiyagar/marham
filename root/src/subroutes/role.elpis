@@ -40,7 +40,7 @@ rolePage = (
             style: {
               width: "100%",
               height: "calc(100vh - 164px)",
-              backgroundColor: "#eee",
+              backgroundColor: "#fff",
               marginLeft: 0,
               marginRight: 0,
               position: "absolute",
